@@ -64,9 +64,9 @@ int	ft_printf(char *content, ...)
 			ptr++;
 			if (*ptr == '%')
 				c += write(1, ptr++, 1);
-			else if (*ptr == '\0')
+			else if (*ptr == '\0' || !ft_strchr(*ptr))
 				break;
-			else if ()
+			else if (ft_strchr(*ptr))
 				c += ft_handle(*ptr++, &args);
 		}
 		else
@@ -75,9 +75,9 @@ int	ft_printf(char *content, ...)
 	va_end(args);
 	return (c);
 }
-int main()
-{
-	int tot = ft_printf("%");
-	ft_printf("%d",tot);
-	return (0);
-}
+//int main()
+//{
+//	int tot = printf("%  a");
+//	ft_printf("%d",tot);
+//	return (0);
+//}
