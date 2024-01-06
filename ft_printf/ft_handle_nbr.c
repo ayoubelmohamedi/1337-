@@ -35,7 +35,6 @@ int	ft_count(int nbr)
 
 int	ft_handle_nbr(int n)
 {
-	char	dec;
 	int		size;
 	char	c;
 	int		nbr;
@@ -65,7 +64,7 @@ void	ft_printnbr(int nbr, int size)
 
 	while (size > 0)
 	{
-		dec = (nbr / (int)pow(10, (size - 1))) % 10 + '0';
+		dec = (nbr / (int)power(10, (size - 1))) % 10 + '0';
 		write(1, &dec, 1);
 		size--;
 	}

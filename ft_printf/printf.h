@@ -25,6 +25,8 @@ int	ft_handle_char(int c);
 int	ft_hande_str(char *str);
 int	ft_handleptr(void *ptr);
 int	ft_handle_perc(int perc);
+void ft_printnbr(int nbr, int size);
 int	power(int base, int pow);
+int ft_strchr(char c);
 
 #endif
