@@ -30,22 +30,7 @@ int	ft_handle(char spec, va_list *args)
 		c = ft_handleptr(va_arg(*args, void *));
 	return (c);
 }
-#include <stdio.h>
-#include <string.h>
 
-int ft_strchr(char c)
-{
-	char *str;
-
-	str = "diuxXcsp";
-	while (*str)
-	{
-		if (c == *str)
-			return (1);
-		str++;
-	}
-	return (0);
-}
 int	ft_printf(char *content, ...)
 {
 	int		c;
@@ -56,6 +41,15 @@ int	ft_printf(char *content, ...)
 		return (-1);
 	va_start(args, content);
 	ptr = content;
+	c = loopover(ptr);
+	va_end(args);
+	return (c);
+}
+
+int	loopover(char *ptr)
+{
+	int c;
+
 	c = 0;
 	while (*ptr)
 	{
@@ -64,20 +58,18 @@ int	ft_printf(char *content, ...)
 			ptr++;
 			if (*ptr == '%')
 				c += write(1, ptr++, 1);
-			else if (*ptr == '\0' || !ft_strchr(*ptr))
-				break;
+			else if (*ptr == '\0' || ft_allspaces(ptr))
+				return (-1);
 			else if (ft_strchr(*ptr))
 				c += ft_handle(*ptr++, &args);
+			else
+			{
+				c += write(1, "%", 1);
+				c += ft_shorten(&ptr);
+			}
 		}
 		else
 			c += write(1, ptr++, 1);
 	}
-	va_end(args);
 	return (c);
 }
-//int main()
-//{
-//	int tot = printf("%  a");
-//	ft_printf("%d",tot);
-//	return (0);
-//}
