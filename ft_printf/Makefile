@@ -10,7 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 SRCS =  ft_handle_hex.c  ft_handleptr.c	ft_handle_usign.c \
-		ft_handle_nbr.c ft_handle_str.c ft_printf.c
+		ft_handle_nbr.c ft_handle_str.c ft_printf.c ft_utils.c \
+
 
 NAME	= libftprintf.a
 CC		= cc
@@ -33,3 +34,4 @@ fclean: clean
 	${RM} ${NAME}
 
 re:	fclean all
+
