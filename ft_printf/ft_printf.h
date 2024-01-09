@@ -28,8 +28,8 @@ int		ft_handle_perc(int perc);
 void	ft_printnbr(int nbr, int size);
 int		power(int base, int pow);
 int		ft_strchr(char c);
-int		ft_allspaces(char *str);
-int		ft_shorten(char **str);
+int		ft_allspaces(const char *str);
+int		ft_shorten(const char **str);
 int     loopover(const char *ptr, va_list *args);
 
 
