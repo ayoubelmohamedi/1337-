@@ -33,9 +33,9 @@ int	ft_handle(char spec, va_list *args)
 
 int	ft_printf(const char *content, ...)
 {
-	int		c;
-	va_list	args;
-	char	*ptr;
+	int			c;
+	va_list		args;
+	const char	*ptr;
 
 	if (!content)
 		return (-1);
@@ -46,7 +46,7 @@ int	ft_printf(const char *content, ...)
 	return (c);
 }
 
-int	loopover(char *ptr, va_list *args)
+int	loopover(const char *ptr, va_list *args)
 {
 	int c;
 
