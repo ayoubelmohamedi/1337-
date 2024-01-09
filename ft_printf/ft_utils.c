@@ -14,7 +14,7 @@ int	ft_strchr(char c)
 	return (0);
 }
 
-int	ft_allspaces(char *str)
+int	ft_allspaces(const char *str)
 {
 	int	allspace;
 
@@ -28,7 +28,7 @@ int	ft_allspaces(char *str)
 	return (allspace);
 }
 
-int	ft_shorten(char **str)
+int	ft_shorten(const char **str)
 {
 	int i;
 
