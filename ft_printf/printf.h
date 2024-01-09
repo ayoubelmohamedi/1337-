@@ -30,5 +30,8 @@ int		power(int base, int pow);
 int		ft_strchr(char c);
 int		ft_allspaces(char *str);
 int		ft_shorten(char **str);
+int	loopover(char *ptr, va_list *args);
+
+
 
 #endif

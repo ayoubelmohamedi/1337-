@@ -41,12 +41,12 @@ int	ft_printf(char *content, ...)
 		return (-1);
 	va_start(args, content);
 	ptr = content;
-	c = loopover(ptr);
+	c = loopover(ptr, &args);
 	va_end(args);
 	return (c);
 }
 
-int	loopover(char *ptr)
+int	loopover(char *ptr, va_list *args)
 {
 	int c;
 
@@ -61,7 +61,7 @@ int	loopover(char *ptr)
 			else if (*ptr == '\0' || ft_allspaces(ptr))
 				return (-1);
 			else if (ft_strchr(*ptr))
-				c += ft_handle(*ptr++, &args);
+				c += ft_handle(*ptr++, args);
 			else
 			{
 				c += write(1, "%", 1);
