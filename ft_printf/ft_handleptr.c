@@ -17,8 +17,7 @@ int	ft_handleptr(void *ptr)
 
 	if (!ptr)
 		return (write(1, "(nil)", 5));
-	c = 2;
-	write(1, "0x", 2);
-	c += ft_handle_hex(ft_handle_usign(ptr), 'x');
+	c += write(1, "0x", 2);
+	c += ft_handle_hex(ft_handle_usign((unsigned long)ptr), 'x');
 	return (c);
 }
