@@ -31,7 +31,7 @@ int	ft_handle(char spec, va_list *args)
 	return (c);
 }
 
-int	ft_printf(char *content, ...)
+int	ft_printf(const char *content, ...)
 {
 	int		c;
 	va_list	args;
