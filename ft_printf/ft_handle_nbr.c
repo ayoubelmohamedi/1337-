@@ -21,7 +21,7 @@ int	ft_count(int nbr)
 		nbr *= -1;
 		c++;
 	}
-	if (nbr > 0)
+	if (nbr >= 0)
 	{
 		c++;
 		while (nbr / 10 > 0)
@@ -61,7 +61,6 @@ int	ft_handle_nbr(int n)
 void	ft_printnbr(int nbr, int size)
 {
 	char	dec;
-
 	while (size > 0)
 	{
 		dec = (nbr / (int)power(10, (size - 1))) % 10 + '0';
