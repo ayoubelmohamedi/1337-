@@ -15,7 +15,7 @@
 # include <stdarg.h>
 # include <unistd.h>
 
-int		ft_printf(char *content, ...);
+int		ft_printf(const char *content, ...);
 int		ft_handle(char spec, va_list *args);
 int		ft_handle_nbr(int nbr);
 int		ft_handle_usign(unsigned int nbr);
