@@ -9,7 +9,7 @@
 /*   Updated: 2023/12/24 20:21:33 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "printf.h"
+#include "ft_printf.h"
 
 int	ft_count(int nbr)
 {
