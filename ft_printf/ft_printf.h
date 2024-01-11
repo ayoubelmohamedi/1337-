@@ -9,8 +9,8 @@
 /*   Updated: 2023/12/22 13:51:33 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef PRINTF_H
-# define PRINTF_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
 # include <stdarg.h>
 # include <unistd.h>

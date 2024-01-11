@@ -32,7 +32,7 @@ int	ft_handle_hex(unsigned int nbr, char x)
 
 int	ft_handle_hex2(unsigned long nbr)
 {
-	int	c;
+	int		c;
 	char	res;
 
 	c = 0;

@@ -49,7 +49,7 @@ int	ft_printf(const char *content, ...)
 
 int	loopover(const char *ptr, va_list *args)
 {
-	int c;
+	int	c;
 
 	c = 0;
 	while (*ptr)

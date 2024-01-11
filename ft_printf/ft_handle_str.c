@@ -18,7 +18,7 @@ int	ft_handle_char(int c)
 
 int	ft_hande_str(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str == NULL)
