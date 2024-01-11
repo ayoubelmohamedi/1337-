@@ -14,10 +14,12 @@
 int	ft_handle_usign(unsigned int nbr)
 {
 	char	deg;
-
-	if (nbr / 10 > 0)
-		ft_handle_usign(nbr / 10);
+	int		c;
+	
+	c = 0;
+	if (nbr / 10)
+		c += ft_handle_usign(nbr / 10);
 	deg = (nbr % 10) + '0';
-	write(1, &deg, 1);
-	return (ft_count(nbr));
+	c += write(1, &deg, 1);
+	return (c);
 }

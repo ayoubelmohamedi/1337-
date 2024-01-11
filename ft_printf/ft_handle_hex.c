@@ -11,22 +11,34 @@
 /* ************************************************************************** */
 #include "ft_printf.h"
 
-int	ft_handle_hex(int nbr, char x)
+int	ft_handle_hex(unsigned int nbr, char x)
 {
-	static int	c;
-	char		res;
-	char		*hexl;
+	int		c;
+	char	res;
+	char	*hexl;
 
-	c += 0;
+	c = 0;
 	hexl = NULL;
 	if (x == 'x')
 		hexl = "0123456789abcdef";
 	else if (x == 'X')
 		hexl = "0123456789ABCDEF";
 	if (nbr / 16)
-		ft_handle_hex(nbr / 16, x);
-	c++;
+		c += ft_handle_hex(nbr / 16, x);
 	res = hexl[(nbr % 16)];
-	write(1, &res, 1);
+	c += write(1, &res, 1);
+	return (c);
+}
+
+int	ft_handle_hex2(unsigned long nbr)
+{
+	int		c;
+	char	res;
+
+	c = 0;
+	if (nbr / 16)
+		c += ft_handle_hex2(nbr / 16);
+	res = "0123456789abcdef"[(nbr % 16)];
+	c += write(1, &res, 1);
 	return (c);
 }

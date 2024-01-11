@@ -11,13 +11,14 @@
 /* ************************************************************************** */
 #include "ft_printf.h"
 
-int	ft_handleptr(void *ptr)
+int	ft_handleptr(unsigned long ptr)
 {
 	int	c;
 
+	c = 0;
 	if (!ptr)
 		return (write(1, "(nil)", 5));
 	c += write(1, "0x", 2);
-	c += ft_handle_hex(ft_handle_usign((unsigned long)ptr), 'x');
+	c += ft_handle_hex2(ptr);
 	return (c);
 }

@@ -27,7 +27,7 @@ int	ft_handle(char spec, va_list *args)
 	else if (spec == 's')
 		c = ft_hande_str(va_arg(*args, char *));
 	else if (spec == 'p')
-		c = ft_handleptr(va_arg(*args, void *));
+		c = ft_handleptr(va_arg(*args, unsigned long));
 	return (c);
 }
 
@@ -37,6 +37,7 @@ int	ft_printf(const char *content, ...)
 	va_list		args;
 	const char	*ptr;
 
+	c = 0;
 	if (!content)
 		return (-1);
 	va_start(args, content);
