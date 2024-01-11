@@ -18,11 +18,11 @@ int	ft_handle_char(int c)
 
 int	ft_hande_str(char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (str == NULL)
-		return (write(1,"(null)",6));
+		return (write(1, "(null)", 6));
 	while (str[i])
 		write(1, &str[i++], 1);
 	return (i);

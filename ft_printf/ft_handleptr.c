@@ -13,7 +13,7 @@
 
 int	ft_handleptr(unsigned long ptr)
 {
-	int	c;
+	int c;
 
 	c = 0;
 	if (!ptr)

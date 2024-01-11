@@ -15,7 +15,7 @@ int	ft_handle_usign(unsigned int nbr)
 {
 	char	deg;
 	int		c;
-	
+
 	c = 0;
 	if (nbr / 10)
 		c += ft_handle_usign(nbr / 10);

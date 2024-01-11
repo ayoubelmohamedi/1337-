@@ -61,6 +61,7 @@ int	ft_handle_nbr(int n)
 void	ft_printnbr(int nbr, int size)
 {
 	char	dec;
+
 	while (size > 0)
 	{
 		dec = (nbr / (int)power(10, (size - 1))) % 10 + '0';
