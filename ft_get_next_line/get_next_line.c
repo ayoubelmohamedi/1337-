@@ -44,9 +44,7 @@ char *ft_getline(char *remain)
     i = 0;
     while (remain[i] != '\n' && remain[i] != '\0')
         i++;
-    printf("%d\n",i);
     line = ft_substr(remain, 0, i);
-    printf("%s\n",line);
     if (!line)
         return (0);
     tmp = remain;
@@ -76,8 +74,9 @@ int main()
     while (line[i] != '\n' && line[i] != '\0')
         i++;
     printf("i = %d\n",i);
-    char *res= ft_substr(line,0, i);
-    printf("%s\n",res);
+    char *res= ft_getline(line); 
+    printf("res = %s\n",res);
+    printf("line = %s\n",line);
     
     return (0);
 
