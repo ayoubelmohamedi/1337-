@@ -11,30 +11,35 @@ char *get_next_line(int fd)
 
     remain = ft_strdup("");
     size = read(fd,buffer,BUFFER_SIZE);
-    printf("size => %d\n",size);
-    
+    printf("size => %zu\n",size); 
+    printf("current remain => %s\n",remain); 
+
     while (size > 0)
     {
         i = 0;
         buffer[size] = '\0';
-        printf("size => %d\n",size);
-        printf("buffer content %s\n",buffer);
+        printf("size => %zu\n",size);
+        printf("buffer content => %s\n",buffer);
 
         remain = ft_strjoin(remain, buffer);
-        printf("helo\n");
         while (buffer[i] && (buffer[i] != '\n' && buffer[i] != '\0'))
             i++;
-        if (buffer[i] == '\n')
+        printf("i => %c\n",buffer[i-1]);
+        if (buffer[i] == '\n' || buffer[i] == '\0')
+        {
+            printf("break : i => %c\n",buffer[i]);
             break;
+        }
+
         size = read(fd,buffer,BUFFER_SIZE);
     }
-    line = ft_getline(remain);
+    line = ft_getline(&remain);
     if (!line)
         return (0);
     return (line);
 }
 
-char *ft_getline(char *remain)
+char *ft_getline(char **remain)
 {
     char *line;
     char *tmp;
@@ -42,42 +47,36 @@ char *ft_getline(char *remain)
     size_t j;
 
     i = 0;
-    while (remain[i] != '\n' && remain[i] != '\0')
-        i++;
-    line = ft_substr(remain, 0, i);
+    printf("getline remian => %s\n",*remain);
+    while (remain[0][i] && remain[0][i] != '\n' && remain[0][i] != '\0')
+        i++; 
+    printf("2nd i => %zu\n",i);
+    printf("len => %c\n",remain[0][i-1]);
+    
+    line = ft_substr(remain[0], 0, i);
+    printf("line = %s\n",line);
     if (!line)
         return (0);
-    tmp = remain;
-    j = i;
-    while (remain[j])
+    j = i + 1;
+    while (remain[0][j])
         j++;
-    remain = ft_substr(remain,i, j);
-    free(tmp);
-    if (!remain)
-    {
-        free(remain);
-        return (0);
-    }
-     return (line);
+    tmp = ft_substr(remain[0],i + 1, j);
+    printf("tmp = %s\n",tmp);
+    free(*remain);
+    free(remain);
+    remain = &tmp;
+    free(tmp); 
+    return (line);
 }
-
 
 int main()
 {
-    // int fd = open("text.txt", O_RDONLY);
-    // char * res = get_next_line(fd);
-    // char * res2 = get_next_line(fd);
-    // printf("%s",res);
-    // printf("%s",res2);
-    char *line = "hello there \n it's me";
-    int i = 0;
-    while (line[i] != '\n' && line[i] != '\0')
-        i++;
-    printf("i = %d\n",i);
-    char *res= ft_getline(line); 
-    printf("res = %s\n",res);
-    printf("line = %s\n",line);
+    int fd = open("text.txt", O_RDONLY);
+    char * res = get_next_line(fd);
+    printf("RES 1 = %s\n",res);
+    printf("-----------\n");
+    char * res2 = get_next_line(fd);
+    printf("RES 2 = %s",res2);
     
     return (0);
-
 }

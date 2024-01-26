@@ -13,7 +13,7 @@
 #include <stddef.h>
 
 char    *get_next_line(int fd);
-char    *ft_getline(char *remain);
+char    *ft_getline(char **remain);
 char    *ft_strjoin(char *s1,char *s2);
 size_t  ft_strlen(char *str);
 char	*ft_strdup(char *s);
