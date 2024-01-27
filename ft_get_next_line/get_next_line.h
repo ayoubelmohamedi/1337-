@@ -2,8 +2,6 @@
 #ifndef GET_NEXT_LINE
 #define GET_NEXT_LINE 
 
-#define BUFFER_SIZE 512
-
 //tobe removed
 #include <stdio.h>
 
@@ -11,6 +9,9 @@
 #include <unistd.h> 
 #include <fcntl.h> 
 #include <stddef.h>
+#include <limits.h>
+
+#define BUFFER_SIZE INT_MAX
 
 char    *get_next_line(int fd);
 char    *ft_getline(char **remain);

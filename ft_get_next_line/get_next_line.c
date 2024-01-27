@@ -3,35 +3,34 @@
 
 char *get_next_line(int fd)
 {
-    char            buffer[BUFFER_SIZE]; 
+    char            buffer[(size_t)BUFFER_SIZE]; 
     static char     *remain; 
+    char            *tmp;
     char            *line;
     size_t           i;
     size_t          size; 
 
-    remain = ft_strdup("");
+    if (!remain)
+        remain = ft_strdup("");
     size = read(fd,buffer,BUFFER_SIZE);
-    printf("size => %zu\n",size); 
-    printf("current remain => %s\n",remain); 
-
     while (size > 0)
     {
         i = 0;
         buffer[size] = '\0';
-        printf("size => %zu\n",size);
-        printf("buffer content => %s\n",buffer);
 
-        remain = ft_strjoin(remain, buffer);
+        tmp = ft_strjoin(remain, buffer);
+        free(remain);
+        remain = tmp;
         while (buffer[i] && (buffer[i] != '\n' && buffer[i] != '\0'))
             i++;
-        printf("i => %c\n",buffer[i-1]);
-        if (buffer[i] == '\n' || buffer[i] == '\0')
-        {
-            printf("break : i => %c\n",buffer[i]);
+        if (buffer[i] == '\n')
             break;
-        }
-
         size = read(fd,buffer,BUFFER_SIZE);
+    }
+    if (ft_strlen(remain) == 0)
+    {
+        free(remain);
+        return (NULL);
     }
     line = ft_getline(&remain);
     if (!line)
@@ -47,25 +46,17 @@ char *ft_getline(char **remain)
     size_t j;
 
     i = 0;
-    printf("getline remian => %s\n",*remain);
     while (remain[0][i] && remain[0][i] != '\n' && remain[0][i] != '\0')
         i++; 
-    printf("2nd i => %zu\n",i);
-    printf("len => %c\n",remain[0][i-1]);
-    
     line = ft_substr(remain[0], 0, i);
-    printf("line = %s\n",line);
     if (!line)
         return (0);
     j = i + 1;
     while (remain[0][j])
         j++;
-    tmp = ft_substr(remain[0],i + 1, j);
-    printf("tmp = %s\n",tmp);
+    tmp = ft_substr(*remain,i + 1, j);
     free(*remain);
-    free(remain);
-    remain = &tmp;
-    free(tmp); 
+    *remain = tmp;
     return (line);
 }
 
@@ -76,7 +67,20 @@ int main()
     printf("RES 1 = %s\n",res);
     printf("-----------\n");
     char * res2 = get_next_line(fd);
-    printf("RES 2 = %s",res2);
-    
+    printf("RES 2 = %s\n",res2);
+    printf("-----------\n");
+    char * res3 = get_next_line(fd);
+    printf("RES 3 = %s\n",res3);
+    printf("-----------\n");
+    char * res4 = get_next_line(fd);
+    printf("RES 4 = %s\n",res4);   
+    printf("-----------\n");
+    char * res5 = get_next_line(fd);
+    printf("RES 5 = %s\n",res5);
+
+    free(res);
+    free(res2);
+    free(res3);
+    free(res4);
     return (0);
 }
