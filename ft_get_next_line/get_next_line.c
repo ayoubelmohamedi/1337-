@@ -3,16 +3,19 @@
 
 char *get_next_line(int fd)
 {
-    char            buffer[(size_t)BUFFER_SIZE]; 
-    static char     *remain; 
-    char            *tmp;
-    char            *line;
+    char            *buffer = NULL; 
+    static char     *remain = NULL; 
+    char            *tmp = NULL;
+    char            *line = NULL; 
     size_t           i;
-    size_t          size; 
+    ssize_t          size; 
 
+    buffer = (char *) malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
+    if (!buffer)
+        return (0);
     if (!remain)
         remain = ft_strdup("");
-    size = read(fd,buffer,BUFFER_SIZE);
+    size = read(fd,buffer,(size_t)BUFFER_SIZE);
     while (size > 0)
     {
         i = 0;
@@ -25,6 +28,7 @@ char *get_next_line(int fd)
             i++;
         if (buffer[i] == '\n')
             break;
+        free(buffer);
         size = read(fd,buffer,BUFFER_SIZE);
     }
     if (ft_strlen(remain) == 0)
@@ -32,10 +36,12 @@ char *get_next_line(int fd)
         free(remain);
         return (NULL);
     }
+    free(buffer);
     line = ft_getline(&remain);
     if (!line)
         return (0);
     return (line);
+
 }
 
 char *ft_getline(char **remain)
@@ -82,5 +88,7 @@ int main()
     free(res2);
     free(res3);
     free(res4);
+    free(res5);
+
     return (0);
 }
