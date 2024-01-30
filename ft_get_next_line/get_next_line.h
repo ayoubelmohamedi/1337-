@@ -11,9 +11,7 @@
 #include <stddef.h>
 #include <limits.h>
 
-#ifndef BUFFER_SIZE
-#define BUFFER_SIZE 1
-#endif
+#define BUFFER_SIZE 12
 
 char    *get_next_line(int fd);
 char    *ft_getline(char **remain);

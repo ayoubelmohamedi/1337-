@@ -3,24 +3,27 @@
 
 char *get_next_line(int fd)
 {
-    char            *buffer = NULL; 
-    static char     *remain = NULL; 
-    char            *tmp = NULL;
-    char            *line = NULL; 
+    char            *buffer; 
+    static char     *remain; 
+    char            *tmp;
+    char            *line; 
     size_t           i;
     ssize_t          size; 
+
+    printf("inside get_next_line\n");
 
     buffer = (char *) malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
     if (!buffer)
         return (0);
     if (!remain)
         remain = ft_strdup("");
+    printf("static remain length %zu\n",ft_strlen(remain));
     size = read(fd,buffer,(size_t)BUFFER_SIZE);
+    printf("buffer size => %zu\n",size);
     while (size > 0)
     {
         i = 0;
         buffer[size] = '\0';
-
         tmp = ft_strjoin(remain, buffer);
         free(remain);
         remain = tmp;
@@ -28,7 +31,6 @@ char *get_next_line(int fd)
             i++;
         if (buffer[i] == '\n')
             break;
-        free(buffer);
         size = read(fd,buffer,BUFFER_SIZE);
     }
     if (ft_strlen(remain) == 0)
@@ -36,7 +38,8 @@ char *get_next_line(int fd)
         free(remain);
         return (NULL);
     }
-    free(buffer);
+    if (buffer)
+        free(buffer);
     line = ft_getline(&remain);
     if (!line)
         return (0);
@@ -63,6 +66,8 @@ char *ft_getline(char **remain)
     tmp = ft_substr(*remain,i + 1, j);
     free(*remain);
     *remain = tmp;
+    if(ft_strlen(*remain) == 0)
+        free(*remain);
     return (line);
 }
 
