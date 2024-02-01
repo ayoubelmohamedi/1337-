@@ -42,8 +42,13 @@ char *ft_getline(char **remain)
     while (remain[0][i] && remain[0][i] != '\n' && remain[0][i] != '\0')
         i++; 
     line = ft_substr(remain[0], 0, i);
-    if (!line)
+    printf("i =>%d\n", i);
+    if (!line || i == 0)
+    {
+        free(line);
+        free(*remain);
         return (0);
+    }
     j = i + 1;
     while (remain[0][j])
         j++;
@@ -77,7 +82,7 @@ int main()
     // free(res4);
     // free(res5);
     // close(fd);
-    static char * reader;
+    char * reader;
     char * text = ft_strdup("ayooubisagr5e\n5atandgoodeater\n&beaers");
     reader = text;
     char *line = ft_getline(&reader);
@@ -86,8 +91,13 @@ int main()
     printf("%s\n",line2);
     char *line3 = ft_getline(&reader);
     printf("%s\n",line3);
+    printf("reader end => %s\n",reader);
+    char *line4 = ft_getline(&reader);
+    printf("%s\n",line4);
     
     free(reader);
     free(line);
+    free(line2);
+    free(line3);
     return (0);
 }
