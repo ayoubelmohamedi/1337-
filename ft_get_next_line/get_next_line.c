@@ -3,23 +3,18 @@
 
 char *get_next_line(int fd)
 {
-    char            *buffer; 
-    static char     *remain; 
-    char            *tmp;
-    char            *line; 
+    char            *buffer = NULL; 
+    static char     *remain = NULL; 
+    char            *tmp = NULL;
     size_t           i;
     ssize_t          size; 
-
-    printf("inside get_next_line\n");
 
     buffer = (char *) malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
     if (!buffer)
         return (0);
     if (!remain)
         remain = ft_strdup("");
-    printf("static remain length %zu\n",ft_strlen(remain));
     size = read(fd,buffer,(size_t)BUFFER_SIZE);
-    printf("buffer size => %zu\n",size);
     while (size > 0)
     {
         i = 0;
@@ -33,24 +28,13 @@ char *get_next_line(int fd)
             break;
         size = read(fd,buffer,BUFFER_SIZE);
     }
-    if (ft_strlen(remain) == 0)
-    {
-        free(remain);
-        return (NULL);
-    }
-    if (buffer)
-        free(buffer);
-    line = ft_getline(&remain);
-    if (!line)
-        return (0);
-    return (line);
-
+    return (ft_getline(&remain));
 }
 
 char *ft_getline(char **remain)
 {
-    char *line;
-    char *tmp;
+    char *line = NULL;
+    char *tmp = NULL;
     size_t i;
     size_t j;
 
@@ -66,34 +50,44 @@ char *ft_getline(char **remain)
     tmp = ft_substr(*remain,i + 1, j);
     free(*remain);
     *remain = tmp;
-    if(ft_strlen(*remain) == 0)
-        free(*remain);
     return (line);
 }
 
 int main()
 {
-    int fd = open("text.txt", O_RDONLY);
-    char * res = get_next_line(fd);
-    printf("RES 1 = %s\n",res);
-    printf("-----------\n");
-    char * res2 = get_next_line(fd);
-    printf("RES 2 = %s\n",res2);
-    printf("-----------\n");
-    char * res3 = get_next_line(fd);
-    printf("RES 3 = %s\n",res3);
-    printf("-----------\n");
-    char * res4 = get_next_line(fd);
-    printf("RES 4 = %s\n",res4);   
-    printf("-----------\n");
-    char * res5 = get_next_line(fd);
-    printf("RES 5 = %s\n",res5);
+    // int fd = open("text.txt", O_RDONLY);
+    // char * res = get_next_line(fd);
+    // printf("RES 1 = %s\n",res);
+    // printf("-----------\n");
+    // char * res2 = get_next_line(fd);
+    // printf("RES 2 = %s\n",res2);
+    // printf("-----------\n");
+    // char * res3 = get_next_line(fd);
+    // printf("RES 3 = %s\n",res3);
+    // printf("-----------\n");
+    // char * res4 = get_next_line(fd);
+    // printf("RES 4 = %s\n",res4);   
+    // printf("-----------\n");
+    // char * res5 = get_next_line(fd);
+    // printf("RES 5 = %s\n",res5);
 
-    free(res);
-    free(res2);
-    free(res3);
-    free(res4);
-    free(res5);
-
+    // free(res);
+    // free(res2);
+    // free(res3);
+    // free(res4);
+    // free(res5);
+    // close(fd);
+    static char * reader;
+    char * text = ft_strdup("ayooubisagr5e\n5atandgoodeater\n&beaers");
+    reader = text;
+    char *line = ft_getline(&reader);
+    printf("%s\n",line);
+    char *line2 = ft_getline(&reader);
+    printf("%s\n",line2);
+    char *line3 = ft_getline(&reader);
+    printf("%s\n",line3);
+    
+    free(reader);
+    free(line);
     return (0);
 }
