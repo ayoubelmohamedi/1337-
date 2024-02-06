@@ -67,14 +67,11 @@ char	*ft_readfile(int fd, char **res)
 	char	*buffer;
 	ssize_t	byteread;
 
-	if (!*res)
-		*res = ft_strdup("");
 	buffer = (char *)malloc((size_t)BUFFER_SIZE + 1);
 	if (!buffer)
-	{
-		free(*res);
 		return (NULL);
-	}
+	if (!*res)
+		*res = ft_strdup("");
 	byteread = 1;
 	while (byteread > 0)
 	{
