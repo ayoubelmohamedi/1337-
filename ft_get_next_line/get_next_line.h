@@ -20,6 +20,9 @@ size_t  ft_strlen(char *str);
 char	*ft_strdup(char *s);
 char	*ft_substr(char *s, size_t start, size_t len);
 size_t	ft_strlcpy(char *dst, char *src, size_t size);
+char    *ft_joinfree(char **buffer,char **remain);
+int     ft_strchr(char *s, int c);
+char	*ft_readfile(int fd, char **res);
 
 
 
