@@ -1,40 +1,40 @@
 
 #include "get_next_line.h"
 
-size_t      ft_strlen(char *str)
+size_t	ft_strlen(char *str)
 {
-    size_t i;
+	size_t	i;
 
-    i = 0;
-    while (str[i])
-        i++;
-    return (i);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
 
-char    *ft_strjoin(char *s1,char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
-    size_t l;
-    size_t i;
-    char *word;
+	size_t	l;
+	size_t	i;
+	char	*word;
 
-    i = 0;
-    if (!s1 || !s2)
-        return (0); 
-    l = ft_strlen(s1) + ft_strlen(s2);
-    word = (char *) malloc(sizeof(char) * (l + 1));
-    if (!word)
-        return (0);
-    while (s1[i])
-    {
-        word[i] = s1[i];
-        i++;
-    }
-    l = i;
-    i = 0;
-    while (s2[i])
-        word[l++] = s2[i++];
-    word[l] = '\0';
-    return (word);
+	i = 0;
+	if (!s1 || !s2)
+		return (0);
+	l = ft_strlen(s1) + ft_strlen(s2);
+	word = (char *)malloc(sizeof(char) * (l + 1));
+	if (!word)
+		return (0);
+	while (s1[i])
+	{
+		word[i] = s1[i];
+		i++;
+	}
+	l = i;
+	i = 0;
+	while (s2[i])
+		word[l++] = s2[i++];
+	word[l] = '\0';
+	return (word);
 }
 
 char	*ft_strdup(char *s)
@@ -77,10 +77,10 @@ char	*ft_substr(char *s, size_t start, size_t len)
 	return (dup);
 }
 
-size_t	ft_strlcpy(char *dst,char *src, size_t size)
+size_t	ft_strlcpy(char *dst, char *src, size_t size)
 {
-	size_t	i;
-	size_t	srclen;
+	size_t i;
+	size_t srclen;
 
 	i = 0;
 	srclen = ft_strlen(src);
