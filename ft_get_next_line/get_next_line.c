@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/06 21:42:51 by ael-moha          #+#    #+#             */
+/*   Updated: 2024/02/06 22:20:37 by ael-moha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "get_next_line.h"
 
@@ -17,10 +28,17 @@ int	ft_strchr(char *s, int c)
 	return (0);
 }
 
-char	*ft_joinfree(char **remain, char **buffer)
+char	*ft_joinfree(char **remain, char **buffer,ssize_t byteread)
 {
 	char	*res;
-
+	
+	if (byteread < 0 || (byteread == 0 && ft_strlen(*remain) == 0))
+	{
+		free(*res);
+		free(*buffer);
+		return (NULL);
+	}
+	buffer[byteread] = '\0';
 	res = ft_strjoin(*buffer, *remain);
 	free(*buffer);
 	return (res);
@@ -67,7 +85,7 @@ char	*ft_readfile(int fd, char **res)
 	char	*buffer;
 	ssize_t	byteread;
 
-	buffer = (char *)malloc((size_t)BUFFER_SIZE + 1);
+	buffer = (char *)malloc((size_t)(BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
 	if (!*res)
@@ -76,14 +94,16 @@ char	*ft_readfile(int fd, char **res)
 	while (byteread > 0)
 	{
 		byteread = read(fd, buffer, BUFFER_SIZE);
-		if (byteread < 0 || (byteread == 0 && ft_strlen(*res) == 0))
-		{
-			free(*res);
-			free(buffer);
+		// if (byteread < 0 || (byteread == 0 && ft_strlen(*res) == 0))
+		// {
+		// 	free(*res);
+		// 	free(buffer);
+		// 	return (NULL);
+		// }
+		// buffer[byteread] = '\0';
+		*res = ft_joinfree(&buffer, res,byteread);
+		if (!*res)
 			return (NULL);
-		}
-		buffer[byteread] = '\0';
-		*res = ft_joinfree(&buffer, res);
 		if (ft_strchr(*res, '\n'))
 		{
 			free(buffer);
@@ -93,32 +113,4 @@ char	*ft_readfile(int fd, char **res)
 	if (byteread == 0)
 		free(buffer);
 	return (*res);
-}
-
-int	main(void)
-{
-	static char *remain;
-	int fd = open("text.txt", O_RDONLY);
-
-	char *res = get_next_line(fd);
-	char *res2 = get_next_line(fd);
-	char *res3 = get_next_line(fd);
-	char *res4 = get_next_line(fd);
-	char *res5 = get_next_line(fd);
-	char *res6 = get_next_line(fd);
-
-	printf("res 1= %s\n", res);
-	printf("res 2= %s\n", res2);
-	printf("res 3= %s\n", res3);
-	printf("res 4= %s\n", res4);
-	printf("res 5= %s\n", res5);
-	printf("res 6=%s\n", res6);
-	free(res);
-	free(res2);
-	free(res3);
-	free(res4);
-	free(res5);
-	free(res6);
-	close(fd);
-	return (0);
 }
