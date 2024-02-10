@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 21:42:51 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/02/10 21:37:30 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/02/10 22:56:00 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,17 @@ int	ft_strchr(char *s, int c)
 	return (0);
 }
 
+#include <stdio.h>
+
 char	*ft_joinfree(char **remain, char **buffer,ssize_t byteread)
 {
 	char	*res;
 	
 	if (byteread < 0 || (byteread == 0 && ft_strlen(*remain) == 0))
 	{
+		printf("FREE MEMORY\n");
 		free(*remain);
-		free(*buffer);
+		free(buffer);
 		return (NULL);
 	}
 	buffer[byteread] = '\0';
@@ -80,6 +83,7 @@ char	*get_next_line(int fd)
 	return (res);
 }
 
+
 char	*ft_readfile(int fd, char **res)
 {
 	char	*buffer;
@@ -102,6 +106,8 @@ char	*ft_readfile(int fd, char **res)
 		// }
 		// buffer[byteread] = '\0';
 		*res = ft_joinfree(&buffer, res,byteread);
+		printf("res is =%s\n",*res);
+		
 		if (!*res)
 			return (NULL);
 		if (ft_strchr(*res, '\n'))
@@ -114,7 +120,7 @@ char	*ft_readfile(int fd, char **res)
 		free(buffer);
 	return (*res);
 }
-#include <stdio.h>
+
 int main()
 {
 	int fd = open("text.txt", O_RDONLY);
