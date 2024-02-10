@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 21:42:51 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/02/06 22:20:37 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/02/10 21:37:30 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_joinfree(char **remain, char **buffer,ssize_t byteread)
 	
 	if (byteread < 0 || (byteread == 0 && ft_strlen(*remain) == 0))
 	{
-		free(*res);
+		free(*remain);
 		free(*buffer);
 		return (NULL);
 	}
@@ -113,4 +113,24 @@ char	*ft_readfile(int fd, char **res)
 	if (byteread == 0)
 		free(buffer);
 	return (*res);
+}
+#include <stdio.h>
+int main()
+{
+	int fd = open("text.txt", O_RDONLY);
+	char * line = get_next_line(fd);
+	char * line2 = get_next_line(fd);
+	char * line3 = get_next_line(fd);
+	char * line4 = get_next_line(fd);
+
+	printf("%s\n",line);
+	printf("%s\n",line2);
+	printf("%s\n",line3);
+	printf("%s\n",line4);
+
+	free(line);
+	free(line2);
+	free(line3);
+	free(line4);
+	return (0);
 }

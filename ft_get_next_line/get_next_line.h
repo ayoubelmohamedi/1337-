@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 21:43:18 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/02/06 22:19:10 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/02/10 21:32:19 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ size_t	ft_strlen(char *str);
 char	*ft_strdup(char *s);
 char	*ft_substr(char *s, size_t start, size_t len);
 size_t	ft_strlcpy(char *dst, char *src, size_t size);
-char	*ft_joinfree(char **remain, char **buffer);
+char	*ft_joinfree(char **remain, char **buffer, ssize_t bytesread);
 int		ft_strchr(char *s, int c);
 char	*ft_readfile(int fd, char **res);
 
