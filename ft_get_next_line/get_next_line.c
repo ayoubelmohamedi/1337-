@@ -36,7 +36,6 @@ char	*ft_joinfree(char **remain, char **buffer,ssize_t byteread)
 	
 	if (byteread < 0 || (byteread == 0 && ft_strlen(*remain) == 0))
 	{
-		printf("FREE MEMORY\n");
 		free(*remain);
 		free(buffer);
 		return (NULL);
@@ -77,20 +76,11 @@ char	*get_next_line(int fd)
 	if (fd < 0 || read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	remain = (char *)ft_readfile(fd, &remain);
-
 	if (!remain)
-	{
-		printf("NULLLLL");
 		return (NULL);
-	}
-		
 	res = ft_getline(&remain);
-	printf("ft_getnextline res = %s\n",res);
-	printf("{}\n");
-
 	return (res);
 }
-
 
 char	*ft_readfile(int fd, char **res)
 {
@@ -102,20 +92,10 @@ char	*ft_readfile(int fd, char **res)
 		return (NULL);
 	if (!*res)
 		*res = ft_strdup("");
-	byteread = 1;
+	byteread = read(fd, buffer, BUFFER_SIZE);
 	while (byteread > 0)
 	{
-		byteread = read(fd, buffer, BUFFER_SIZE);
-		// if (byteread < 0 || (byteread == 0 && ft_strlen(*res) == 0))
-		// {
-		// 	free(*res);
-		// 	free(buffer);
-		// 	return (NULL);
-		// }
-		// buffer[byteread] = '\0';
 		*res = ft_joinfree(&buffer, res,byteread);
-		printf("res is =%s\n",*res);
-		
 		if (!*res)
 			return (NULL);
 		if (ft_strchr(*res, '\n') || byteread == 0)
@@ -123,6 +103,7 @@ char	*ft_readfile(int fd, char **res)
 			free(buffer);
 			break ;
 		}
+	byteread = read(fd, buffer, BUFFER_SIZE);	
 	}
 	if (byteread == 0)
 		free(buffer);
@@ -135,7 +116,6 @@ int main()
 	char * line = get_next_line(fd);
 	char * line2 = get_next_line(fd);
 	char * line3 = get_next_line(fd);
-	printf("-------------\n");
 	char * line4 = get_next_line(fd);
 
 	printf("%s\n",line);
@@ -146,6 +126,6 @@ int main()
 	free(line);
 	free(line2);
 	free(line3);
-	//free(line4);
+	free(line4);
 	return (0);
 }
