@@ -41,7 +41,7 @@ char	*ft_joinfree(char **remain, char **buffer,ssize_t byteread)
 		free(buffer);
 		return (NULL);
 	}
-	buffer[byteread] = '\0';
+	buffer[byteread] = 0;
 	res = ft_strjoin(*buffer, *remain);
 	free(*buffer);
 	return (res);
@@ -77,9 +77,17 @@ char	*get_next_line(int fd)
 	if (fd < 0 || read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	remain = (char *)ft_readfile(fd, &remain);
+
 	if (!remain)
+	{
+		printf("NULLLLL");
 		return (NULL);
+	}
+		
 	res = ft_getline(&remain);
+	printf("ft_getnextline res = %s\n",res);
+	printf("{}\n");
+
 	return (res);
 }
 
@@ -110,7 +118,7 @@ char	*ft_readfile(int fd, char **res)
 		
 		if (!*res)
 			return (NULL);
-		if (ft_strchr(*res, '\n'))
+		if (ft_strchr(*res, '\n') || byteread == 0)
 		{
 			free(buffer);
 			break ;
@@ -127,6 +135,7 @@ int main()
 	char * line = get_next_line(fd);
 	char * line2 = get_next_line(fd);
 	char * line3 = get_next_line(fd);
+	printf("-------------\n");
 	char * line4 = get_next_line(fd);
 
 	printf("%s\n",line);
@@ -137,6 +146,6 @@ int main()
 	free(line);
 	free(line2);
 	free(line3);
-	free(line4);
+	//free(line4);
 	return (0);
 }
