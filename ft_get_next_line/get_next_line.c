@@ -30,7 +30,7 @@ int	ft_strchr(char *s, int c)
 
 // #include <stdio.h>
 
-char	*ft_joinfree(char **remain, char **buffer,ssize_t byteread)
+char	*ft_joinfree(char **remain, char **buffer, ssize_t byteread)
 {
 	char	*res;
 	
@@ -38,6 +38,7 @@ char	*ft_joinfree(char **remain, char **buffer,ssize_t byteread)
 	{
 		free(*remain);
 		free(buffer);
+		*remain = NULL;
 		return (NULL);
 	}
 	buffer[byteread] = 0;
@@ -118,18 +119,22 @@ char	*ft_readfile(int fd, char **res)
 // {
 // 	int fd = open("text.txt", O_RDONLY);
 // 	char * line = get_next_line(fd);
-// 	char * line2 = get_next_line(fd);
-// 	char * line3 = get_next_line(fd);
+// 	// char * line2 = get_next_line(fd);
+// 	// char * line3 = get_next_line(fd);
 // 	// char * line4 = get_next_line(fd);
+// 	// char * line5 = get_next_line(fd);
 
 // 	printf("%s",line);
-// 	printf("%s",line2);
-// 	printf("%s",line3);
+// 	// printf("%s",line2);
+// 	// printf("%s",line3);
 // 	// printf("%s",line4);
+// 	// printf("%s",line5);
 
 // 	free(line);
-// 	free(line2);
-// 	free(line3);
+// 	// free(line2);
+// 	// free(line3);
+// 	// free(line4);
+// 	// free(line5);
 
 // 	return (0);
 // }
