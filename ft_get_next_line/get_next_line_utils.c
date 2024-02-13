@@ -90,8 +90,8 @@ char	*ft_substr(char *s, size_t start, size_t len)
 
 size_t	ft_strlcpy(char *dst, char *src, size_t size)
 {
-	size_t i;
-	size_t srclen;
+	size_t	i;
+	size_t	srclen;
 
 	i = 0;
 	srclen = ft_strlen(src);
