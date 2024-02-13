@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 21:42:51 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/02/13 21:06:26 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/02/13 21:20:59 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ char	*get_next_line(int fd)
 	remain = (char *)ft_readfile(fd, &remain);
 	if (!remain)
 		return (NULL);
-	res = ft_getline(&remain);
-	//TODO fix freeing remain
-	if (remain)
-		if (ft_strlen(remain) == 0)
-			free(remain);
-	return (res);
+	if (ft_strlen(remain) == 0)
+	{
+		free(remain);
+		return (0);
+	}
+	return (ft_getline(&remain));
 }
 
 char	*ft_readfile(int fd, char **res)
@@ -127,8 +127,7 @@ int main()
 	// printf("%s",line3);
 	// printf("%s",line4);
 
-	free(line);
-	free(line2);
+	// free(line);
 	// free(line3);
 	// free(line4);
 	return (0);
