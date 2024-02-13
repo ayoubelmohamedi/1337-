@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 21:42:51 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/02/10 22:56:00 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/02/13 21:06:26 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_strchr(char *s, int c)
 	return (0);
 }
 
-//#include <stdio.h>
+#include <stdio.h>
 
 char	*ft_joinfree(char **remain, char **buffer,ssize_t byteread)
 {
@@ -57,7 +57,7 @@ char	*ft_getline(char **remain)
 	while (remain[0][i] != '\0' && remain[0][i] != '\n')
 		i++;
 	tmp = *remain;
-	line = ft_substr(tmp, 0, i);
+	line = ft_substr(tmp, 0, i+1);
 	j = i + 1;
 	while (remain[0][i] != '\0')
 		i++;
@@ -79,6 +79,10 @@ char	*get_next_line(int fd)
 	if (!remain)
 		return (NULL);
 	res = ft_getline(&remain);
+	//TODO fix freeing remain
+	if (remain)
+		if (ft_strlen(remain) == 0)
+			free(remain);
 	return (res);
 }
 
@@ -110,22 +114,22 @@ char	*ft_readfile(int fd, char **res)
 	return (*res);
 }
 
-//int main()
-//{
-//	int fd = open("text.txt", O_RDONLY);
-//	char * line = get_next_line(fd);
-//	char * line2 = get_next_line(fd);
-//	char * line3 = get_next_line(fd);
-//	char * line4 = get_next_line(fd);
-//
-//	printf("%s\n",line);
-//	printf("%s\n",line2);
-//	printf("%s\n",line3);
-//	printf("%s\n",line4);
-//
-//	free(line);
-//	free(line2);
-//	free(line3);
-//	free(line4);
-//	return (0);
-//}
+int main()
+{
+	int fd = open("text.txt", O_RDONLY);
+	char * line = get_next_line(fd);
+	char * line2 = get_next_line(fd);
+	// char * line3 = get_next_line(fd);
+	// char * line4 = get_next_line(fd);
+
+	printf("%s",line);
+	printf("%s",line2);
+	// printf("%s",line3);
+	// printf("%s",line4);
+
+	free(line);
+	free(line2);
+	// free(line3);
+	// free(line4);
+	return (0);
+}
