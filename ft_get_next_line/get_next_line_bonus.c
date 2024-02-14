@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:32:28 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/02/14 14:04:32 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:13:18 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*get_next_line(int fd)
 		remain[fd] = NULL;
 		return (0);
 	}
-	return (ft_getline(&remain));
+	return (ft_getline(&remain[fd]));
 }
 
 char	*ft_readfile(int fd, char **res)
