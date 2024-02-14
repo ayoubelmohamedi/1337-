@@ -6,11 +6,11 @@
 /*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:37:00 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/02/14 13:37:04 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/02/14 14:04:07 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(char *str)
 {

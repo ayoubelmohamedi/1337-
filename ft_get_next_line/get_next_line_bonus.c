@@ -6,9 +6,11 @@
 /*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:32:28 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/02/14 13:53:33 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/02/14 14:04:32 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "get_next_line_bonus.h"
 
 int	ft_strchr(char *s, int c)
 {
