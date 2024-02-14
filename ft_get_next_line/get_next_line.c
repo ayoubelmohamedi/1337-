@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 21:42:51 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/02/14 18:55:20 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:04:53 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ char	*ft_readfile(int fd, char **res)
 		if (ft_strchr(*res, '\n') || byteread == 0)
 		{
 			free(buffer);
+			buffer = NULL;
 			break ;
 		}
 		byteread = read(fd, buffer, BUFFER_SIZE);
