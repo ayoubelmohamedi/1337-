@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 21:43:18 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/02/14 13:37:35 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/02/15 18:59:15 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # endif
 
 char	*get_next_line(int fd);
-char	*ft_getline(char **remain);
+char	*ft_getline(char *remain);
 char	*ft_strjoin(char *s1, char *s2);
 size_t	ft_strlen(char *str);
 char	*ft_strdup(char *s);
