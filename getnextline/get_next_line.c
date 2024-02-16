@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 21:42:51 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/02/14 19:04:53 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/02/16 19:38:19by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,27 @@ int	ft_strchr(char *s, int c)
 	return (0);
 }
 
+#include <stdio.h>
 
 char	*ft_getline(char **remain)
 {
-	char	*line;
-	char	*tmp;
-	size_t	i;
-	size_t	j;
-
+	char *line;
+	char *tmp;
+	size_t i;
+	
 	i = 0;
-	while (remain[0][i] != '\0' && remain[0][i] != '\n')
+	while (*remain[i] != '\n' && *remain[i] != '\n' )
 		i++;
-	tmp = *remain;
-	line = ft_substr(tmp, 0, i + 1);
-	j = i + 1;
-	while (remain[0][i] != '\0')
-		i++;
-	*remain = ft_substr(tmp, j, i);
-	free(tmp);
-	if (!line || !*remain)
+	if (i == 0)
+	{
+		free(*remain);
+		*remain = NULL;
 		return (NULL);
+	}
+	tmp = *remain;
+	*remain = ft_substr(tmp,0, i +1);
+	//TODO: FINSIH
+	if ()
 	return (line);
 }
 
@@ -66,11 +67,13 @@ char	*get_next_line(int fd)
 	free(buffer);
 	if (!line)
 	{
+		printf("HERE\n");
 		free(remain);	
 		remain = NULL;
 		return (NULL);
 	}
-	return (ft_getline(&line));
+	printf("line => %s\n",line);
+	return (ft_getline(&remain));
 }
 
 char	*ft_readfile(int fd, char *remain, char *buffer)
@@ -78,47 +81,68 @@ char	*ft_readfile(int fd, char *remain, char *buffer)
 	ssize_t		byteread;
 	char		*tmp;
 	
-	byteread = read(fd, buffer, BUFFER_SIZE);
+	byteread = 1;
 	while (byteread > 0)
 	{
+		byteread = read(fd, buffer, BUFFER_SIZE);
+		printf("bytesrread = %d\n",byteread);
+
+		if (byteread < 0)
+			return (NULL);
+		if (byteread == 0)
+			break;	
 		if (!remain)
 			remain = ft_strdup("");
 		buffer[byteread] = '\0';
+		printf("buffer %s\n",buffer);
 		tmp = remain;
-		remain = ft_strjoin(remain,buffer);
+		remain = ft_strjoin(tmp,buffer);
 		free(tmp);
-		if (ft_strchr(remain,'\n'))
+		if (ft_strchr(buffer,'\n'))
 			break;
 	}
-	if (byteread < 0)
-		return (NULL);
 	return (remain);
 }
 
+int main()
+{
+	int fd = open("text.txt", O_RDONLY);
+	printf("fd = %d\n",fd);
+	char * line = get_next_line(fd);
+	char * line2 = get_next_line(fd);
+	char * line3 = get_next_line(fd);
+	char * line4 = get_next_line(fd);
+	char * line5 = get_next_line(fd);
 
 
-#include <stdio.h>
+	printf("---------------------\n");
+	printf("%c",line);
+	printf("%c",line2);
+	printf("%s",line3);
+	printf("%s",line4);
+	printf("%s",line5);
 
- int main()
- {
- 	// int fd = open("text.txt", O_RDONLY);
- 	// char * line = get_next_line(fd);
- 	// char * line2 = get_next_line(fd);
- 	// char * line3 = get_next_line(fd);
- 	// char * line4 = get_next_line(fd);
- 	// char * line5 = get_next_line(fd);
+	free(line);
+	free(line2);
+	free(line3);
+	free(line4);
+	free(line5);
 
- 	printf("hello");
- 	// printf("%s",line2);
- 	// printf("%s",line3);
- 	// printf("%s",line4);
- 	// printf("%s",line5);
+	// char * str = ft_strdup("hello\nthere\nlast");
+	// char * line = ft_getline(&str);
+	// char * line2 = ft_getline(&str);
+	// char * line3 = ft_getline(&str);
+	// char * line4 = ft_getline(&str);
 
- 	// free(line);
- 	// free(line2);
- 	// free(line3);
- 	// free(line4);
- 	// free(line5);
-
- 	return (0);
- }
+	// printf("%s",line);
+	// printf("%s",line2);
+	// printf("%s",line3);
+	// printf("%s",line4);
+	
+	// free(str);
+	// free(line);
+	// free(line2);
+	// free(line3);
+	// free(line4);
+	return (0);
+}
