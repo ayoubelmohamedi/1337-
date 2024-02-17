@@ -28,7 +28,7 @@ int	ft_strchr(char *s, int c)
 	return (0);
 }
 
-// #include <stdio.h>
+#include <stdio.h>
 
 char	*ft_getline(char **remain)
 {
@@ -41,26 +41,17 @@ char	*ft_getline(char **remain)
 	//?? wtf is the diff btwen [0] and * ?!
 	while (remain[0][i] != '\n' && remain[0][i] != '\0')
 		i++;
-	if (i == 0)
-		return (NULL);
-	tmp = *remain;
-	// printf("ft_getline: tmp => %s\n",tmp);
-
-	*remain = ft_substr(tmp,i + 1, ft_strlen(tmp) - 1);
-	if (remain == NULL || *remain == 0)
+	line = ft_substr(*remain, 0, i + 1);
+	printf("i => %zu  ft_strlen(*remain) => %zu\n",i, ft_strlen(*remain));
+	if (i == ft_strlen(*remain))
 	{
 		free(*remain);
 		*remain = NULL;
-		return (NULL);
+		return (line);
 	}
-	// printf("ft_getline: tmp => %s\n",tmp);
-
-	line = ft_substr(tmp, 0, i + 1);
-	// printf("ft_getline: line => %s\n",line);
-	
-	if (!line)
-		return (NULL);
-	line[i + 1] = '\0';
+	tmp = *remain;
+	*remain = ft_substr(tmp,i + 1, ft_strlen(tmp) - 1);
+	printf("ft_getline: *remain =>%s\n",*remain);
 	free(tmp);
 	return (line);
 }
@@ -77,18 +68,15 @@ char	*get_next_line(int fd)
 		return (NULL);
 	ft_readfile(fd, &remain, buffer);
 	free(buffer);
-	if (!*remain)
-	{
-		// printf("getnextline: HERE\n");
-		free(remain);	
-		remain = NULL;
+	if (!remain)
 		return (NULL);
-	}
 	// printf("getnextline: remain => %s\n",remain);
-	return (ft_getline(&remain));
+	char * line = ft_getline(&remain); 
+	printf("remain at exit remain =>%s\n",remain);
+	return (line);
 }
 
-char	*ft_readfile(int fd, char **remain, char *buffer)
+void	ft_readfile(int fd, char **remain, char *buffer)
 {
 	ssize_t		byteread;
 	char		*tmp;
@@ -99,11 +87,18 @@ char	*ft_readfile(int fd, char **remain, char *buffer)
 		byteread = read(fd, buffer, BUFFER_SIZE);
 		// printf("bytesrread = %zd\n",byteread);
 		if (byteread < 0)
-			return (NULL);
+		{
+			*remain = NULL;
+			break;
+		}
 		if (byteread == 0)
 			break;	
 		if (!*remain)
+		{
 			*remain = ft_strdup("");
+			// printf("remain assigned 1 byte  => [%s]\n", *remain);
+
+		}
 		buffer[byteread] = '\0';
 		// printf("buffer %s\n",buffer);
 		tmp = *remain;
@@ -113,48 +108,59 @@ char	*ft_readfile(int fd, char **remain, char *buffer)
 		if (ft_strchr(buffer,'\n'))
 			break;
 	}
-	return (*remain);
 }
 
-//int main()
-//{
-	//int fd = open("text.txt", O_RDONLY);
-	//printf("fd = %d\n",fd);
-	//char * line = get_next_line(fd);
-	//char * line2 = get_next_line(fd);
-	//// char * line3 = get_next_line(fd);
-	//// char * line4 = get_next_line(fd);
-	//// char * line5 = get_next_line(fd);
+int main()
+{
+	int fd = open("text.txt", O_RDONLY);
+	printf("fd = %d\n",fd);
+	// char * line = get_next_line(fd);
+	// char * line2 = get_next_line(fd);
+	// char * line3 = get_next_line(fd);
+	// char * line4 = get_next_line(fd);
+	// char * line4 = get_next_line(fd);
+	// char * line5 = get_next_line(fd);
 
 
-	//printf("---------------------\n");
-	//printf("%s",line);
-	//printf("%s",line2);
-	////printf("%s",line3);
-	////printf("%s",line4);
-	////printf("%s",line5);
+	printf("---------------------\n");
+	// // printf("%s",line);
+	// // printf("%s",line2);
+	// // printf("%s",line3);
+	// // // printf("%s",line4);
+	// // //printf("%s",line4);
+	// // //printf("%s",line5);
 
-	//free(line);
-	//free(line2);
-	////free(line3);
-	////free(line4);
-	////free(line5);
+	// free(line);
+	// free(line2);
+	// free(line3);
 
-	////// char * str = ft_strdup("hello\nthere\nlast");
-	//// char * line = ft_getline(&str);
-	//// char * line2 = ft_getline(&str);
-	//// char * line3 = ft_getline(&str);
-	//// char * line4 = ft_getline(&str);
+	// free(line4);
+	//free(line5);
 
-	//// printf("%s",line);
-	//// printf("%s",line2);
-	//// printf("%s",line3);
-	//// printf("%s",line4);
+	//// char * str = ft_strdup("hello\nthere\nlast");
+	// char * line = ft_getline(&str);
+	// char * line2 = ft_getline(&str);
+	// char * line3 = ft_getline(&str);
+	// char * line4 = ft_getline(&str);
+
+	// printf("%s",line);
+	// printf("%s",line2);
+	// printf("%s",line3);
+	// printf("%s",line4);
 	
-	//// free(str);
-	//// free(line);
-	//// free(line2);
-	//// free(line3);
-	//// free(line4);
-	//return (0);
-//}
+	// free(str);
+	// free(line);
+	// free(line2);
+	// free(line3);
+	// free(line4);
+	char * line;
+	int i = 0;
+	while ((line = get_next_line(fd)) != NULL && i < 3) 
+	{
+		printf("%d | line => %s",i,line);
+		free(line);
+		i++;
+	}
+
+	return (0);
+}

@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 21:43:04 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/02/12 17:03:51 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/02/17 19:18:31 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	l = ft_strlen(s1) + ft_strlen(s2);
 	word = (char *)malloc(sizeof(char) * (l + 1));
 	if (!word)
-		return (0);
+		return (NULL);
 	while (s1[i])
 	{
 		word[i] = s1[i];
@@ -53,7 +53,7 @@ char	*ft_strdup(char *s)
 	char	*ptr;
 	size_t	i;
 
-	ptr = malloc(ft_strlen(s) + 1);
+	ptr = malloc(sizeof(char) * (ft_strlen(s) + 1));
 	if (!ptr)
 		return (NULL);
 	i = 0;
