@@ -31,6 +31,6 @@ char	*ft_strdup(char *s);
 char	*ft_substr(char *s, size_t start, size_t len);
 size_t	ft_strlcpy(char *dst, char *src, size_t size);
 int		ft_strchr(char *s, int c);
-void	ft_readfile(int fd, char **remain, char *buffer);
+char	*ft_readfile(int fd, char *remain, char *buffer);
 
 #endif
