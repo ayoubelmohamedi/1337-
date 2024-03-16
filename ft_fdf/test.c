@@ -51,7 +51,7 @@ int *ft_split_int(char *str, char c)
 
 int main()
 {
-    const char *str =  malloc(4 * sizeof(char));
+    char *str =  malloc(4 * sizeof(char));
     int i = 0;
     while (i < 4) 
     {
@@ -59,6 +59,6 @@ int main()
         i++;
     }
 
-    free(res);
+    free(str);
     return (0);
 }
