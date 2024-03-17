@@ -1,7 +1,6 @@
 
 #include "ft_fdf.h"
 
-
 size_t	ft_strcount(const char *s, char c)
 {
 	int		i;

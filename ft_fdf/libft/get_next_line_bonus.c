@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/18 15:37:56 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/02/18 15:38:32 by ael-moha         ###   ########.fr       */
+/*   Created: 2024/02/18 15:14:16 by ael-moha          #+#    #+#             */
+/*   Updated: 2024/02/18 15:18:06 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
-int	ft_strchr(char *s, int c)
+int	ft_strchr_bool(char *s, int c)
 {
 	size_t	i;
 
@@ -71,7 +71,7 @@ char	*ft_readfile(int fd, char *remain, char *buffer)
 		tmp = remain;
 		remain = ft_strjoin(tmp, buffer);
 		free(tmp);
-		if (ft_strchr(buffer, '\n'))
+		if (ft_strchr_bool(buffer, '\n'))
 			break ;
 	}
 	return (remain);
@@ -79,7 +79,7 @@ char	*ft_readfile(int fd, char *remain, char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*remain;
+	static char	*remain[1024];
 	char		*buffer;
 	char		*line;
 
@@ -89,14 +89,14 @@ char	*get_next_line(int fd)
 	buffer = (char *)malloc((size_t)(BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	line = ft_readfile(fd, remain, buffer);
+	line = ft_readfile(fd, remain[fd], buffer);
 	free(buffer);
 	if (!line)
 	{
-		free(remain);
-		remain = NULL;
+		free(remain[fd]);
+		remain[fd] = NULL;
 		return (NULL);
 	}
-	remain = ft_getline(&line);
+	remain[fd] = ft_getline(&line);
 	return (line);
 }

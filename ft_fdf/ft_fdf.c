@@ -1,5 +1,4 @@
 
-#include "ft_fdf.h"
 
 //isometric projection
 // destination.x = source.x + cos(angle) * source.z
@@ -17,6 +16,8 @@
 //     int pixely;
 
 // }
+#include "ft_fdf.h"
+
 
 size_t ft_countlines(char *filename)
 {
@@ -39,16 +40,6 @@ size_t ft_countlines(char *filename)
         free(line);
     close(fd);
     return (c);
-}
-
-int *ft_split_int(const char *str, char c)
-{
-    int *res;
-    char ** nbrsting;
-
-    nbrsting = ft_split(str, c);
-
-    return (res);
 }
 
 int main (int c, char * argv[])
