@@ -46,7 +46,7 @@ int main (int c, char * argv[])
 {
     char        *filename;
     int         fd;
-    const char  *row;
+    char  *row;
     int         **table;
     const char  *tmp;
     size_t      i;
@@ -54,7 +54,6 @@ int main (int c, char * argv[])
 
     if (c != 2)
         return (1);
-
     filename = argv[1]; 
     linecount = ft_countlines(filename); 
     printf("lines count => %zu\n", linecount);
@@ -70,6 +69,28 @@ int main (int c, char * argv[])
         row = get_next_line(fd);
         free((char *)tmp);
     }
-    close(fd);
+    int j = 0;
+    int a;
+    int l = sizeof(row) / sizeof(row[0]);
+    printf("l = %d\n",l);
+
+    while (table[j] != NULL)
+    {
+        while (table[j][a] != NULL)
+            printf("[%d,",table[j][a++]);
+        printf("]");
+        j++;
+    }
+
+
+    free(row);
+    free(table);
     return (0);
 }
+
+
+
+
+
+
+   

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_fdf.h"
 
 int	ft_strchr_bool(char *s, int c)
 {

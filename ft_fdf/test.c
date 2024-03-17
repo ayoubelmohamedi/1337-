@@ -51,14 +51,11 @@ int *ft_split_int(char *str, char c)
 
 int main()
 {
-    char *str =  malloc(4 * sizeof(char));
-    int i = 0;
-    while (i < 4) 
-    {
-        str[i] = 'A';
-        i++;
-    }
+    
+    int arr [] = {11,12,13,9,166};
+    int * ptr = arr;
+    int l = sizeof(ptr) / sizeof(ptr[0]); 
 
-    free(str);
+    printf("size of l => %d\n", l);
     return (0);
 }
