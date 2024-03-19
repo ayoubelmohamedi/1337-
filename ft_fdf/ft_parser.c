@@ -2,26 +2,6 @@
 #include "ft_fdf.h"
 
 
-size_t	ft_strcount(const char *s, char c)
-{
-	int		i;
-	size_t	count;
-
-	i = 0;
-	count = 0;
-	while (s != NULL && *s != '\0')
-	{
-		if (*s != c && i == 0)
-		{
-			i = 1;
-			count++;
-		}
-		else if (*s == c)
-			i = 0;
-		s++;
-	}
-	return (count);
-}
 
 int *ft_split_int(const char *str, char c)
 {
@@ -30,7 +10,7 @@ int *ft_split_int(const char *str, char c)
     size_t  col;
     size_t  i;
 
-    col = ft_strcount(str, c);
+    col = ft_colcount(str, c);
     nbrsting = ft_split(str, c);
     res = malloc(sizeof(int) * col);
     if (!res)
@@ -46,4 +26,28 @@ int *ft_split_int(const char *str, char c)
         free(nbrsting[i++]);
     free(nbrsting);
     return (res);
+}
+
+t_point ** fill_cortable(int ** table, size_t col, size_t row)
+{
+    t_point     *coordinates;
+    t_point     point;
+    size_t      x;
+    size_t      y;
+
+    x = 0;
+    y = 0;
+    while (y < row)
+    {
+        while (x < col)
+        {
+            point.x = x;
+            point.y = y;
+            point.z = table[x][y];
+
+            printf("added point (%zu,%zu,%zu)\n",point.x, point.y,point.z);
+            x++;
+        }
+        y++;
+    }
 }

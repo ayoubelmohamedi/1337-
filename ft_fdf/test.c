@@ -54,8 +54,8 @@ int main()
     
     int arr [] = {11,12,13,9,166};
     int * ptr = arr;
-    int l = sizeof(ptr) / sizeof(ptr[0]); 
-
-    printf("size of l => %d\n", l);
+    char * nbr = "15,0xFF0000";
+    int n =  ft_atoi(nbr);
+    printf("size of l => %d\n", n);
     return (0);
 }

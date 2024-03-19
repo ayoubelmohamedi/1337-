@@ -10,7 +10,17 @@
 #include "mlx.h"
 #include "libft/libft.h"
 
-size_t      ft_strcount(const char *s, char c);
+
+typedef struct  s_point
+{
+    int x;
+    int y;
+    int z;
+    int color;
+} t_point;
+
+
+size_t      ft_colcount(const char *s, char c);
 int         *ft_split_int(const char *str, char c);
 size_t      ft_countlines(char *filename);
 

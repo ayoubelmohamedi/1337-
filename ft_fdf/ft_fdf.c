@@ -42,54 +42,67 @@ size_t ft_countlines(char *filename)
     return (c);
 }
 
+
+
+
 int main (int c, char * argv[])
 {
     char        *filename;
     int         fd;
-    char  *row;
+    char        *row;
     int         **table;
-    const char  *tmp;
+    char        *tmp;
     size_t      i;
-    size_t linecount;
+    size_t      linecount;
+    size_t      col;
 
     if (c != 2)
         return (1);
     filename = argv[1]; 
     linecount = ft_countlines(filename); 
-    printf("lines count => %zu\n", linecount);
 
     fd = open(filename,O_RDONLY);
     row = get_next_line(fd);
+    col = ft_colcount(row,' '); 
+    printf("content of row =%s \n", row);
+    printf("rows = %zu\n", linecount);
+    printf("cols = %zu\n", col);
+
     table = malloc(sizeof(int*) * linecount);
     i = 0;
+
     while(row != NULL)
     {
         tmp  = row;
-        table[i++] = ft_split_int(row, ' ');
+        table[i] = ft_split_int(row, ' ');
         row = get_next_line(fd);
+        printf("%ld => %s\n",i , row);
+        i++;
         free((char *)tmp);
     }
+    printf("outside from loop\n");
+    i = 0;
     int j = 0;
-    int a;
-    int l = sizeof(row) / sizeof(row[0]);
-    printf("l = %d\n",l);
-
-    while (table[j] != NULL)
+    int count = 0;
+    while (j < linecount)
     {
-        while (table[j][a] != NULL)
-            printf("[%d,",table[j][a++]);
-        printf("]");
+        printf("[");
+
+        while (i < col)
+        {
+            count++;
+            printf("%d, ", table[j][i++]);
+        }
+        printf("] => len is  %d\n",count);
+        i = 0;
         j++;
     }
 
-
+    printf("times = %d\n", j);
     free(row);
     free(table);
     return (0);
 }
-
-
-
 
 
 

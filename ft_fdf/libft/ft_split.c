@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static size_t	ft_strcount(const char *s, char c)
+static size_t	ft_colcount(const char *s, char c)
 {
 	int		i;
 	size_t	count;
@@ -65,7 +65,7 @@ char	**ft_split(char const *s, char c)
 	size_t	numstr;
 	char	**words;
 
-	numstr = ft_strcount(s, c);
+	numstr = ft_colcount(s, c);
 	words = (char **)malloc((numstr + 1) * sizeof(char *));
 	if (words == NULL)
 		return (NULL);
