@@ -53,9 +53,13 @@ int main()
 {
     
     int arr [] = {11,12,13,9,166};
-    int * ptr = arr;
-    char * nbr = "15,0xFF0000";
-    int n =  ft_atoi(nbr);
-    printf("size of l => %d\n", n);
+    int table[4][3]= {{1,2,3} ,{4,5,6}, {7,8,9},{10,11,12}};
+
+
+    size_t cols = sizeof(table[0]) / sizeof(table[0][0]);
+    size_t rows = sizeof(table) / sizeof(table[0]); 
+
+    printf("cols => %zu\n", cols);
+    printf("rows => %zu\n", rows);
     return (0);
 }
