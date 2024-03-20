@@ -49,45 +49,82 @@ int main (int c, char * argv[])
     char        *row;
     int         **table;
     char        *filename;
+    t_point     *points; 
+    size_t rows;
+    size_t cols;
 
     if (c != 2)
         return (1);
 
     filename = argv[1];
     fd = open(filename,O_RDONLY);
-    table = make_table(filename);
+    table = make_table(filename, &rows, &cols);
 
-    printf("filename => %s\n", argv[1]);
 
-    int i = 0;
-    int j = 0;
-    size_t col = ft_countlines(filename);
-    row = get_next_line(fd);
-    printf("col = %zu\n", col);
-    printf("getnextline = %s\n", row);
-    char *tmp;
-    while (row != NULL)
-    {
-        printf("inside\n");
-        tmp = row;
-        while (j < col)
-            printf("%d, ",table[i][j++]);
-        printf("\n");
-        i++;
-        row = get_next_line(fd);
-        free(row);
-    }
-    printf("]\n");
-    if (!table)
-    {
-        close(fd);
-        return (0);
-    }
-    free(row);
-    free(table);
+    printTable(table, filename);
+
+    printf("number of rows => %zu\n", rows);
+    printf("number of cols => %zu\n", cols);
+
+    points = coordinatesTable(table, cols, rows);
+    close(fd);
+
     return (0);
 }
 
+void printTable(int **table, char *filename)
+{
+    char *row;
+    char *tmp;
+    int fd;
+    size_t cols;
+    size_t i = 0;
+    size_t j = 0;
 
+    fd = open(filename, O_RDONLY);
+    row = get_next_line(fd);
+    cols = ft_colcount(row,' ');
+    printf("cols => %zu\n", cols);
+    while (row)
+    {
+        tmp = row;
+        while (j < cols)
+            printf("%d| ",table[i][j++]);
+        j = 0;
+        i++;
+        printf("\n");
+        row = get_next_line(fd);
+        free(tmp);
+    } 
+    printf("rows => %zu\n", i);
+    free(row);
+    close(fd);
+}
 
+void freeTable(int **table, char * filename)
+{
+    char *row;
+    char *tmp;
+    int fd;
+    size_t cols;
+    size_t i = 0;
+    size_t j = 0;
+
+    fd = open(filename, O_RDONLY);
+    row = get_next_line(fd);
+    cols = ft_colcount(row,' ');
+    while (row)
+    {
+        tmp = row;
+        while (j < cols)
+            free(&table[i][j++]);
+        j = 0;
+        free(&table[i++]);
+        printf("\n");
+        row = get_next_line(fd);
+        free(tmp);
+    }
+    free(row);
+    close(fd);
+}
    
