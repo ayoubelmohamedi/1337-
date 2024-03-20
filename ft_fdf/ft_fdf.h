@@ -13,10 +13,11 @@
 
 typedef struct  s_point
 {
-    int x;
-    int y;
-    int z;
+    size_t x;
+    size_t y;
+    size_t z;
     int color;
+
 } t_point;
 
 
@@ -28,6 +29,9 @@ char	*get_next_line(int fd);
 char	*ft_readfile(int fd, char *remain, char *buffer);
 char	*ft_getline(char **line);
 int		ft_strchr_bool(char *s, int c);
+
+t_point *coordinatesTable(int ** table, size_t col, size_t row);
+int ** make_table(char *filename);
 
 
 

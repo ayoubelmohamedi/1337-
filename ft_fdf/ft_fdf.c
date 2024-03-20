@@ -22,9 +22,9 @@
 size_t ft_countlines(char *filename)
 {
     size_t c;
-    int fd; 
     char *line;
-    char * tmp;
+    char *tmp;
+    int fd;
 
     c = 0;
     fd = open(filename, O_RDONLY);
@@ -36,69 +36,53 @@ size_t ft_countlines(char *filename)
         line = get_next_line(fd);
         free(tmp);
     }
+    close(fd);
     if (line)
         free(line);
-    close(fd);
     return (c);
 }
 
 
-
-
 int main (int c, char * argv[])
 {
-    char        *filename;
     int         fd;
     char        *row;
     int         **table;
-    char        *tmp;
-    size_t      i;
-    size_t      linecount;
-    size_t      col;
+    char        *filename;
 
     if (c != 2)
         return (1);
-    filename = argv[1]; 
-    linecount = ft_countlines(filename); 
 
+    filename = argv[1];
     fd = open(filename,O_RDONLY);
-    row = get_next_line(fd);
-    col = ft_colcount(row,' '); 
-    printf("content of row =%s \n", row);
-    printf("rows = %zu\n", linecount);
-    printf("cols = %zu\n", col);
+    table = make_table(filename);
 
-    table = malloc(sizeof(int*) * linecount);
-    i = 0;
+    printf("filename => %s\n", argv[1]);
 
-    while(row != NULL)
-    {
-        tmp  = row;
-        table[i] = ft_split_int(row, ' ');
-        row = get_next_line(fd);
-        printf("%ld => %s\n",i , row);
-        i++;
-        free((char *)tmp);
-    }
-    printf("outside from loop\n");
-    i = 0;
+    int i = 0;
     int j = 0;
-    int count = 0;
-    while (j < linecount)
+    size_t col = ft_countlines(filename);
+    row = get_next_line(fd);
+    printf("col = %zu\n", col);
+    printf("getnextline = %s\n", row);
+    char *tmp;
+    while (row != NULL)
     {
-        printf("[");
-
-        while (i < col)
-        {
-            count++;
-            printf("%d, ", table[j][i++]);
-        }
-        printf("] => len is  %d\n",count);
-        i = 0;
-        j++;
+        printf("inside\n");
+        tmp = row;
+        while (j < col)
+            printf("%d, ",table[i][j++]);
+        printf("\n");
+        i++;
+        row = get_next_line(fd);
+        free(row);
     }
-
-    printf("times = %d\n", j);
+    printf("]\n");
+    if (!table)
+    {
+        close(fd);
+        return (0);
+    }
     free(row);
     free(table);
     return (0);

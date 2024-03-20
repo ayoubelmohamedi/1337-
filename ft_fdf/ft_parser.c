@@ -28,7 +28,34 @@ int *ft_split_int(const char *str, char c)
     return (res);
 }
 
-t_point ** fill_cortable(int ** table, size_t col, size_t row)
+int ** make_table(char *filename)
+{
+    char    *row;
+    char    *tmp;
+    int    **table;
+    size_t  linecount;
+    size_t i;
+    int fd;
+
+    i = 0;
+    linecount = ft_countlines(filename); 
+    table = malloc(sizeof(int*) * linecount);
+    if (!table)
+        return (NULL);
+    fd = open(filename, O_RDONLY);
+    row = get_next_line(fd);
+    while (row != NULL)
+    {
+        //TOFIX SIZE
+        tmp  = row;
+        table[i++] = ft_split_int(row, ' ');
+        row = get_next_line(fd);
+        free((char *)tmp);
+    }
+    close(fd);
+    return (table);
+}
+t_point * coordinatesTable(int ** table, size_t col, size_t row)
 {
     t_point     *coordinates;
     t_point     point;
@@ -44,10 +71,10 @@ t_point ** fill_cortable(int ** table, size_t col, size_t row)
             point.x = x;
             point.y = y;
             point.z = table[x][y];
-
             printf("added point (%zu,%zu,%zu)\n",point.x, point.y,point.z);
             x++;
         }
         y++;
     }
+    return (coordinates);
 }
