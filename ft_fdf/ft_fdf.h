@@ -17,7 +17,6 @@ typedef struct  s_point
     size_t y;
     size_t z;
     int color;
-
 } t_point;
 
 
@@ -31,8 +30,11 @@ char	*ft_getline(char **line);
 int		ft_strchr_bool(char *s, int c);
 
 t_point *coordinatesTable(int ** table, size_t col, size_t row);
-int ** make_table(char *filename);
+int ** make_table(char *filename,size_t *rows, size_t *cols);
 
+//to delete 
+void printTable(int **table, char *filename);
+void freeTable(int **table, char * filename);
 
 
 #endif

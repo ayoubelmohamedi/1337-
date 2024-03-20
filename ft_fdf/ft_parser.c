@@ -28,7 +28,7 @@ int *ft_split_int(const char *str, char c)
     return (res);
 }
 
-int ** make_table(char *filename)
+int ** make_table(char *filename,size_t *rows, size_t *cols)
 {
     char    *row;
     char    *tmp;
@@ -39,19 +39,21 @@ int ** make_table(char *filename)
 
     i = 0;
     linecount = ft_countlines(filename); 
+    *rows = linecount;
     table = malloc(sizeof(int*) * linecount);
     if (!table)
         return (NULL);
     fd = open(filename, O_RDONLY);
     row = get_next_line(fd);
+    *cols = ft_colcount(row, ' ');
     while (row != NULL)
     {
-        //TOFIX SIZE
         tmp  = row;
         table[i++] = ft_split_int(row, ' ');
         row = get_next_line(fd);
         free((char *)tmp);
     }
+    free(row);
     close(fd);
     return (table);
 }
@@ -64,16 +66,26 @@ t_point * coordinatesTable(int ** table, size_t col, size_t row)
 
     x = 0;
     y = 0;
+    coordinates = (t_point *)malloc(sizeof(point) * (col * row));
+    if (!coordinates)
+        return (NULL);
+    printf("----------------\n");
+    printf("coordinates rows = %zu\n",row);
+    printf("coordinates col = %zu\n",col);
+
     while (y < row)
     {
         while (x < col)
         {
+            printf("x = %zu, y = %zu\n", x,y);
             point.x = x;
             point.y = y;
             point.z = table[x][y];
+            point.color = 0;
             printf("added point (%zu,%zu,%zu)\n",point.x, point.y,point.z);
             x++;
         }
+        x = 0;
         y++;
     }
     return (coordinates);
