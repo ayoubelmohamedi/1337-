@@ -19,7 +19,6 @@ typedef struct  s_point
     int color;
 } t_point;
 
-
 size_t      ft_colcount(const char *s, char c);
 int         *ft_split_int(const char *str, char c);
 size_t      ft_countlines(char *filename);
@@ -32,9 +31,14 @@ int		ft_strchr_bool(char *s, int c);
 t_point *coordinatesTable(int ** table, size_t col, size_t row);
 int ** make_table(char *filename,size_t *rows, size_t *cols);
 
+//colorize
+void    colorize(t_point *points, size_t rows, size_t cols, char * filename);
+void    colorLine(t_point *points,char *line);
+
+
+
 //to delete 
 void printTable(int **table, char *filename);
 void freeTable(int **table, char * filename);
-
 
 #endif

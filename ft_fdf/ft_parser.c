@@ -90,3 +90,64 @@ t_point * coordinatesTable(int ** table, size_t col, size_t row)
     }
     return (coordinates);
 }
+//y = rows && x = cols
+void    colorize(t_point *points, size_t rows, size_t cols, char * filename)
+{
+    char *line;
+    char *tmp;
+    int fd;
+    size_t i;
+    size_t y;
+
+    y = 0;
+    fd = open(filename, O_RDONLY);
+    line = get_next_line(fd);
+    while (y < rows)
+    {
+        tmp = line;
+        // points[i++].color = getcolor(line);
+        colorLine(points, line);
+        line = get_next_line(fd);
+        free(tmp);
+        y++;
+    }
+    close(fd);
+}
+
+void    colorLine(t_point *points,char *line)
+{
+    int hex;
+    size_t i;
+    size_t x;
+    char *arr;
+
+    i = 0;
+    x = 0;
+    while (line[i] != '\n' || line[i] != '\0')
+    {
+        if (line[i] == ' ')
+            x++;
+        if (line[i] == ',')
+            points[x].color = gethex(line,&i);
+        
+        i++;
+    }
+
+}
+
+
+
+
+int     gethex(char **str, int *i)
+{
+    int hex;
+    char *strhex;
+
+    hex = 0;
+    *i += 6;
+    strhex = ft_substr(*str,0, 6);
+
+
+    free(strhex);
+    return (hex);
+}

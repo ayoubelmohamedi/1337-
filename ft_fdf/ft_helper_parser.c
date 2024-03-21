@@ -22,3 +22,4 @@ size_t	ft_colcount(const char *s, char c)
 	}
 	return (count);
 }
+
