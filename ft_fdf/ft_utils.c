@@ -39,6 +39,7 @@ int convert_hex(char *color)
     val = 0;
     i = 0;
     hex = reverse(color);
+    free(color);
     while (hex[i])
     {
         val += get_hexpos(BASE16,hex[i]) * pow(16,i);
