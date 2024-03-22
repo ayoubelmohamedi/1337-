@@ -125,12 +125,13 @@ void    colorLine(t_point *points,char *line)
     x = 0;
     //to remove
     size_t c = 0;
-    while (line[i] != '\n' || line[i] != '\0')
+    while ((line[i] != '\n' || line[i] != '\0') && line[i])
     {
         if (line[i] == ' ')
             x++;
         if (line[i] == ',')
         {
+            printf("%zu -> ",c);
             i++;
             tmp = gethex(&line[i],&i);
             printf("%zu -> HEX = %s\n",c, tmp);
