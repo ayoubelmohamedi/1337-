@@ -130,6 +130,7 @@ void    colorLine(t_point *points,char *line)
         if (line[i] == ',')
         {
             tmp = gethex(line,&i);  
+            printf("%zu -> HEX = %s\n",i, tmp);
             points[x].color = convert_hex(tmp);
             free(tmp);
         }
