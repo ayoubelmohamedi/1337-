@@ -49,18 +49,18 @@ int main()
 
     int arr [] = {11,12,13,9,166};
     int table[4][3]= {{1,2,3} ,{4,5,6}, {7,8,9},{10,11,12}};
-    char * line = "27,0x810202 20,0x810202 15,0x810202 12,0x810202 13,0x810202 12,0x810202";
+    char * line = "27,0x210202 20,0x30202 15,0x410202 12,0x510202 13,0x610202 12,0x710202";
 
     //TODO:fix indexing 
     colorLine(points, line);
 
+    printf("---------------------\n");
     int i = 0;
     while (i < 6)
     {
-        printf("color of point[%d] => %d",i, points[i].color);
+        printf("color of point[%d] => %d\n",i, points[i].color);
         i++;
     }
     // printf("size of hex %u\n",);
-
     return (0);
 }
