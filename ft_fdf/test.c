@@ -60,7 +60,7 @@ int main()
         printf("color of point[%d] => %d",i, points[i].color);
         i++;
     }
-    printf("size of hex %u\n",res);
+    // printf("size of hex %u\n",);
 
     return (0);
 }

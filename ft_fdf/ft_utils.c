@@ -38,10 +38,7 @@ int convert_hex(char *color)
 
     val = 0;
     i = 0;
-    hex = color;
-    if (ft_strlen(hex) == 8)
-        hex += 2;
-    hex = reverse(hex);
+    hex = reverse(color);
     while (hex[i])
     {
         val += get_hexpos(BASE16,hex[i]) * pow(16,i);
@@ -53,8 +50,8 @@ int convert_hex(char *color)
 
 char *gethex(char *line,size_t *i)
 {
-    char *hex;
-
-    *i += 6;
+    line += 2;
+    *i += 2;
+    printf("gethex : LINE =>%s\n", line);
     return (ft_substr((const char *)line,0,6));
 }
