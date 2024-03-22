@@ -69,10 +69,6 @@ t_point * coordinatesTable(int ** table, size_t col, size_t row)
     coordinates = (t_point *)malloc(sizeof(point) * (col * row));
     if (!coordinates)
         return (NULL);
-    printf("----------------\n");
-    printf("coordinates rows = %zu\n",row);
-    printf("coordinates col = %zu\n",col);
-
     while (y < row)
     {
         while (x < col)
