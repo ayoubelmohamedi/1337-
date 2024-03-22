@@ -52,5 +52,8 @@ char *gethex(char *line,size_t *i)
 {
     line += 2;
     *i += 2;
-    return (ft_substr((const char *)line,0,6));
+    char * tmp;
+
+    tmp = ft_substr((const char *)line,0,6);
+    return (tmp);
 }
