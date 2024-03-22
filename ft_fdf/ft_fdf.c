@@ -43,34 +43,33 @@ size_t ft_countlines(char *filename)
 }
 
 
-int main (int c, char * argv[])
-{
-    int         fd;
-    char        *row;
-    int         **table;
-    char        *filename;
-    t_point     *points; 
-    size_t rows;
-    size_t cols;
+// int main (int c, char * argv[])
+// {
+//     int         fd;
+//     char        *row;
+//     int         **table;
+//     char        *filename;
+//     t_point     *points; 
+//     size_t rows;
+//     size_t cols;
 
-    if (c != 2)
-        return (1);
+//     if (c != 2)
+//         return (1);
 
-    filename = argv[1];
-    fd = open(filename,O_RDONLY);
-    table = make_table(filename, &rows, &cols);
+//     filename = argv[1];
+//     fd = open(filename,O_RDONLY);
+//     table = make_table(filename, &rows, &cols);
 
+//     printTable(table, filename);
 
-    printTable(table, filename);
+//     printf("number of rows => %zu\n", rows);
+//     printf("number of cols => %zu\n", cols);
 
-    printf("number of rows => %zu\n", rows);
-    printf("number of cols => %zu\n", cols);
+//     points = coordinatesTable(table, cols, rows);
+//     close(fd);
 
-    points = coordinatesTable(table, cols, rows);
-    close(fd);
-
-    return (0);
-}
+//     return (0);
+// }
 
 void printTable(int **table, char *filename)
 {

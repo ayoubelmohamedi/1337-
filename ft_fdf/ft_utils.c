@@ -30,7 +30,7 @@ int    get_hexpos(char *hex, char c)
     return (-1);
 }
 
-unsigned int convert_hex(char *color)
+int convert_hex(char *color)
 {
     unsigned int val;
     char *hex;
@@ -49,4 +49,12 @@ unsigned int convert_hex(char *color)
     }
     free(hex);
     return (val);
+}
+
+char *gethex(char *line,size_t *i)
+{
+    char *hex;
+
+    *i += 6;
+    return (ft_substr((const char *)line,0,6));
 }

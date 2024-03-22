@@ -18,7 +18,7 @@ typedef struct  s_point
     size_t x;
     size_t y;
     size_t z;
-    unsigned int color;
+    int color;
 } t_point;
 
 size_t      ft_colcount(const char *s, char c);
@@ -38,9 +38,10 @@ void    colorize(t_point *points, size_t rows, size_t cols, char * filename);
 void    colorLine(t_point *points,char *line);
 
 //utils
-unsigned int convert_hex(char *hex);
+int         convert_hex(char *hex);
 char        *reverse(char *str);
 int         get_hexpos(char *hex, char c);
+char        *gethex(char *line,size_t *i);
 
 
 

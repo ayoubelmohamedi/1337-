@@ -119,7 +119,7 @@ void    colorLine(t_point *points,char *line)
     int hex;
     size_t i;
     size_t x;
-    char *arr;
+    char *tmp;
 
     i = 0;
     x = 0;
@@ -128,20 +128,11 @@ void    colorLine(t_point *points,char *line)
         if (line[i] == ' ')
             x++;
         if (line[i] == ',')
-            points[x].color = gethex(line,&i); 
+        {
+            tmp = gethex(line,&i);  
+            points[x].color = convert_hex(tmp);
+            free(tmp);
+        }
         i++;
     }
-}
-
-char     *gethex(char *str, int *i)
-{
-    int hex;
-    char *strhex;
-
-    hex = 0;
-    *i += 6;
-    strhex = ft_substr(str, 0, 6);
-    str += 6;
-
-    return (hex);
 }

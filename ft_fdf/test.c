@@ -1,8 +1,5 @@
-
-
 #include<stdio.h>
 #include "ft_fdf.h"
-
 
 size_t	ft_strcount(char *s, char c)
 {
@@ -59,7 +56,15 @@ int main()
     char *hex = "AF1234";
     char *rev = reverse(hex);
     printf("reverse is %s \n",rev);
-    unsigned int res = convert_hex("0xAF1234");
+    int res = convert_hex("0xAF1234");
+    colorLine(points, line);
+
+    int i = 0;
+    while (i < 6)
+    {
+        printf("color of point[%d] => %d",i, points[i].color);
+        i++;
+    }
     printf("size of hex %u\n",res);
 
     return (0);
