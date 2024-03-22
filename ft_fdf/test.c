@@ -50,13 +50,8 @@ int main()
     int arr [] = {11,12,13,9,166};
     int table[4][3]= {{1,2,3} ,{4,5,6}, {7,8,9},{10,11,12}};
     char * line = "27,0x810202 20,0x810202 15,0x810202 12,0x810202 13,0x810202 12,0x810202";
-    // colorLine(points,line);
 
-    // unsigned int res = convert_hex("0xAF1234");
-    char *hex = "AF1234";
-    char *rev = reverse(hex);
-    printf("reverse is %s \n",rev);
-    int res = convert_hex("0xAF1234");
+    //TODO:fix indexing 
     colorLine(points, line);
 
     int i = 0;
