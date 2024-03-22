@@ -6,17 +6,19 @@
 
 #include <fcntl.h>
 #include <stdlib.h>
+#include <math.h> 
 
 #include "mlx.h"
 #include "libft/libft.h"
 
+# define BASE16 "0123456789ABCDEF"
 
 typedef struct  s_point
 {
     size_t x;
     size_t y;
     size_t z;
-    int color;
+    unsigned int color;
 } t_point;
 
 size_t      ft_colcount(const char *s, char c);
@@ -34,6 +36,11 @@ int ** make_table(char *filename,size_t *rows, size_t *cols);
 //colorize
 void    colorize(t_point *points, size_t rows, size_t cols, char * filename);
 void    colorLine(t_point *points,char *line);
+
+//utils
+unsigned int convert_hex(char *hex);
+char        *reverse(char *str);
+int         get_hexpos(char *hex, char c);
 
 
 
