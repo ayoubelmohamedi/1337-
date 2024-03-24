@@ -14,14 +14,11 @@ int *ft_split_int(const char *str, char c)
     if (!res)
         return (NULL);
     i = 0;
-    while (i < col)
-    {
+    while (nbrsting[i++])
         res[i] = ft_atoi(nbrsting[i]);
-        i++;
-    }
     i = 0;
-    while (i < col)
-        free(nbrsting[i++]);
+    while (nbrsting[++])
+        free(nbrsting[i]);
     free(nbrsting);
     return (res);
 }
