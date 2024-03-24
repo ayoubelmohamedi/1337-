@@ -17,7 +17,7 @@ int *ft_split_int(const char *str, char c)
     while (nbrsting[i++])
         res[i] = ft_atoi(nbrsting[i]);
     i = 0;
-    while (nbrsting[++])
+    while (nbrsting[i++])
         free(nbrsting[i]);
     free(nbrsting);
     return (res);
@@ -25,7 +25,7 @@ int *ft_split_int(const char *str, char c)
 
 int ** make_table(char *filename,size_t *rows, size_t *cols)
 {
-    char **table;
+    int **table;
     char *line;
     int fd;
     size_t i;
@@ -37,7 +37,7 @@ int ** make_table(char *filename,size_t *rows, size_t *cols)
     *cols = ft_colcount(line, ' ');
     *rows = ft_countlines(filename);
     i = 0;
-    table = malloc(sizeof(int*) * (rows * cols));
+    table = malloc(sizeof(int*) * ((*rows) * (*cols)));
     if (!table)
     {
         free(line);
@@ -45,7 +45,7 @@ int ** make_table(char *filename,size_t *rows, size_t *cols)
     }
     while (line) 
     {
-        table[i++] = ft_split_int(line);
+        table[i++] = ft_split_int(line,' ');
         free(line);
         line  = get_next_line(fd);
     }
