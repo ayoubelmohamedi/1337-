@@ -44,6 +44,7 @@ int ** make_table(char *filename,size_t *rows, size_t *cols);
 void    colorize(t_point *points, size_t rows, size_t cols, char * filename);
 void    colorLine(t_point *points,char *line);
 int getorigin(int x, int y, int cols);
+int hascolor(char *filename);
 
 
 //utils

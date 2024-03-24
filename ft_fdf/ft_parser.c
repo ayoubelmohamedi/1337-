@@ -113,8 +113,49 @@ char *parsedcolors(t_point * points, size_t cols,size_t rows)
         j++;
     }
 }
+
+int hascolor(char *filename)
+{
+    int c;
+    int i;
+    int fd;
+    char *row;
+
+    fd = open(filename, O_RDONLY);
+    if (fd < 0)
+        return (-1);
+    row = get_next_line(fd);
+    c = 0;
+    i = 0;
+    while (row)
+    {
+        while (row[i++])
+            if (row[i] == ',')
+                c++;
+        row = get_next_line(fd);
+    }
+    free(row);
+    close(fd);
+    return (c);
+}
+
+t_color *cor_colors(char *filename)
+{
+    t_color *colors;
+    size_t i;
+    int nbrColors;
+
+    nbrColors = hascolor(filename); 
+    if (!nbrColors || nbrColors == -1)
+        return (NULL);
+    colors = (t_color*) malloc(sizeof(t_color*) * )
+    while () 
+     
+    return (hascolor);
+}
+
 //y = rows && x = cols
-void    colorize(t_point *points, size_t rows, size_t cols, char * filename)
+void    colorize(t_point *points,t_color * colors size_t rows, size_t cols, char * filename)
 {
     char *line;
     char *tmp;
