@@ -21,6 +21,13 @@ typedef struct  s_point
     int color;
 } t_point;
 
+typedef struct s_color
+{
+    int x;
+    int y;
+    int color;
+} t_color;
+
 size_t      ft_colcount(const char *s, char c);
 int         *ft_split_int(const char *str, char c);
 size_t      ft_countlines(char *filename);
@@ -36,6 +43,8 @@ int ** make_table(char *filename,size_t *rows, size_t *cols);
 //colorize
 void    colorize(t_point *points, size_t rows, size_t cols, char * filename);
 void    colorLine(t_point *points,char *line);
+int getorigin(int x, int y, int cols);
+
 
 //utils
 int         convert_hex(char *hex);
@@ -43,10 +52,10 @@ char        *reverse(char *str);
 int         get_hexpos(char *hex, char c);
 char        *gethex(char *line,size_t *i);
 
-
-
 //to delete 
 void printTable(int **table, char *filename);
 void freeTable(int **table, char * filename);
+char *parsedcolors(t_point * points, size_t cols,size_t rows);
+
 
 #endif

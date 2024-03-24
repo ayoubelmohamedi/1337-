@@ -63,9 +63,11 @@ t_point * coordinatesTable(int ** table, size_t col, size_t row)
     t_point     point;
     size_t      x;
     size_t      y;
+    size_t      i;
 
     x = 0;
     y = 0;
+    i = 0;
     coordinates = (t_point *)malloc(sizeof(point) * (col * row));
     if (!coordinates)
         return (NULL);
@@ -78,7 +80,9 @@ t_point * coordinatesTable(int ** table, size_t col, size_t row)
             point.y = y;
             point.z = table[x][y];
             point.color = 0;
+            coordinates[i] = point;
             printf("added point (%zu,%zu,%zu)\n",point.x, point.y,point.z);
+            free(point);
             x++;
         }
         x = 0;
@@ -86,23 +90,48 @@ t_point * coordinatesTable(int ** table, size_t col, size_t row)
     }
     return (coordinates);
 }
+
+char *parsedcolors(t_point * points, size_t cols,size_t rows)
+{
+    size_t c;
+    size_t j;
+    size_t i;
+
+    c = 0;
+    j = 0;
+    i = 0;
+    while (j < rows) 
+    {
+        printf("(%zu,%zu,%zu) ",points[i].x, points[i].y,points[i].z);
+        if (cols == c)
+        {
+            c = 0;
+            printf("\n-----------------\n");
+        }
+        c++;
+        i++;
+        j++;
+    }
+}
 //y = rows && x = cols
 void    colorize(t_point *points, size_t rows, size_t cols, char * filename)
 {
     char *line;
     char *tmp;
     int fd;
-    size_t i;
+    static size_t i;
     size_t y;
 
     y = 0;
+    if (!i)
+        i = 0;
     fd = open(filename, O_RDONLY);
     line = get_next_line(fd);
     while (y < rows)
     {
         tmp = line;
         // points[i++].color = getcolor(line);
-        colorLine(points, line);
+        colorLine(&points[i], line);
         line = get_next_line(fd);
         free(tmp);
         y++;
@@ -128,4 +157,12 @@ void    colorLine(t_point *points,char *line)
         }
         i++;
     }
+}
+
+// add -1 from end res  
+int getorigin(int x, int y, int cols)
+{
+    x += 1;
+    y += 1;
+    return (cols * y - (cols - x));
 }
