@@ -126,9 +126,9 @@ int hascolor(char *filename)
         return (-1);
     row = get_next_line(fd);
     c = 0;
-    i = 0;
     while (row)
     {
+        i = 0;
         while (row[i++])
             if (row[i] == ',')
                 c++;
