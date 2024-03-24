@@ -28,30 +28,31 @@ int *ft_split_int(const char *str, char c)
 
 int ** make_table(char *filename,size_t *rows, size_t *cols)
 {
-    char    *row;
-    char    *tmp;
-    int    **table;
-    size_t i;
+    char **table;
+    char *line;
     int fd;
+    size_t i;
 
-    i = 0;
-    *rows = ft_countlines(filename); 
-    table = malloc(sizeof(int*) * (*rows));
-    if (!table)
-        return (NULL);
     fd = open(filename, O_RDONLY);
-    row = get_next_line(fd);
-    printf("row is => %s", row);
-    *cols = ft_colcount(row, ' ');
-    printf("table has %zu cols\n", *cols);
-    while (row)
+    if (fd < -1)
+        return (NULL);
+    line = get_next_line(fd);
+    *cols = ft_colcount(line, ' ');
+    *rows = ft_countlines(filename);
+    i = 0;
+    table = malloc(sizeof(int*) * (rows * cols));
+    if (!table)
     {
-        tmp  = row;
-        table[i++] = ft_split_int(row, ' ');
-        row = get_next_line(fd);
-        free((char *)tmp);
+        free(line);
+        return (NULL);
     }
-    free(row);
+    while (line) 
+    {
+        table[i++] = ft_split_int(line);
+        free(line);
+        line  = get_next_line(fd);
+    }
+    free(line);
     close(fd);
     return (table);
 }
