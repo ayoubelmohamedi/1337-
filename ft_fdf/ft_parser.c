@@ -61,8 +61,8 @@ t_point * coordinatesTable(int ** table, size_t col, size_t row)
 {
     t_point     *coordinates;
     t_point     point;
-    size_t      x;
-    size_t      y;
+    int      x;
+    int      y;
     size_t      i;
 
     x = 0;
@@ -102,7 +102,7 @@ char *parsedcolors(t_point * points, size_t cols,size_t rows)
     i = 0;
     while (j < rows) 
     {
-        printf("(%zu,%zu,%zu) ",points[i].x, points[i].y,points[i].z);
+        printf("(%d,%d,%d) ",points[i].x, points[i].y,points[i].z);
         if (cols == c)
         {
             c = 0;
