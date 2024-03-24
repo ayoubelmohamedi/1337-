@@ -31,20 +31,20 @@ int ** make_table(char *filename,size_t *rows, size_t *cols)
     char    *row;
     char    *tmp;
     int    **table;
-    size_t  linecount;
     size_t i;
     int fd;
 
     i = 0;
-    linecount = ft_countlines(filename); 
-    *rows = linecount;
-    table = malloc(sizeof(int*) * linecount);
+    *rows = ft_countlines(filename); 
+    table = malloc(sizeof(int*) * (*rows));
     if (!table)
         return (NULL);
     fd = open(filename, O_RDONLY);
     row = get_next_line(fd);
+    printf("row is => %s", row);
     *cols = ft_colcount(row, ' ');
-    while (row != NULL)
+    printf("table has %zu cols\n", *cols);
+    while (row)
     {
         tmp  = row;
         table[i++] = ft_split_int(row, ' ');
