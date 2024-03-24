@@ -1,8 +1,6 @@
 
 #include "ft_fdf.h"
 
-
-
 int *ft_split_int(const char *str, char c)
 {
     int     *res;
@@ -75,14 +73,13 @@ t_point * coordinatesTable(int ** table, size_t col, size_t row)
     {
         while (x < col)
         {
-            printf("x = %zu, y = %zu\n", x,y);
+            printf("x = %d, y = %d\n", x,y);
             point.x = x;
             point.y = y;
             point.z = table[x][y];
             point.color = 0;
             coordinates[i] = point;
-            printf("added point (%zu,%zu,%zu)\n",point.x, point.y,point.z);
-            free(point);
+            printf("added point (%d,%d,%d)\n",point.x, point.y,point.z);
             x++;
         }
         x = 0;
@@ -148,37 +145,37 @@ t_color *cor_colors(char *filename)
     nbrColors = hascolor(filename); 
     if (!nbrColors || nbrColors == -1)
         return (NULL);
-    colors = (t_color*) malloc(sizeof(t_color*) * )
-    while () 
+    colors = (t_color*) malloc(sizeof(t_color*) * nbrColors);
+    // while () 
      
-    return (hascolor);
+    return (colors);
 }
 
-//y = rows && x = cols
-void    colorize(t_point *points,t_color * colors size_t rows, size_t cols, char * filename)
-{
-    char *line;
-    char *tmp;
-    int fd;
-    static size_t i;
-    size_t y;
+// //y = rows && x = cols
+// void    colorize(t_point *points,t_color * colors, size_t rows, size_t cols, char * filename)
+// {
+//     char *line;
+//     char *tmp;
+//     int fd;
+//     static size_t i;
+//     size_t y;
 
-    y = 0;
-    if (!i)
-        i = 0;
-    fd = open(filename, O_RDONLY);
-    line = get_next_line(fd);
-    while (y < rows)
-    {
-        tmp = line;
-        // points[i++].color = getcolor(line);
-        colorLine(&points[i], line);
-        line = get_next_line(fd);
-        free(tmp);
-        y++;
-    }
-    close(fd);
-}
+//     y = 0;
+//     if (!i)
+//         i = 0;
+//     fd = open(filename, O_RDONLY);
+//     line = get_next_line(fd);
+//     while (y < rows)
+//     {
+//         tmp = line;
+//         // points[i++].color = getcolor(line);
+//         colorLine(&points[i], line);
+//         line = get_next_line(fd);
+//         free(tmp);
+//         y++;
+//     }
+//     close(fd);
+// }
 
 void    colorLine(t_point *points,char *line)
 {

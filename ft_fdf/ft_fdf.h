@@ -41,7 +41,7 @@ t_point *coordinatesTable(int ** table, size_t col, size_t row);
 int ** make_table(char *filename,size_t *rows, size_t *cols);
 
 //colorize
-void    colorize(t_point *points, size_t rows, size_t cols, char * filename);
+// void    colorize(t_point *points,t_color * colors, size_t rows, size_t cols, char * filename)
 void    colorLine(t_point *points,char *line);
 int getorigin(int x, int y, int cols);
 int hascolor(char *filename);

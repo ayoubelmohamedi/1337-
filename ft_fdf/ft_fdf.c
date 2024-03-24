@@ -60,13 +60,27 @@ int main (int c, char * argv[])
     fd = open(filename,O_RDONLY);
     table = make_table(filename, &rows, &cols);
 
-    printTable(table, filename);
+    // printTable(table, filename);
 
     printf("number of rows => %zu\n", rows);
     printf("number of cols => %zu\n", cols);
 
     points = coordinatesTable(table, cols, rows);
-    
+
+    int i = 0;
+    int count = 0;
+    while (i < (cols * rows))
+    {
+        printf("point(%d, %d, %d) ",points[i].x,points[i].y,points[i].z);
+        if (count == cols)
+        {
+            count = 0;
+            printf("\n-------------\n");
+        }
+        i++;
+    }
+    // colorize(points, rows, cols, filename);
+    // parsedcolors(points,cols,rows);
 
     close(fd);
     return (0);
