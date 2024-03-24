@@ -6,19 +6,18 @@ size_t	ft_colcount(const char *s, char c)
 	int		i;
 	size_t	count;
 
-	i = 0;
 	count = 0;
-	while (s != NULL && *s != '\0')
+	i = 0;
+	while (s[i])
 	{
-		if (*s != c && i == 0)
+		while (s[i] && s[i] == c)
+			i++;
+		if (s[i] && s[i] != c)
 		{
-			i = 1;
 			count++;
-		}
-		else if (*s == c)
-			i = 0;
-		s++;
+			while (s[i] && s[i] != c)
+				i++;
+		}	
 	}
 	return (count);
 }
-

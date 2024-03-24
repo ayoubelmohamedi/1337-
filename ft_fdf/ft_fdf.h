@@ -54,7 +54,7 @@ int         get_hexpos(char *hex, char c);
 char        *gethex(char *line,size_t *i);
 
 //to delete 
-void printTable(int **table, char *filename);
+void printTable(int **table, size_t rows, size_t cols);
 void freeTable(int **table, char * filename);
 char *parsedcolors(t_point * points, size_t cols,size_t rows);
 
