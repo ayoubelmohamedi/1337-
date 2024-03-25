@@ -14,11 +14,11 @@ int *ft_split_int(const char *str, char c)
     if (!res)
         return (NULL);
     i = 0;
-    while (nbrsting[i++])
-        res[i] = ft_atoi(nbrsting[i]);
+    while (nbrsting[i])
+        res[i++] = ft_atoi(nbrsting[i]);
     i = 0;
-    while (nbrsting[i++])
-        free(nbrsting[i]);
+    while (nbrsting[i])
+        free(nbrsting[i++]);
     free(nbrsting);
     return (res);
 }
@@ -37,6 +37,7 @@ int ** make_table(char *filename,size_t *rows, size_t *cols)
     *cols = ft_colcount(line, ' ');
     *rows = ft_countlines(filename);
     i = 0;
+    printf("table has allocated %zu bytes\n",(*rows) * (*cols));
     table = malloc(sizeof(int*) * ((*rows) * (*cols)));
     if (!table)
     {
@@ -45,6 +46,7 @@ int ** make_table(char *filename,size_t *rows, size_t *cols)
     }
     while (line) 
     {
+        printf("i is now %zu\n",i);
         table[i++] = ft_split_int(line,' ');
         free(line);
         line  = get_next_line(fd);
