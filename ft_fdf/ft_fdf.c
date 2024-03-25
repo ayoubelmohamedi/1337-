@@ -50,8 +50,8 @@ int main (int c, char * argv[])
     int         **table;
     char        *filename;
     t_point     *points; 
-    size_t rows;
-    size_t cols;
+    size_t      rows;
+    size_t      cols;
 
     if (c != 2)
         return (1);
@@ -60,25 +60,26 @@ int main (int c, char * argv[])
     fd = open(filename,O_RDONLY);
     table = make_table(filename, &rows, &cols);
 
-    // printTable(table, filename);
+    printf("rows %zu, cols %zu \n",rows, cols);
+    // printTable(table, rows, cols);
 
     printf("number of rows => %zu\n", rows);
     printf("number of cols => %zu\n", cols);
+    printTable(table, rows, cols);
+    // points = coordinatesTable(table, cols, rows);
 
-    points = coordinatesTable(table, cols, rows);
-
-    int i = 0;
-    int count = 0;
-    while (i < (cols * rows))
-    {
-        printf("point(%d, %d, %d) ",points[i].x,points[i].y,points[i].z);
-        if (count == cols)
-        {
-            count = 0;
-            printf("\n-------------\n");
-        }
-        i++;
-    }
+    // int i = 0;
+    // int count = 0;
+    // while (i < (cols * rows))
+    // {
+    //     printf("point(%d, %d, %d) ",points[i].x,points[i].y,points[i].z);
+    //     if (count == cols)
+    //     {
+    //         count = 0;
+    //         printf("\n-------------\n");
+    //     }
+    //     i++;
+    // }
     // colorize(points, rows, cols, filename);
     // parsedcolors(points,cols,rows);
 
@@ -86,33 +87,29 @@ int main (int c, char * argv[])
     return (0);
 }
 
-void printTable(int **table, char *filename)
+void printTable(int **table, size_t rows, size_t cols)
 {
-    char *row;
-    char *tmp;
-    int fd;
-    size_t cols;
-    size_t i = 0;
-    size_t j = 0;
+    size_t i;
+    size_t r;
+    size_t max;
 
-    fd = open(filename, O_RDONLY);
-    row = get_next_line(fd);
-    cols = ft_colcount(row,' ');
-    printf("cols => %zu\n", cols);
-    while (row)
+    i = 0;
+    r = 0;
+    max = rows * cols;
+    while (i <= max && r < rows)
     {
-        tmp = row;
-        while (j < cols)
-            printf("%d| ",table[i][j++]);
-        j = 0;
+        // printf("r is %zu , i is %zu\n",r, i);
+        printf("%d  | ",table[r][i]);
+        if (i == cols)
+        {
+            if (r +1 != rows)
+                printf("\n === === === === === ===\n");
+            max -= i;
+            i = -1;
+            r++;
+        }
         i++;
-        printf("\n");
-        row = get_next_line(fd);
-        free(tmp);
-    } 
-    printf("rows => %zu\n", i);
-    free(row);
-    close(fd);
+    }
 }
 
 void freeTable(int **table, char * filename)
@@ -126,7 +123,7 @@ void freeTable(int **table, char * filename)
 
     fd = open(filename, O_RDONLY);
     row = get_next_line(fd);
-    cols = ft_colcount(row,' ');
+    cols = ft_colcount(row, ' ');
     while (row)
     {
         tmp = row;
