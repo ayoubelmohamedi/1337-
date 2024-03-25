@@ -73,13 +73,12 @@ t_point * coordinatesTable(int ** table, size_t col, size_t row)
     {
         while (x < col)
         {
-            printf("x = %d, y = %d\n", x,y);
-            point.x = x;
-            point.y = y;
-            point.z = table[x][y];
+            point.x = y;
+            point.y = x;
+            point.z = table[y][x];
+
             point.color = 0;
-            coordinates[i] = point;
-            printf("added point (%d,%d,%d)\n",point.x, point.y,point.z);
+            coordinates[i++] = point;
             x++;
         }
         x = 0;
