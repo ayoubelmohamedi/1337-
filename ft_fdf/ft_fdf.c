@@ -65,21 +65,16 @@ int main (int c, char * argv[])
 
     printf("number of rows => %zu\n", rows);
     printf("number of cols => %zu\n", cols);
-    printTable(table, rows, cols);
-    // points = coordinatesTable(table, cols, rows);
+    // printTable(table, rows, cols);
+    points = coordinatesTable(table, cols, rows);
 
-    // int i = 0;
-    // int count = 0;
-    // while (i < (cols * rows))
-    // {
-    //     printf("point(%d, %d, %d) ",points[i].x,points[i].y,points[i].z);
-    //     if (count == cols)
-    //     {
-    //         count = 0;
-    //         printf("\n-------------\n");
-    //     }
-    //     i++;
-    // }
+    int i = 0;
+    int count = 0;
+    while (i < (cols * rows))
+    {
+        printf("point(%d, %d, %d) ",points[i].x,points[i].y,points[i].z);
+        i++;
+    }
     // colorize(points, rows, cols, filename);
     // parsedcolors(points,cols,rows);
 
@@ -96,13 +91,13 @@ void printTable(int **table, size_t rows, size_t cols)
     i = 0;
     r = 0;
     max = rows * cols;
-    while (i <= max && r < rows)
+    while (i < max && r < rows)
     {
-        // printf("r is %zu , i is %zu\n",r, i);
-        printf("%d  | ",table[r][i]);
+        printf("r is %zu , i is %zu | output is %d\n",r, i,table[r][i]);
+        // printf("%d  | ",table[r][i]);
         if (i == cols)
         {
-            if (r +1 != rows)
+            if (r != rows)
                 printf("\n === === === === === ===\n");
             max -= i;
             i = -1;

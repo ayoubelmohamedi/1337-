@@ -37,7 +37,6 @@ int ** make_table(char *filename,size_t *rows, size_t *cols)
     *cols = ft_colcount(line, ' ');
     *rows = ft_countlines(filename);
     i = 0;
-    printf("table has allocated %zu bytes\n",(*rows) * (*cols));
     table = malloc(sizeof(int*) * ((*rows) * (*cols)));
     if (!table)
     {
@@ -46,7 +45,6 @@ int ** make_table(char *filename,size_t *rows, size_t *cols)
     }
     while (line) 
     {
-        printf("i is now %zu\n",i);
         table[i++] = ft_split_int(line,' ');
         free(line);
         line  = get_next_line(fd);

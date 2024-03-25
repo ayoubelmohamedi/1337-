@@ -5,10 +5,23 @@
 int main(int ac, char **argv)
 {
     //check leaks 
-    if (ac != 2)
-        return (1);
-    int colors  = hascolor(argv[1]);
-    printf("file %s has %d colored point\n",argv[1], colors);
+    // if (ac != 2)
+        // return (1);
+    // int colors  = hascolor(argv[1]);
+    char *row = "1,0x110202 2,0x210202 3,0x310202 4,0x410202 5,0x510202 6,0x610202";
+    printf("row is => %s\n", row);
+    size_t cols = ft_colcount(row, ' ');
+    printf("cols = %zu\n", cols);
+    int * s_int = ft_split_int(row, ' ');
+
+    size_t i =0 ;
+    while (i < cols)
+    {
+        printf("val is now %d\n",s_int[i++]);
+    }
+    printf("table has %zu cols\n", cols);
+
+    // printf("file %s has %d colored point\n",argv[1], colors);
     
     // printf("inside \n");
 
