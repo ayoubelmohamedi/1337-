@@ -133,19 +133,64 @@ int hascolor(char *filename)
     return (c);
 }
 
-t_color *cor_colors(char *filename)
+t_color *cor_colors(char *filename, size_t rows, size_t cols)
 {
     t_color *colors;
-    size_t i;
+    t_color color;
+    int x;
+    int y;
+    int i;
+    int c_tot;
+    char *line;
+    int fd;
     int nbrColors;
 
+    fd = open(filename, O_RDONLY);
+    if (fd < 0)
+        return (NULL);
     nbrColors = hascolor(filename); 
     if (!nbrColors || nbrColors == -1)
         return (NULL);
     colors = (t_color*) malloc(sizeof(t_color*) * nbrColors);
-    // while () 
-     
+    line  = get_next_line(fd);
+    c_tot = 0;
+    i = 0;
+    x = 0;
+    y = 0;
+    while (y < rows && c_tot < nbrColors)
+    {
+        while (line[i++]) 
+        {
+            if (line[i] == ' ')
+                x++;
+            if (line[i] == ',')
+            {
+                color.x = x;
+                color.y = y;
+                color.color = convert_hex(getcolor(&line[i],&i));
+                i--;
+                colors[c_tot] = color; 
+                c_tot++;
+            }
+        }
+        free(line);
+        line = get_next_line(fd);
+        y++;
+    }
+    free(line);
     return (colors);
+}
+
+char *getcolor(const char *line, int *i)
+{
+    int j;
+
+    j = *i + 1;
+    *i++;
+    while (line[*i] && line[*i] != ' ')
+        *i++;
+    return (ft_substr(&line[*i - j],*i - j,*i -1));
+
 }
 
 // //y = rows && x = cols
