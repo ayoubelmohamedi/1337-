@@ -74,7 +74,6 @@ t_point * coordinatesTable(int ** table, size_t col, size_t row)
             point.x = y;
             point.y = x;
             point.z = table[y][x];
-
             point.color = 0;
             coordinates[i++] = point;
             x++;
@@ -185,11 +184,11 @@ char *getcolor(const char *line, int *i)
 {
     int j;
 
-    j = *i + 1;
-    *i++;
+    (*i)++;
+    j = *i;
     while (line[*i] && line[*i] != ' ')
-        *i++;
-    return (ft_substr(&line[*i - j],*i - j,*i -1));
+        (*i)++;
+    return (ft_substr((const char*)line,j,*i -1));
 
 }
 

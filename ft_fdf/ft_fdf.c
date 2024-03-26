@@ -43,44 +43,44 @@ size_t ft_countlines(char *filename)
 }
 
 
-int main (int c, char * argv[])
-{
-    int         fd;
-    char        *row;
-    int         **table;
-    char        *filename;
-    t_point     *points; 
-    size_t      rows;
-    size_t      cols;
+// int main (int c, char * argv[])
+// {
+//     int         fd;
+//     char        *row;
+//     int         **table;
+//     char        *filename;
+//     t_point     *points; 
+//     size_t      rows;
+//     size_t      cols;
 
-    if (c != 2)
-        return (1);
+//     if (c != 2)
+//         return (1);
 
-    filename = argv[1];
-    fd = open(filename,O_RDONLY);
-    table = make_table(filename, &rows, &cols);
+//     filename = argv[1];
+//     fd = open(filename,O_RDONLY);
+//     table = make_table(filename, &rows, &cols);
 
-    printf("rows %zu, cols %zu \n",rows, cols);
-    // printTable(table, rows, cols);
+//     printf("rows %zu, cols %zu \n",rows, cols);
+//     // printTable(table, rows, cols);
 
-    printf("number of rows => %zu\n", rows);
-    printf("number of cols => %zu\n", cols);
-    // printTable(table, rows, cols);
-    points = coordinatesTable(table, cols, rows);
+//     printf("number of rows => %zu\n", rows);
+//     printf("number of cols => %zu\n", cols);
+//     // printTable(table, rows, cols);
+//     points = coordinatesTable(table, cols, rows);
 
-    int i = 0;
-    int count = 0;
-    while (i < (cols * rows))
-    {
-        printf("point(%d, %d, %d) ",points[i].x,points[i].y,points[i].z);
-        i++;
-    }
-    // colorize(points, rows, cols, filename);
-    // parsedcolors(points,cols,rows);
+//     int i = 0;
+//     int count = 0;
+//     while (i < (cols * rows))
+//     {
+//         printf("point(%d, %d, %d) ",points[i].x,points[i].y,points[i].z);
+//         i++;
+//     }
+//     // colorize(points, rows, cols, filename);
+//     // parsedcolors(points,cols,rows);
 
-    close(fd);
-    return (0);
-}
+//     close(fd);
+//     return (0);
+// }
 
 void printTable(int **table, size_t rows, size_t cols)
 {
