@@ -7,7 +7,8 @@
 #include <stdio.h>
 #include <signal.h>
 #include<unistd.h>
-void signal_handler(int sig);
+void    ft_bit_handler(int sig);
+void	ft_sendbits(int pid, char c);
 
 
 #endif
