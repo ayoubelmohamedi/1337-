@@ -13,4 +13,4 @@ int main(int ac,char **argv)
     }
     printf("signal sent");
     return (0);
-2 n}
+2 }
