@@ -1,3 +1,5 @@
+
+
 # ifndef MINITALK_H  
 # define MINITALK_H
 
@@ -11,5 +13,7 @@
 void    ft_bit_handler(int sig);
 void	ft_sendbits(int pid, char c);
 
+void    ft_check();
+void    ft_ack_mesage(int pid);
 
 #endif
