@@ -2,12 +2,21 @@
 
 #include "minitalk_bonus.h"
 
-void ft_ack_message(int seg,,int pid)
+void ft_ack_message(int sig,siginfo_t *info, void *ucontext)
 {
     static char res;
-    static int i;
+    static int bit;
 
-    if (seg)
+    if (sig == SIGUSR1)
+        res |= (1 << bit);
+    bit++;
+    if (bit == 8)
+    {
+        write(1,&res,1);
+        kill(info->si_pid, SIGUSR1);
+        bit = 0;
+        res = 0;
+    }
 }
 
 
@@ -20,15 +29,18 @@ int main(int ac, char **av)
     if (ac != 1)
         return (0);
     pid = getpid();
+
+    printf("pid : %d\n",pid);
+    printf("waiting...\n");
+
     act.sa_sigaction = ft_ack_message;
     sigemptyset(&act.sa_mask);
-    act.sa_flags = 0;
+    act.sa_flags = SA_SIGINFO;
     while(ac == 1)
     {
         sigaction(SIGUSR1, &act,NULL);
         sigaction(SIGUSR2, &act,NULL);
         pause();
     }
-    sigaction(SIGUSW);
     return (0);
 }

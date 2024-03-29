@@ -9,7 +9,6 @@ void ft_bit_handler(int signbr)
 {
     static char res;
     static int i;
-    
     if (signbr == SIGUSR1)
         res |= (1 << i++);
     else if (signbr == SIGUSR2)
