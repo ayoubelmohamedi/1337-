@@ -26,16 +26,14 @@ int  main(int ac, char **argv)
     if (ac != 1)
         return (1);
     int pid = getpid();
-    printf("pid : %d\n",pid);
-    printf("waiting...\n");
-
+    write(1,"pid :",5);
+    ft_putnbr_fd(pid,1);
+    write(1,"\n",1);
     while (ac == 1)
     {
         signal(SIGUSR1, ft_bit_handler);
         signal(SIGUSR2, ft_bit_handler);
         pause();
     }
-    printf("finished\n");
-    // sleep(3);
     return (0);
 }

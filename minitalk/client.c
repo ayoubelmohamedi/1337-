@@ -13,11 +13,10 @@ void	ft_sendbits(int pid, char c)
             kill(pid,SIGUSR1);
 		else
             kill(pid,SIGUSR2);
-        usleep(100);
+        usleep(200);
 		bit++;
 	}
 }
-
 
 int main(int ac,char **argv)
 {
@@ -28,10 +27,11 @@ int main(int ac,char **argv)
         return (1);
     i = 0;
     pid = ft_atoi((const char*) argv[1]);
-    while (argv[2][i])
+    if (pid > 0)
     {
-        ft_sendbits(pid, argv[2][i++]);
+        while (argv[2][i])
+            ft_sendbits(pid, argv[2][i++]);
+        ft_sendbits(pid, '\n');
     }
-    ft_sendbits(pid, '\n');
     return (0);
 }

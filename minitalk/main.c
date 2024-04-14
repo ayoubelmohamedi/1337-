@@ -41,14 +41,12 @@ void	getbits(char c)
 int main()
 {
 
-    char c = 'b';
-    int bit = 4;
-    char mask = 0x01 << bit; 
-    if ('a' & mask)
+    char * str = "hello";
+    int i = 0;
+    while (str[i])
     {
-
+        printf("char i(%d)is %c\n",i , str[i]); 
+        i++;
     }
-    printf("mask = %d\n", mask);
-    getbits(c);
     return (0);
 }
