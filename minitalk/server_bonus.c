@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:40:54 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/04/22 05:50:41 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/04/22 09:05:51 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	main(void)
 	{
 		sigaction(SIGUSR1, &act, NULL);
 		sigaction(SIGUSR2, &act, NULL);
-		pause();
 	}
 	return (0);
 }

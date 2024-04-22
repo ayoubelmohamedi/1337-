@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:40:58 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/04/22 05:50:10 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/04/22 09:05:12 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ int	main(void)
 	write(1, "pid :", 5);
 	ft_putnbr_fd(pid, 1);
 	write(1, "\n", 1);
-	signal(SIGUSR1, ft_bit_handler);
-	signal(SIGUSR2, ft_bit_handler);
 	while (1)
-		pause();
+	{
+		signal(SIGUSR1, ft_bit_handler);
+		signal(SIGUSR2, ft_bit_handler);
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 20:44:10 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/04/22 06:30:46 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:23:06 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_sendbits(int pid, char c)
 {
-	int	bit;
+	int		bit;
 
 	bit = 0;
 	while (bit < 8)
@@ -23,8 +23,8 @@ void	ft_sendbits(int pid, char c)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(400);
 		bit++;
+		usleep(400);
 	}
 }
 
@@ -43,7 +43,6 @@ int	main(int ac, char **argv)
 	{
 		while (argv[2][i])
 			ft_sendbits(pid, argv[2][i++]);
-		ft_sendbits(pid, '\n');
 	}
 	return (0);
 }
