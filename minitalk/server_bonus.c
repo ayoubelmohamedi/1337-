@@ -43,10 +43,9 @@ int	main(void)
 	act.sa_sigaction = ft_ack_message;
 	sigemptyset(&act.sa_mask);
 	act.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &act, NULL);
+	sigaction(SIGUSR2, &act, NULL);
 	while (1)
-	{
-		sigaction(SIGUSR1, &act, NULL);
-		sigaction(SIGUSR2, &act, NULL);
-	}
+		pause();
 	return (0);
 }
