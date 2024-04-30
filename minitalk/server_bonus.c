@@ -24,7 +24,8 @@ void	ft_ack_message(int sig, siginfo_t *info, void *ucontext)
 	if (bit == 8)
 	{
 		write(1, &res, 1);
-		kill(info->si_pid, SIGUSR1);
+		if (res == '\0')
+			kill(info->si_pid, SIGUSR1);
 		bit = 0;
 		res = 0;
 	}
