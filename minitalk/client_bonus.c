@@ -50,6 +50,7 @@ int	main(int ac, char **av)
 		signal(SIGUSR1, ft_confirm);
 		while (av[2][i])
 			ft_sendbits(pid, av[2][i++]);
+		ft_sendbits(pid, '\0');
 		ft_sendbits(pid, '\n');
 	}
 	return (0);
