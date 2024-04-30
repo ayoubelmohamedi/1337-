@@ -24,7 +24,7 @@ void	ft_sendbits(int pid, char c)
 		else
 			kill(pid, SIGUSR2);
 		bit++;
-		usleep(400);
+		usleep(600);
 	}
 }
 
