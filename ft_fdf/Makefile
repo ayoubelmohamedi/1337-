@@ -6,7 +6,7 @@
 #    By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/01 17:41:53 by ael-moha          #+#    #+#              #
-#    Updated: 2024/05/01 17:41:58 by ael-moha         ###   ########.fr        #
+#    Updated: 2024/05/01 18:32:37 by ael-moha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@
 
 NAME = fdf
 ## to add -Wall -Wextra -Werror  
+CC = cc
 CFLAGS = -g -O3 
 SRCS = mlxtest.c get_next_line_bonus.c
 
