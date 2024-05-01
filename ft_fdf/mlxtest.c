@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "mlx.h"
 
-#include <ft_fdf.h>
+#include "ft_fdf.h"
 
 typedef	struct s_data
 {
@@ -22,46 +22,85 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-int *ft_split_int(char *line)
+size_t ft_getrows(int fd)
+{
+	size_t rows;
+	char *line;
+	char *tmp;
+
+	rows = 0;
+	line = get_next_line(fd);
+	while(line)
+	{
+		rows++;
+		tmp = line;
+		line = get_next_line(fd);
+		free(tmp);
+	}
+	return (rows);
+}
+
+size_t ft_getcols(int fd)
+{
+	size_t cols;
+	char *line;
+	char **split;
+
+	line = get_next_line(fd);
+	split = ft_split(line, ' ');
+	free(line);
+	cols = 0;
+	while (split[cols])
+		free(&split[cols++]);
+	return (cols);
+}
+
+int *ft_split_int(const char *line, size_t col)
 {
 	int *res;
-	char *split;
+	char **split;
 	size_t i;
 
 	i = 0;
-	split = ft_split();
-	while (line[i])	
+	split = ft_split((const char *) line, ' ');
+	res = malloc(sizeof(int) * col);
+	free((void*)line);
+	while (i < col)
 	{
-
+		res[i] = ft_atoi((const char*)split[i]);
+		free(&split[i]);
+		i++;
 	}
-
-
+	free(split);
 	return (res);
 }
 
-char **ft_genMap(char *filename)
+int **ft_genMap(char *filename, size_t rows, size_t cols)
 {
-	char **map;
+	int **map;
 	char *line;
 	int fd;
+	char *tmp;
+	size_t i;
 
 	fd = open(filename,O_RDONLY);
 	if (fd < 0)
 		return (NULL);
 	line = get_next_line(fd);
+	map = malloc(sizeof(int*) * rows);
+	i = 0;
 	while (line)
 	{
-		map[i] = ft_split_int(line);
+		tmp = line;
+		map[i] = ft_split_int(line, cols);
 		line = get_next_line(fd);
+		free(tmp);
 	}
-
-
-
 	return (map);
 
 }
 
-int	main(itn ac, char **av)
+int	main(int ac, char **av)
 {
 	void	*mlx;
 	void	*mlx_win;
@@ -72,9 +111,9 @@ int	main(itn ac, char **av)
 
 	if (ac != 2)
 		return (1);
-	map = ft_genMap(av[1]);
-	if (!map)
-		return (1);
+	fd = open(av[1], O_RDONLY);
+	size_t cols = ft_getcols(fd);
+	printf("cols %zu\n", cols);	
 	mlx = mlx_init();
 
 	mlx_win = mlx_new_window(mlx, 720, 720, "Hello world!");

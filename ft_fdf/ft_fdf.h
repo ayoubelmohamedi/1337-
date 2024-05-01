@@ -29,7 +29,7 @@ typedef struct s_color
 } t_color;
 
 size_t      ft_colcount(const char *s, char c);
-int         *ft_split_int(const char *str, char c);
+int         *ft_split_int(const char *str, size_t cols);
 size_t      ft_countlines(char *filename);
 
 char	*get_next_line(int fd);
