@@ -1,11 +1,29 @@
 
 
-#compilation 
-# gcc mlxtest.c -L/nfs/homes/ael-moha/Documents/1337/1337-/ft_fdf/minilibx-linux 
-# -I/nfs/homes/ael-moha/Documents/1337/1337-/ft_fdf/minilibx-linux 
-# -lmlx_Linux -lXext -lX11 -lm -lz -o mlx_executable
+
 
 
 #include => $(NAME), all, clean, fclean and re
+
+NAME = fdf
+## to add -Wall -Wextra -Werror  
+CFLAGS = -g -O3 
+SRCS = mlxtest.c
+OBJS = ${SRCS:.c=.o}
+RM 	 = rm -rf
+
+all: $(NAME)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -I/usr/include -Imlx_linux -O3 -c $< -o $@
+
+$(NAME): $(OBJS)
+	$(CC) $(OBJS) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+
 clean:
-	rm -f *.o
+	$(RM) $(OBJS)
+fclean: clean
+	$(RM) $(NAME)
+
+re:
+	fclean all
