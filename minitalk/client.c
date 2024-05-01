@@ -43,6 +43,7 @@ int	main(int ac, char **argv)
 	{
 		while (argv[2][i])
 			ft_sendbits(pid, argv[2][i++]);
+		ft_sendbits(pid, '\n');
 	}
 	return (0);
 }
