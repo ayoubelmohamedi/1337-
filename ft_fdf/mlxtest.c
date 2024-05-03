@@ -62,11 +62,25 @@ void	freeItems(void **item, size_t cols)
 	free(item);
 }
 
+int 	ft_covertHex(color)
+{
+	int hex;
+
+	color++;
+	if (ft_strncmp(color,"0x",2))	
+		color += 2;
+	//TODO make atoi_base
+	return (ft_atoi_base(color,"0123456789abcdef"));
+}
+
 int		ft_fetchColor(char *text)
 {
-	if (ft_strchr)
+	char *color;
 
-
+	color =	ft_strchr((const char*)text, ',');
+	if (!color)
+		return (0xFFFFFF);
+	return (ft_covertHex(color));
 }
 
 t_map	*ft_parseLine(char **splitted, size_t curr_row, size_t cols)
@@ -95,7 +109,6 @@ t_point **ft_genMap(char *filename, size_t rows, size_t cols)
 	t_map	*row_map;
 	char *line;
 	int fd;
-	char *tmp;
 	size_t i;
 
 	fd = open(filename, O_RDONLY);	
@@ -107,8 +120,8 @@ t_point **ft_genMap(char *filename, size_t rows, size_t cols)
 	i = 0;
 	while (line)
 	{
-		tmp = line;
 		map[i++] = ft_parseLine(ft_split(line, ' '), cols); 
+		free(line);
 		line = get_next_line(fd);
 		// free(tmp);
 	}
