@@ -62,14 +62,13 @@ void	freeItems(void **item, size_t cols)
 	free(item);
 }
 
-int 	ft_covertHex(color)
+int 	ft_covertHex(char *color)
 {
 	int hex;
 
 	color++;
 	if (ft_strncmp(color,"0x",2))	
 		color += 2;
-	//TODO make atoi_base
 	return (ft_atoi_base(color,"0123456789abcdef"));
 }
 
@@ -83,20 +82,22 @@ int		ft_fetchColor(char *text)
 	return (ft_covertHex(color));
 }
 
-t_map	*ft_parseLine(char **splitted, size_t curr_row, size_t cols)
+t_point	*ft_parseLine(char **splitted, size_t curr_row, size_t cols)
 {
-	t_map *row_map;
+	t_point *row_map;
+	t_point point;
 	size_t i;
 
 	i = 0;
-	row_map = (t_map*)malloc(sizeof(t_map*) * (cols + 1));
+	row_map = (t_point*)malloc(sizeof(t_point*) * (cols + 1));
 	while (splitted[i])
 	{
-		row_map[i]->x = i;
-		row_map[i]->y = curr_row;
-		row_map[i]->z = ft_atoi(splitted[i]);
-		row_map[i]->color = ft_fetchColor(splitted[i]) 
-		i++;
+		point = malloc(sizeof(t_point));
+		point.x = i;
+		point.y = curr_row;
+		point.z = ft_atoi(splitted[i]);
+		point.color = ft_fetchColor(splitted[i]);
+		row_map[i++] = point;
 	}
 	freeItems((void*)splitted, cols);
 	row_map[cols + 1] = NULL;
@@ -106,7 +107,7 @@ t_map	*ft_parseLine(char **splitted, size_t curr_row, size_t cols)
 t_point **ft_genMap(char *filename, size_t rows, size_t cols)
 {
 	t_point **map;
-	t_map	*row_map;
+	t_point	*row_map;
 	char *line;
 	int fd;
 	size_t i;
@@ -146,15 +147,15 @@ int	main(int ac, char **av)
 	// printf("%s \n", line);
 	map = ft_genMap(av[1], rows, cols);
 	close(fd);
-	printf("cols %zu\n", cols);	
-	printf("rows %zu\n", rows);	
+	printf("cols %zu\n", cols);
+	printf("rows %zu\n", rows);
 	mlx = mlx_init();
 
 	mlx_win = mlx_new_window(mlx, 720, 720, "Hello world!");
 	img.img = mlx_new_image(mlx, 720, 720);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 								&img.endian);
-	mappirize(&img, rows, cols, 0xFFFFFF);
+	// mappirize(&img, rows, cols, 0xFFFFFF);
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	mlx_loop(mlx);
 }

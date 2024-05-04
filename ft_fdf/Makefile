@@ -6,7 +6,7 @@
 #    By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/01 17:41:53 by ael-moha          #+#    #+#              #
-#    Updated: 2024/05/02 20:55:14 by ael-moha         ###   ########.fr        #
+#    Updated: 2024/05/04 20:27:22 by ael-moha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ $(LIBFT):
 	make -C $(LIBFT_DIR)
 
 clean:
+	$(MAKE) clean -C ./libft
 	$(RM) $(OBJS)
 fclean: clean
 	$(RM) $(NAME)

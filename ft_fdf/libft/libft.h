@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-moha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 23:44:44 by ael-moha          #+#    #+#             */
-/*   Updated: 2023/12/05 16:58:08 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/05/04 20:41:18 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int					ft_toupper(int c);
 int					ft_tolower(int c);
 int					ft_isascii(int c);
 int					ft_atoi(const char *str);
+int					ft_atoi_base(char *str, char *base);
 void				*ft_calloc(size_t count, size_t size);
 char				**ft_split(char const *s, char c);
 char				*ft_itoa(int n);
