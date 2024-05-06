@@ -6,7 +6,7 @@
 #    By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/01 17:41:53 by ael-moha          #+#    #+#              #
-#    Updated: 2024/05/04 20:27:22 by ael-moha         ###   ########.fr        #
+#    Updated: 2024/05/06 21:39:47 by ael-moha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,10 +32,10 @@ all: $(NAME)
 %.o: %.c
 	$(CC) $(CFLAGS) -Imlx -I/usr/include -Imlx_linux -O3 -c $< -o $@
 
-# $(NAME): $(OBJS) $(LIBFT)
-# 	$(CC) $(OBJS) $(LIBFT) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
-$(NAME): $(OBJS) $(LIBFT) $(MLX_LIB)
-	$(CC) $(OBJS) $(LIBFT) $(MLXFLAGS) $(X11_FLAGS) -o $(NAME)
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(OBJS) $(LIBFT) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+# $(NAME): $(OBJS) $(LIBFT) $(MLX_LIB)
+# 	$(CC) $(OBJS) $(LIBFT) $(MLXFLAGS) $(X11_FLAGS) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)

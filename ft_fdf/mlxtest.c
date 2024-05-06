@@ -93,11 +93,10 @@ t_point	*ft_parseLine(char **splitted, size_t curr_row, size_t cols)
 	row_map = (t_point*)malloc(sizeof(t_point*) * cols);
 	while (splitted[i])
 	{
-		point.x = i;
-		point.y = curr_row;
-		point.z = ft_atoi(splitted[i]);
-		point.color = ft_fetchColor(splitted[i]);
-		row_map[i] = point;
+		row_map[i].x = i;
+		row_map[i].y = curr_row;
+		row_map[i].z = ft_atoi(splitted[i]);
+		row_map[i].color = ft_fetchColor(splitted[i]);
 		i++;
 	}
 	freeItems((void*)splitted, cols);
