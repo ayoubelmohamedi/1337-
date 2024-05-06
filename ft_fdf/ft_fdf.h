@@ -49,10 +49,9 @@ char *getcolor(const char *line, int *i);
 
 
 //utils
-int         convert_hex(char *hex);
-char        *reverse(char *str);
-int         get_hexpos(char *hex, char c);
-char        *gethex(char *line,size_t *i);
+size_t ft_getcols(char *filename);
+size_t ft_getrows(char *filename);
+
 
 //to delete 
 void printTable(int **table, size_t rows, size_t cols);

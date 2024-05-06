@@ -13,7 +13,6 @@
 
 #include "ft_fdf.h"
 
-
 size_t ft_getrows(char *filename)
 {
 	size_t rows;
