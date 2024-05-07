@@ -11,6 +11,8 @@ typedef	struct s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int 	zoom;
+	int		offset;
 	t_point	**map;
 }	t_data;
 
@@ -22,33 +24,30 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
+
 void	mappirize(t_data *data, int rows, int cols, int color)
 {
 	char *dst;
-	// int offset = (y * line_length + x * (bits_per_pixel / 8));
 	size_t i, j;
 	int	new_x, new_y;
+	data->offset = data->line_length / 2;
 
 	i =0;
 	j =0;
-
 			
 	while (i < rows)
 	{
 		while (j < cols)
 		{
-			new_x = ((data->map[i][j].x  -data->map[i][j].z) * cos(30)) + 64; 
-			new_y =  (data->map[i][j].y + (data->map[i][j].x  + data->map[i][j].z) * sin(30)) + 64;
-
-			printf("new_x %d, new_y %d\n",new_x, new_y);
-			if (new_x > 0 && new_y > 0)	
-				my_mlx_pixel_put(data, new_x, new_y, 0xFFFFFF);
+			new_x = ((data->map[i][j].x  - data->map[i][j].y) * cos(0.523599)); 
+			new_y =  (data->map[i][j].x + (data->map[i][j].y) * sin(0.523599) - data->map[i][j].z);
+			if (new_x > 0 && new_y > 0)
+				my_mlx_pixel_put(data, new_x + data->offset, new_y + data->offset , 0xFFFFFF);
 			j++;
 		}
 		j = 0;
 		i++;
 	}
-			printf("I am in\n");
 }
 
 void	freeItems(void **item, size_t cols)
