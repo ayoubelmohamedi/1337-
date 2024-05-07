@@ -6,9 +6,13 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 20:36:56 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/05/04 20:40:27 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:37:20 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+
+#include "libft.h"
 
 
 static  int get_base_length(char *base)

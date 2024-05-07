@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 20:51:30 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/05/02 20:51:50 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:55:36 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ size_t ft_getrows(char *filename)
 	char *tmp;
 	int fd;
 
-	rows = 1;
+	rows = 0;
 	fd = open(filename, O_RDONLY);
 	line = get_next_line(fd);
 	while(line)

@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 18:38:24 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/05/04 20:53:15 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:16:23 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
+
+	i = 0;
 	while (s1[i] && s1[i] == s2[i] && i < n)
 		i++;
 	if (i == n)
