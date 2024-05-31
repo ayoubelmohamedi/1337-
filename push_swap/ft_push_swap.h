@@ -12,10 +12,6 @@ typedef struct s_stack
     struct s_stack *next;
 } t_stack;
 
-char	**ft_split(char const *s, char c);
-size_t	ft_strlen(const char *s);
-size_t  ft_stacklen(t_stack *stack);
-
 
 void    ft_sa(t_stack **stack);
 void	ft_pa(t_stack **stack_a, t_stack **stack_b);
@@ -29,10 +25,23 @@ void    ft_rrr(t_stack **stack_a, t_stack **stack_b);
 
 //helpers
 size_t	ft_strlen(const char *s);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+int     is_empty(t_stack *stack);
 char	**ft_split(char const *s, char c);
+long     ft_atoi(const char *str);
+char    *ft_strtok(char *str, char *delim);
+int     str_to_int(const char *str, int *result);
+
+//main
+void ft_parse_push(t_stack **stack, char *str);
+
+
+//stack helpers
 void    ft_rotate(t_stack **stack_a);
+size_t  ft_stacklen(t_stack *stack);
 void    push(t_stack **stack, int value);
 int     pop(t_stack **stack);
+void    ft_error(void);
 
 
 #endif

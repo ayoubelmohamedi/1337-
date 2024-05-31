@@ -38,7 +38,10 @@ void append(t_stack **stack, int value)
 
 int ft_isdigit(char c)
 {
-    return (c >= '0' && c <= '9');
+    int res;
+
+    res = c >= '0' && c <= '9'; 
+    return (res);
 }
 
 void ft_error(void)
@@ -47,7 +50,7 @@ void ft_error(void)
     exit(EXIT_FAILURE);
 }
 
-int ft_atoi2(const char *str)
+long ft_atoi(const char *str)
 {
     int mod;
     long long int i;
