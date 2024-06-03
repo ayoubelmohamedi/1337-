@@ -4,12 +4,25 @@
 
 void push(t_stack **stack, int value)
 {
-    t_stack *new_node = (t_stack *)malloc(sizeof(t_stack));
+    t_stack *new_node = ft_new_node(value);
     if (!new_node)
         return; // handle allocation failure appropriately
-    new_node->nbr = value;
     new_node->next = *stack;
     *stack = new_node;
+}
+
+void ft_push_back(t_stack **stack, int value)
+{
+    t_stack *node = ft_new_node(value);
+    if (*stack == NULL) {
+        *stack = node;
+    } else {
+        t_stack *current = *stack;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = node;
+    }
 }
 
 int pop(t_stack **stack)

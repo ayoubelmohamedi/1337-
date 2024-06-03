@@ -6,6 +6,8 @@
 
 void print_stack(t_stack *stack)
 {
+    printf("=============\n");
+    printf("printing stack\n");
     size_t i;
     
     i = 0;
@@ -28,35 +30,20 @@ int is_duplicate(t_stack *stack, int value) {
     return (0);
 }
 
-int str_to_int(const char *str, int *result) {
-    int res;
-    long val;
-    
-    val = ft_atoi(str);
-    res = val < INT_MIN || val > INT_MAX;  
-    *result = (int)val;
-    return (res);
-}
-
 void ft_parse_push(t_stack **stack, char *str)
 {
     char *tk;
     int val;
-
+ 
     tk = ft_strtok(str, " ");
+    if (tk == '\0')
+        (ft_free_stack(*stack), ft_error());
     while (tk)
     {
-        if (!str_to_int((const char *)tk, &val))
-        {
-            printf("str to int\n");
-            return (ft_error());
-        }
+        val = ft_atoi((const char *)tk, *stack);
         if (is_duplicate(*stack, val))
-        {
-            printf("str to int\n");
-            return (ft_error());
-        }
-        push(stack, val);
+            ft_error();
+        ft_push_back(stack, (int)val);
         tk = ft_strtok(NULL, " ");
     }
 }

@@ -17,9 +17,7 @@ void ft_rotate(t_stack **stack_a)
     }
     // 'current' is now the last element, and 'prev' is the second to last element
     if (prev != NULL)
-    {
         prev->next = NULL; // Remove the last element from its current position
-    }
     // Insert 'current' at the beginning of the stack
     current->next = *stack_a;
     *stack_a = current;

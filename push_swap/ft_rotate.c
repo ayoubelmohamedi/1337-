@@ -1,7 +1,6 @@
 
 #include "ft_push_swap.h"
 
-
 void ft_ra(t_stack **stack_a)
 {
     if (is_empty(*stack_a) || (*stack_a)->next == NULL)

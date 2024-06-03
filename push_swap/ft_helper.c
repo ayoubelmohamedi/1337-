@@ -1,7 +1,7 @@
 
 
 #include "ft_push_swap.h"
-
+#include <stdio.h>
 size_t ft_stacklen(t_stack *stack)
 {
     size_t size;
@@ -15,25 +15,13 @@ size_t ft_stacklen(t_stack *stack)
     return size;
 }
 
-void append(t_stack **stack, int value)
-{
-    t_stack *new_node;
+t_stack* ft_new_node(int value) {
+    t_stack *node;
     
-    new_node = (t_stack *)malloc(sizeof(t_stack));
-    if (!new_node)
-        return; // handle allocation failure appropriately
-    new_node->nbr = value;
-    new_node->next = NULL;
-    
-    if (*stack == NULL)
-        *stack = new_node;
-    else
-    {
-        t_stack *current = *stack;
-        while (current->next != NULL)
-            current = current->next;
-        current->next = new_node;
-    }
+    node = (t_stack*)malloc(sizeof(t_stack));
+    node->nbr = value;
+    node->next = NULL;
+    return (node);
 }
 
 int ft_isdigit(char c)
@@ -50,28 +38,50 @@ void ft_error(void)
     exit(EXIT_FAILURE);
 }
 
-long ft_atoi(const char *str)
+void ft_free_stack(t_stack *stack)
 {
-    int mod;
-    long long int i;
-
-    i = 0;
-    mod = 1;
-    while (*str == ' ' || *str == '\t' || *str == '\n' || *str == '\f'
-           || *str == '\v' || *str == '\r')
-           str++;
-    if (*str++ == '-')
-        mod = -1;
-    else if (*str == '+')
-        str++;
-    while (*str)
+    t_stack *tmp; 
+    
+    while (stack)
     {
-        if (!ft_isdigit(*str))
-            ft_error();
-        i = i * 10 + (*str - '0');
-        if ((mod * i) > INT_MAX || (mod * i) < INT_MIN)
-            ft_error();
-        str++;
+        tmp = stack;
+        stack = stack->next;
+        free(tmp);
     }
-    return (mod * i);
 }
+
+int   ft_atoi(const char *nbr, t_stack *stack)
+{
+	int			sign;
+	int			i;
+	long long	res;
+
+	sign = 1;
+	res = 0;
+	i = 0;
+	while (nbr[i] == '\t' || nbr[i] == '\n' || nbr[i] == '\v' || nbr[i] == ' ')
+		i++;
+	if (nbr[i] == '-' || nbr[i] == '+')
+	{
+		if (nbr[i] == '-')
+			sign *= -1;
+		i++;
+	}
+    if (nbr[i] < '0' || nbr[i] > '9')
+    {
+        printf("from here\n");
+        (ft_free_stack(stack), ft_error());
+    }
+	while (nbr[i] >= '0' && nbr[i] <= '9')
+    {
+		res = (res * 10) + (nbr[i++] - '0');
+        if (res > INT_MAX || res < INT_MIN || (nbr[i] != '\0' && (nbr[i] < '0' || nbr[i] > '9')))
+        {
+            printf("res => %lld\n", res);
+            printf("from here3\n");
+            (ft_free_stack(stack), ft_error());
+        }
+    }
+	return ((int)res * sign);
+}
+
