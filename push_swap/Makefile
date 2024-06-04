@@ -1,6 +1,6 @@
 
 
-CC = cc
+CC = cc -g
 CFLAGS = -Wall -Wextra -Werror
 SRC = ft_helper.c ft_push_ab.c ft_push_swap.c ft_reverse_rotate.c \
 		ft_rotate.c ft_split.c ft_helper2.c ft_swap_moves.c \

@@ -21,6 +21,7 @@ void print_stack(t_stack *stack)
 }
 
 int is_duplicate(t_stack *stack, int value) {
+    print_stack(stack);
     while (stack) {
         if (stack->nbr == value) {
             return 1;
@@ -36,14 +37,18 @@ void ft_parse_push(t_stack **stack, char *str)
     int val;
  
     tk = ft_strtok(str, " ");
-    if (tk == '\0')
+    if (!tk)
         (ft_free_stack(*stack), ft_error());
+    printf("tk => %s\n ",tk);
     while (tk)
     {
+        printf("here\n");
         val = ft_atoi((const char *)tk, *stack);
+        printf("val => %d\n ",val);
         if (is_duplicate(*stack, val))
             ft_error();
-        ft_push_back(stack, (int)val);
+        ft_push_back(stack, val);
+        print_stack(*stack);
         tk = ft_strtok(NULL, " ");
     }
 }
@@ -57,7 +62,11 @@ int main(int ac, char **av)
         ft_error();
     i = 1;
     while (av[i])
+    {
+        printf("nbr -> %s")
         ft_parse_push(&stk_a, av[i++]); 
+
+    }
     print_stack(stk_a);
     // t_stack n2stk = {15, NULL};
     // t_stack nextstk = {9 , &n2stk};

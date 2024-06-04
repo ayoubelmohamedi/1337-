@@ -10,9 +10,10 @@ void push(t_stack **stack, int value)
     new_node->next = *stack;
     *stack = new_node;
 }
-
+#include <stdio.h>
 void ft_push_back(t_stack **stack, int value)
 {
+    printf("inside stack\n");
     t_stack *node = ft_new_node(value);
     if (*stack == NULL) {
         *stack = node;
