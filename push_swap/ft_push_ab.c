@@ -13,12 +13,15 @@ void push(t_stack **stack, int value)
 #include <stdio.h>
 void ft_push_back(t_stack **stack, int value)
 {
-    printf("inside stack\n");
-    t_stack *node = ft_new_node(value);
+    printf("pushing value %d\n",value);
+    t_stack *current;
+    t_stack *node;
+    
+    node = ft_new_node(value);
     if (*stack == NULL) {
         *stack = node;
     } else {
-        t_stack *current = *stack;
+        current = *stack;
         while (current->next != NULL) {
             current = current->next;
         }
