@@ -75,8 +75,17 @@ int main(int ac, char **av)
         return (0);
     // sort_stack(&stack_a, &stack_b); 
     ft_pb(&stack_a, &stack_b);
+    ft_pb(&stack_a, &stack_b);
     printf("---------\n");
     print_stack(stack_a);
+    printf("----stack_b-----\n");
+    print_stack(stack_b);
+    printf("----going back-----\n");
+    ft_pa(&stack_a, &stack_b);
+    ft_pa(&stack_a, &stack_b);
+    printf("stack_a\n");
+    print_stack(stack_a);
+
     (ft_free_stack(stack_a), ft_free_stack(stack_b));
     return (0);
 }
