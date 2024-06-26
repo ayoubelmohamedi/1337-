@@ -33,21 +33,13 @@ static int ft_getmin(t_stack *stack, int val)
 
 void sort_4(t_stack **stack_a, t_stack **stack_b)
 {
-	printf("sorting 4\n");
-
 	int	distance;
 
 	if (is_sorted(*stack_a))
 		return ;
 	distance = ft_getdistance(*stack_a, ft_getmin(*stack_a, -1));
-	printf("distance => %d \n", distance);
 	if (distance == 1)
-	{
 		ft_ra(stack_a);
-		printf("after swap\n");
-		print_stack(*stack_a);	
-		printf("---------\n");
-	}
 	else if (distance == 2)
 	{
 		ft_ra(stack_a);
@@ -58,17 +50,12 @@ void sort_4(t_stack **stack_a, t_stack **stack_b)
 	if (is_sorted(*stack_a))
 		return ;
 	ft_pb(stack_a, stack_b);
-	printf("---------\n");	
 	sort_3(stack_a);
-	printf("sorting...\n");
-	print_stack(*stack_a);
 	ft_pa(stack_a, stack_b);
-	printf("-----DONE------");
 }
 
 void sort_5(t_stack **stack_a, t_stack **stack_b)
 {
-	printf("sorting 5\n");
 	int	distance;
 
 	distance = ft_getdistance(*stack_a, getmin(*stack_a));
