@@ -43,6 +43,9 @@ void    sort_3(t_stack **stack_a);
 void	sort_4(t_stack **stack_a, t_stack **stack_b);
 void	sort_5(t_stack **stack_a, t_stack **stack_b);
 
+//tobe deleted
+void print_stack(t_stack *stack);
+
 //main
 void ft_parse_push(t_stack **stack, char *str);
 

@@ -2,6 +2,8 @@
 
 #include "ft_push_swap.h"
 
+#include <stdio.h>
+
 void push(t_stack **stack, int value)
 {
     // t_stack *new_node;
@@ -13,7 +15,6 @@ void push(t_stack **stack, int value)
     // *stack = new_node;
     ft_push_back(stack, value);
 }
-#include <stdio.h>
 void ft_push_back(t_stack **stack, int value)
 {
     t_stack *current;
@@ -34,7 +35,7 @@ void ft_push_back(t_stack **stack, int value)
 int pop(t_stack **stack)
 {
     if (is_empty(*stack))
-        return 0; // or handle empty stack appropriately
+        return 0;
     t_stack *top = *stack;
     int value = top->nbr;
     *stack = top->next;
