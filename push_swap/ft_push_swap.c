@@ -10,9 +10,10 @@ void print_stack(t_stack *stack)
     i = 0;
     while (stack)
     {
-        printf("%zu -> stack %d\n", i, stack->nbr);
+        printf("%zu -> stack %d ", i, stack->nbr);
         stack = stack->next;
         i++;
+        printf("\n");
     }
     stack -= i;
 }
@@ -61,9 +62,14 @@ int main(int ac, char **av)
     stack_b = NULL;
     while (av[i])
         ft_parse_push(&stack_a, av[i++]); 
+    // ft_radix_sort(&stack_a, &stack_b);
     // print_stack(stack_a);
-    ft_radix_sort(&stack_a, &stack_b);
-    // print_stack(stack_a);
+    // int res = is_sorted(stack_a);
+    // int dst = ft_getdistance(stack_a, 5);
+    ft_custom_sort(&stack_a, &stack_b);
+    // printf("distance to 5 is %d\n", dst);
+    // printf("is sorted %d\n", res);
+    print_stack(stack_a);
     // t_stack n2stk = {15, NULL};
     // t_stack nextstk = {9 , &n2stk};
     // t_stack stk = {11, &nextstk};

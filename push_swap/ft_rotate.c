@@ -7,7 +7,7 @@ void ft_ra(t_stack **stack_a)
         return;
     // Remove the first element
     int first_value = pop(stack_a); 
-    push(stack_a, first_value);
+    ft_push_back(stack_a, first_value);
     write(1,"ra\n",3);
 }
 
@@ -16,7 +16,7 @@ void ft_rb(t_stack **stack_b)
     if (is_empty(*stack_b) || (*stack_b)->next == NULL)
         return;
     int first_value = pop(stack_b); 
-    push(stack_b, first_value);
+    ft_push_back(stack_b, first_value);
     write(1,"rb\n",3);
 }
 

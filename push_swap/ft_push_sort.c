@@ -61,5 +61,3 @@ void    ft_radix_sort(t_stack **stk_a, t_stack **stk_b)
         i++;
     }
 }
-
-

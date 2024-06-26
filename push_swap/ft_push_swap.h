@@ -31,8 +31,17 @@ int     ft_atoi(const char *nbr, t_stack *stack);
 char    *ft_strtok(char *str, char *delim);
 int     str_to_int(const char *str, int *result);
 
+//utils
+int is_sorted(t_stack *stack);
+int ft_getdistance(t_stack *stack, int val);
+
+
 //sort
+void    ft_custom_sort(t_stack **stk_a, t_stack **stk_b);
 void    ft_radix_sort(t_stack **stk_a, t_stack **stk_b);
+void    sort_3(t_stack **stack_a);
+void	sort_4(t_stack **stack_a, t_stack **stack_b);
+void	sort_5(t_stack **stack_a, t_stack **stack_b);
 
 //main
 void ft_parse_push(t_stack **stack, char *str);
@@ -46,7 +55,6 @@ void    push(t_stack **stack, int value);
 int     pop(t_stack **stack);
 void    ft_error(void);
 void    ft_free_stack(t_stack *stack);
-
 
 
 #endif
