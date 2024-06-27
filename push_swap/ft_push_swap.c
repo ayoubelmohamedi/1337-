@@ -62,7 +62,7 @@ int main(int ac, char **av)
     t_stack *stack_b;
 
     if (ac <= 1)
-        ft_error();
+        return (-1); 
     i = 1;
     stack_a = NULL;
     stack_b = NULL;
