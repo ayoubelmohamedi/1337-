@@ -47,7 +47,7 @@ void    ft_radix_sort(t_stack **stk_a, t_stack **stk_b)
     while (i < max_bits)
     {
         j = 0;
-        while (j < size && stk_a)
+        while (j < size)
         {
             h_a = *stk_a;
             if (((h_a->nbr >> i) & 1) == 1)
