@@ -1,6 +1,7 @@
 
 #include "ft_push_swap.h"
 #include <stdio.h>
+
 size_t ft_stacklen(t_stack *stack)
 {
     size_t size;
@@ -19,6 +20,7 @@ t_stack* ft_new_node(int value) {
     
     node = (t_stack*)malloc(sizeof(t_stack));
     node->nbr = value;
+    node->index = -1;
     node->next = NULL;
     return (node);
 }
