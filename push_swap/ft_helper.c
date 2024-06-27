@@ -58,7 +58,7 @@ int   ft_atoi(const char *nbr, t_stack *stack)
 	sign = 1;
 	res = 0;
 	i = 0; 
-	while (nbr[i] == '\t' || nbr[i] == '\n' || nbr[i] == '\v' || nbr[i] == ' ')
+	while (nbr[i] == '\t' || nbr[i] == '\n' || nbr[i] == ' ')
 		i++;
 	if (nbr[i] == '-' || nbr[i] == '+')
 	{
@@ -76,7 +76,7 @@ int   ft_atoi(const char *nbr, t_stack *stack)
         if ((res > INT_MAX || res < INT_MIN) && !(nbr[i] >= '0' && nbr[i] <= '9'))
             (ft_free_stack(stack), ft_error());
     }
-    if (!(nbr[i] == '\t' || nbr[i] == '\n' || nbr[i] == '\v' || nbr[i] == ' ' || nbr[i] == '\0'))
+    if (!(nbr[i] == '\t' || nbr[i] == '\n' || nbr[i] == ' ' || nbr[i] == '\0'))
     {
         (ft_free_stack(stack), ft_error());
     }
