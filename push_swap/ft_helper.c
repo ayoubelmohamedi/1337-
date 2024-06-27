@@ -51,14 +51,13 @@ void ft_free_stack(t_stack *stack)
 
 int   ft_atoi(const char *nbr, t_stack *stack)
 {
-    // printf("inside atoi for nbr => %s\n", nbr);
 	int			sign;
 	int			i;
 	long long	res;
 
 	sign = 1;
 	res = 0;
-	i = 0;
+	i = 0; 
 	while (nbr[i] == '\t' || nbr[i] == '\n' || nbr[i] == '\v' || nbr[i] == ' ')
 		i++;
 	if (nbr[i] == '-' || nbr[i] == '+')
@@ -76,6 +75,10 @@ int   ft_atoi(const char *nbr, t_stack *stack)
 		res = (res * 10) + (nbr[i++] - '0');
         if ((res > INT_MAX || res < INT_MIN) && !(nbr[i] >= '0' && nbr[i] <= '9'))
             (ft_free_stack(stack), ft_error());
+    }
+    if (!(nbr[i] == '\t' || nbr[i] == '\n' || nbr[i] == '\v' || nbr[i] == ' ' || nbr[i] == '\0'))
+    {
+        (ft_free_stack(stack), ft_error());
     }
 	return ((int)res * sign);
 }
