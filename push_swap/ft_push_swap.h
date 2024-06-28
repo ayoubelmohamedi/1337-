@@ -8,7 +8,8 @@
 
 typedef struct s_stack
 {
-    int nbr;
+    int     nbr;
+    int     index;
     struct s_stack *next;
 } t_stack;
 
@@ -34,6 +35,7 @@ int     str_to_int(const char *str, int *result);
 //utils
 int is_sorted(t_stack *stack);
 int ft_getdistance(t_stack *stack, int val);
+void	index_stack(t_stack **stack);
 
 
 //sort
