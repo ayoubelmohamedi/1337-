@@ -39,6 +39,7 @@ void	index_stack(t_stack **stack);
 
 
 //sort
+int     ft_getmin(t_stack *stack, int val);
 void    ft_custom_sort(t_stack **stk_a, t_stack **stk_b);
 void    ft_radix_sort(t_stack **stk_a, t_stack **stk_b);
 void    sort_3(t_stack **stack_a);

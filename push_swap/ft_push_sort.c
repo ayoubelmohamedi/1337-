@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 15:11:07 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/06/06 18:45:54 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/06/28 21:26:38 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static int ft_max_bits(t_stack **stack)
     int  max_bits;
 
     head = *stack;
-    max = head->nbr;
+    max = head->index;
     max_bits = 0;
     while (head)
     {
-        if (head->nbr > max)
-            max = head->nbr;
+        if (head->index > max)
+            max = head->index;
         head = head->next;
     }
     while ((max >> max_bits) != 0)
@@ -44,20 +44,19 @@ void    ft_radix_sort(t_stack **stk_a, t_stack **stk_b)
     i = 0;
     size = ft_stacklen(*stk_a);
     max_bits = (size_t)ft_max_bits(stk_a);
-    while (i < max_bits)
+    h_a = *stk_a;
+    while (i++ < max_bits)
     {
         j = 0;
-        while (j < size)
+        while (j++ < size)
         {
             h_a = *stk_a;
-            if (((h_a->nbr >> i) & 1) == 1)
+            if (((h_a->index >> i) & 1) == 1)
                 ft_ra(stk_a);
             else
                 ft_pb(stk_a, stk_b);
-            j++;
         }
         while (ft_stacklen(*stk_b) != 0)
             ft_pa(stk_a, stk_b);
-        i++;
     }
 }
