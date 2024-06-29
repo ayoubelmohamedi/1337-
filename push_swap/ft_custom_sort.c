@@ -68,22 +68,22 @@ void sort_3(t_stack **stack_a)
 		return ;
 	min = ft_getmin(*stack_a, -1);
 	next_min = ft_getmin(*stack_a, min);
-	if (head->index == min && head->next->nbr != next_min)
+	if (head->index == min && head->next->index != next_min)
 	{
 		ft_ra(stack_a);
 		ft_sa(stack_a);
 		ft_rra(stack_a);
 	}
-	else if (head->nbr == next_min)
+	else if (head->index == next_min)
 	{
-		if (head->next->nbr == min)
+		if (head->next->index == min)
 			ft_sa(stack_a);
 		else
 			ft_rra(stack_a);
 	}
 	else
 	{
-		if (head->next->nbr == min)
+		if (head->next->index == min)
 			ft_ra(stack_a);
 		else
 		{
