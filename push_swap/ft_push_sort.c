@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 15:11:07 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/06/28 21:26:38 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/06/30 17:05:52 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,21 @@ void    ft_radix_sort(t_stack **stk_a, t_stack **stk_b)
     size = ft_stacklen(*stk_a);
     max_bits = (size_t)ft_max_bits(stk_a);
     h_a = *stk_a;
-    while (i++ < max_bits)
+    while (i < max_bits)
     {
         j = 0;
         while (j++ < size)
         {
             h_a = *stk_a;
             if (((h_a->index >> i) & 1) == 1)
+            {
                 ft_ra(stk_a);
+            }
             else
                 ft_pb(stk_a, stk_b);
         }
         while (ft_stacklen(*stk_b) != 0)
             ft_pa(stk_a, stk_b);
+        i++;
     }
 }

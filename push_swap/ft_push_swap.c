@@ -1,7 +1,7 @@
 
 
 #include "ft_push_swap.h"
-#include "stdio.h"
+#include <stdio.h>
 
 void print_stack(t_stack *stack)
 {
@@ -74,9 +74,8 @@ int main(int ac, char **av)
     if (is_sorted(stack_a) && (ft_free_stack(stack_a), 1))
         return (0);
     index_stack(&stack_a);
-    print_stack(stack_a);
     sort_stack(&stack_a, &stack_b); 
-    print_stack(stack_a);
+    // print_stack(stack_a);
     (ft_free_stack(stack_a), ft_free_stack(stack_b));
     return (0);
 }

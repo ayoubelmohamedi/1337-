@@ -2,8 +2,6 @@
 
 #include "ft_push_swap.h"
 
-#include <stdio.h>
-
 void push(t_stack **stack, int value)
 {
     t_stack *new_node;
@@ -48,8 +46,10 @@ void	ft_pa(t_stack **stack_a, t_stack **stack_b)
     
     if (is_empty(*stack_b))
         return; 
+    int index = (*stack_b)->index;
     val = pop(stack_b);
     push(stack_a, val);
+    (*stack_a)->index = index;
     write(1,"pa\n",3);
 }
 
@@ -59,8 +59,10 @@ void    ft_pb(t_stack **stack_a, t_stack **stack_b)
 
     if (is_empty(*stack_a))
         return ;
+    int index = (*stack_a)->index;
     val = pop(stack_a);
     push(stack_b, val);
+    (*stack_b)->index = index;
     write(1,"pb\n",3);
 
 }   

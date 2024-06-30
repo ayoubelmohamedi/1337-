@@ -1,7 +1,16 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_sorting.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/30 16:00:17 by ael-moha          #+#    #+#             */
+/*   Updated: 2024/06/30 16:00:21 by ael-moha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_push_swap.h"
-
 
 int ft_getmin(t_stack *stack, int val)
 {
@@ -10,11 +19,11 @@ int ft_getmin(t_stack *stack, int val)
 
     head = stack;
     min = head->index;
-    while (head)
+    while (head->next)
     {
         head = head->next;
-        if (head && head->index < min && head->index != val)
-            min = head->index;
+        if ((head->index < min) && head->index != val)
+            min = head->index; 
     }
     return (min);
 }
@@ -44,8 +53,8 @@ int ft_getdistance(t_stack *stack, int val)
    {
        if (head->index == val)
            break;
-       head = head->next;
        distance++;
+       head = head->next;
    }
    return (distance);
 }

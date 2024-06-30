@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 16:39:57 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/06/28 18:08:11 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/06/30 17:03:56 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static t_stack  *ft_next_min(t_stack **stack)
         min->index = 1;
     return (min);
 }
+
 
 void	index_stack(t_stack **stack)
 {

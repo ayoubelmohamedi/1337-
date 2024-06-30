@@ -2,16 +2,45 @@
 
 #include "ft_push_swap.h"
 
+void sort_3(t_stack **stack_a)
+{
+    t_stack	*head;
+	int		min;
+	int		next_min;
 
-
-
-
-#include <stdio.h>
-
+	head = *stack_a;
+	if (is_sorted(*stack_a))
+		return ;
+	min = ft_getmin(*stack_a, -1);
+	next_min = ft_getmin(*stack_a, min);	
+	
+	if (head->index == min && head->next->index != next_min)
+	{
+		ft_ra(stack_a);
+		ft_sa(stack_a);
+		ft_rra(stack_a);
+	}
+	else if (head->index == next_min)
+	{
+		if (head->next->index == min)
+			ft_sa(stack_a);
+		else
+			ft_rra(stack_a);
+	}
+	else
+	{
+		if (head->next->index == min)
+			ft_ra(stack_a);
+		else
+		{
+			ft_sa(stack_a);
+			ft_rra(stack_a);
+		}
+	}
+}
 void sort_4(t_stack **stack_a, t_stack **stack_b)
 {
 	int	distance;
-
 	if (is_sorted(*stack_a))
 		return ;
 	distance = ft_getdistance(*stack_a, ft_getmin(*stack_a, -1));
@@ -57,49 +86,13 @@ void sort_5(t_stack **stack_a, t_stack **stack_b)
 	ft_pa(stack_a, stack_b);
 }
 
-void sort_3(t_stack **stack_a)
-{
-    t_stack	*head;
-	int		min;
-	int		next_min;
-
-	head = *stack_a;
-	if (is_sorted(*stack_a))
-		return ;
-	min = ft_getmin(*stack_a, -1);
-	next_min = ft_getmin(*stack_a, min);
-	if (head->index == min && head->next->index != next_min)
-	{
-		ft_ra(stack_a);
-		ft_sa(stack_a);
-		ft_rra(stack_a);
-	}
-	else if (head->index == next_min)
-	{
-		if (head->next->index == min)
-			ft_sa(stack_a);
-		else
-			ft_rra(stack_a);
-	}
-	else
-	{
-		if (head->next->index == min)
-			ft_ra(stack_a);
-		else
-		{
-			ft_sa(stack_a);
-			ft_rra(stack_a);
-		}
-	}
-}
-
 void ft_custom_sort(t_stack **stk_a, t_stack **stk_b)
 {
     size_t size;
 
-    if (is_sorted(*stk_a) || ft_stacklen(*stk_a) == 0)
+	size = ft_stacklen(*stk_a);
+    if (is_sorted(*stk_a) || size == 0 || size == 1)
         return ;
-    size = ft_stacklen(*stk_a);
     if (size == 2)
         ft_sa(stk_a);
     else if (size == 3)

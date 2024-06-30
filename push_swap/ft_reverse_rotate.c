@@ -4,21 +4,18 @@
 void ft_rotate(t_stack **stack_a)
 {
     if (is_empty(*stack_a) || (*stack_a)->next == NULL)
-        return; // Do nothing if stack_a is empty or has only one element
+        return; 
 
     t_stack *prev = NULL;
     t_stack *current = *stack_a;
 
-    // Traverse to the end of the stack
     while (current->next != NULL)
     {
         prev = current;
         current = current->next;
     }
-    // 'current' is now the last element, and 'prev' is the second to last element
     if (prev != NULL)
-        prev->next = NULL; // Remove the last element from its current position
-    // Insert 'current' at the beginning of the stack
+        prev->next = NULL; 
     current->next = *stack_a;
     *stack_a = current;
 }

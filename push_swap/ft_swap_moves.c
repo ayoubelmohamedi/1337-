@@ -8,7 +8,6 @@ static void ft_swap(t_stack **stack)
 
    if (stack && *stack && (*stack)->next)
     {
-        // Swap the values of the top two elements
         val = (*stack)->nbr;
         (*stack)->nbr = (*stack)->next->nbr;
         (*stack)->next->nbr = val;

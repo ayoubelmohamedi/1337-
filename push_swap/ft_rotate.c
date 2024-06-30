@@ -1,13 +1,28 @@
 
 #include "ft_push_swap.h"
 
+t_stack	*ft_lstlast(t_stack *head)
+{
+	t_stack	*tmp;
+
+	tmp = head;
+	while (tmp->next)
+	{
+		tmp = tmp->next;
+		if (tmp->next == NULL)
+			return (tmp);
+	}
+	return (tmp);
+}
+
 void ft_ra(t_stack **stack_a)
 {
     if (is_empty(*stack_a) || (*stack_a)->next == NULL)
         return;
-    // Remove the first element
+    int index = (*stack_a)->index;
     int first_value = pop(stack_a); 
     ft_push_back(stack_a, first_value);
+    ft_lstlast(*stack_a)->index = index;
     write(1,"ra\n",3);
 }
 
@@ -15,8 +30,10 @@ void ft_rb(t_stack **stack_b)
 {
     if (is_empty(*stack_b) || (*stack_b)->next == NULL)
         return;
+    int index = (*stack_b)->index;
     int first_value = pop(stack_b); 
     ft_push_back(stack_b, first_value);
+    ft_lstlast(*stack_b)->index = index;
     write(1,"rb\n",3);
 }
 

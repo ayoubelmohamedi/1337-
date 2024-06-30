@@ -54,6 +54,7 @@ void ft_parse_push(t_stack **stack, char *str);
 
 //stack helpers
 t_stack* ft_new_node(int value);
+t_stack	*ft_lstlast(t_stack *head);
 void    ft_push_back(t_stack **stack, int value);
 void    ft_rotate(t_stack **stack_a);
 size_t  ft_stacklen(t_stack *stack);
