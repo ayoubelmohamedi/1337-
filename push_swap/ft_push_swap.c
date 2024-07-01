@@ -1,81 +1,73 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_push_swap.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/01 08:16:46 by ael-moha          #+#    #+#             */
+/*   Updated: 2024/07/01 08:57:45 by ael-moha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_push_swap.h"
-#include <stdio.h>
 
-void print_stack(t_stack *stack)
+int	is_duplicate(t_stack *stack, int value)
 {
-    size_t i;
-    t_stack *head; 
-
-    i = 0;
-    head = stack;
-
-    while (head)
-    {
-        printf("%zu -> index stack %d ", i, head->index);
-        printf("%zu -> stack %d ", i, head->nbr);
-        head = head->next;
-        i++;
-        printf("\n");
-    }
+	while (stack)
+	{
+		if (stack->nbr == value)
+		{
+			return (1);
+		}
+		stack = stack->next;
+	}
+	return (0);
 }
 
-int is_duplicate(t_stack *stack, int value)
+void	ft_parse_push(t_stack **stack, char *str)
 {
-    while (stack) {
-        if (stack->nbr == value) {
-            return 1;
-        }
-        stack = stack->next;
-    }
-    return (0);
+	char	*tk;
+	int		val;
+
+	tk = ft_strtok(str, " ");
+	if (!tk)
+		(ft_free_stack(*stack), ft_error());
+	while (tk)
+	{
+		val = ft_atoi((const char *)tk, *stack);
+		if (is_duplicate(*stack, val))
+			ft_error();
+		ft_push_back(stack, val);
+		tk = ft_strtok(NULL, " ");
+	}
 }
 
-void ft_parse_push(t_stack **stack, char *str)
+static void	sort_stack(t_stack **stack_a, t_stack **stack_b)
 {
-    char *tk;
-    int val;
- 
-    tk = ft_strtok(str, " ");
-    if (!tk)
-        (ft_free_stack(*stack), ft_error());
-    while (tk)
-    {
-        val = ft_atoi((const char *)tk, *stack);
-        if (is_duplicate(*stack, val))
-            ft_error();
-        ft_push_back(stack, val);
-        tk = ft_strtok(NULL, " ");
-    }
+	if (ft_stacklen(*stack_a) <= 5)
+		ft_custom_sort(stack_a, stack_b);
+	else
+		ft_radix_sort(stack_a, stack_b);
 }
 
-static void sort_stack(t_stack **stack_a, t_stack **stack_b)
+int	main(int ac, char **av)
 {
-    if (ft_stacklen(*stack_a) <= 5)
-        ft_custom_sort(stack_a, stack_b);
-    else
-        ft_radix_sort(stack_a, stack_b);
-}
+	size_t	i;
+	t_stack	*stack_a;
+	t_stack	*stack_b;
 
-int main(int ac, char **av)
-{
-    size_t i;
-    t_stack *stack_a;
-    t_stack *stack_b;
-
-    if (ac <= 1)
-        return (-1); 
-    i = 1;
-    stack_a = NULL;
-    stack_b = NULL;
-    while (av[i])
-        ft_parse_push(&stack_a, av[i++]); 
-    if (is_sorted(stack_a) && (ft_free_stack(stack_a), 1))
-        return (0);
-    index_stack(&stack_a);
-    sort_stack(&stack_a, &stack_b); 
-    // print_stack(stack_a);
-    (ft_free_stack(stack_a), ft_free_stack(stack_b));
-    return (0);
+	if (ac <= 1)
+		return (-1);
+	i = 1;
+	stack_a = NULL;
+	stack_b = NULL;
+	while (av[i])
+		ft_parse_push(&stack_a, av[i++]);
+	if (is_sorted(stack_a) && (ft_free_stack(stack_a), 1))
+		return (0);
+	index_stack(&stack_a);
+	sort_stack(&stack_a, &stack_b);
+	(ft_free_stack(stack_a), ft_free_stack(stack_b));
+	return (0);
 }

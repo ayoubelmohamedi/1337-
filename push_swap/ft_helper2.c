@@ -1,16 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_helper2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-moha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 23:23:05 by ael-moha          #+#    #+#             */
-/*   Updated: 2023/11/19 18:40:46 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/07/01 09:07:32 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
+
+int	is_empty(t_stack *stack)
+{
+	return (stack == NULL);
+}
 
 size_t	ft_strlen(const char *s)
 {
