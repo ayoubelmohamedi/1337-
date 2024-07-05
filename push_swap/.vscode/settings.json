@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "ft_push_swap.h": "c"
     },
       "[c]": {
         "editor.defaultFormatter": "keyhr.42-c-format"
