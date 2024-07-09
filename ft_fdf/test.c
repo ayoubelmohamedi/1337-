@@ -9,25 +9,26 @@ int main(int ac, char **argv)
         // return (1);
     // int colors  = hascolor(argv[1]);
 
-    
-    int tot = hascolor("maps/test_maps/mytest.fdf");  
-    char *line = "1,0x110202 2,0x210202 3,0x310202 4,0x410202 5,0x510202 6,0x610202";
-    int i = 0;
-    while (line[i])
-    {
-        printf("line[%d] => %c\n", i, line[i]);
-        if (line[i] == ',')
-            printf("getcolor = %s\n", getcolor((const char *)line, &i));
-        i++;
-    }
-    printf("I IS => %d\n", i);
-    
-    char *colr = getcolor((const char*)line,&i);
-    // printf("i is now %d, line[i] is %c\n", i, line[i]);
-    printf("I AFTER IS => %d\n", i);
 
-    printf("mytest has %d colors\n", tot);
-    printf("color is %s\n", colr);
+    
+    // int tot = hascolor("maps/test_maps/mytest.fdf");  
+    // char *line = "1,0x110202 2,0x210202 3,0x310202 4,0x410202 5,0x510202 6,0x610202";
+    // int i = 0;
+    // while (line[i])
+    // {
+    //     printf("line[%d] => %c\n", i, line[i]);
+    //     if (line[i] == ',')
+    //         printf("getcolor = %s\n", getcolor((const char *)line, &i));
+    //     i++;
+    // }
+    // printf("I IS => %d\n", i);
+    
+    // char *colr = getcolor((const char*)line,&i);
+    // // printf("i is now %d, line[i] is %c\n", i, line[i]);
+    // printf("I AFTER IS => %d\n", i);
+
+    // printf("mytest has %d colors\n", tot);
+    // printf("color is %s\n", colr);
     
     // printf("file %s has %d colored point\n",argv[1], colors);
     

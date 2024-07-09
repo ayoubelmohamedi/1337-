@@ -3,6 +3,7 @@
 
 //to remove
 #include <stdio.h>
+#include <unistd.h>
 
 #include <fcntl.h>
 #include <stdlib.h>
@@ -55,7 +56,8 @@ size_t ft_getrows(char *filename);
 // int		ft_fetchColor(char *text);
 
 //to delete 
-void printTable(int **table, size_t rows, size_t cols);
+void printTable(t_point **table, size_t rows, size_t cols);
+void print_row(t_point **table, size_t rows, size_t cols);
 void freeTable(int **table, char * filename);
 char *parsedcolors(t_point * points, size_t cols,size_t rows);
 

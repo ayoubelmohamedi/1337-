@@ -82,7 +82,7 @@ size_t ft_countlines(char *filename)
 //     return (0);
 // }
 
-void printTable(int **table, size_t rows, size_t cols)
+void printTable(t_point **table, size_t rows, size_t cols)
 {
     size_t i;
     size_t r;
@@ -91,46 +91,49 @@ void printTable(int **table, size_t rows, size_t cols)
     i = 0;
     r = 0;
     max = rows * cols;
-    while (i < max && r < rows)
+    while (r < rows)
     {
-        printf("r is %zu , i is %zu | output is %d\n",r, i,table[r][i]);
         // printf("%d  | ",table[r][i]);
-        if (i == cols)
-        {
-            if (r != rows)
-                printf("\n === === === === === ===\n");
-            max -= i;
-            i = -1;
-            r++;
-        }
-        i++;
-    }
-}
-
-void freeTable(int **table, char * filename)
-{
-    char *row;
-    char *tmp;
-    int fd;
-    size_t cols;
-    size_t i = 0;
-    size_t j = 0;
-
-    fd = open(filename, O_RDONLY);
-    row = get_next_line(fd);
-    cols = ft_colcount(row, ' ');
-    while (row)
-    {
-        tmp = row;
-        while (j < cols)
-            free(&table[i][j++]);
-        j = 0;
-        free(&table[i++]);
+        while (i < cols)
+            printf("%d ", table[r][i++].z);
         printf("\n");
-        row = get_next_line(fd);
-        free(tmp);
+        i = 0;
+        r++;
     }
-    free(row);
-    close(fd);
 }
+
+
+void print_row(t_point **table, size_t rows, size_t cols)
+{
+    for (int i = 0; i < 7; i++)
+        printf("%d ", table[9][i].z);
+    printf("\n");
+}
+
+// void freeTable(int **table, char * filename)
+// {
+//     char *row;
+//     char *tmp;
+//     int fd;
+//     size_t cols;
+//     size_t i = 0;
+//     size_t j = 0;
+
+//     fd = open(filename, O_RDONLY);
+//     row = get_next_line(fd);
+//     cols = ft_colcount(row, ' ');
+//     while (row)
+//     {
+//         tmp = row;
+//         while (j < cols)
+//             free(&table[i][j++]);
+//         j = 0;
+//         free(&table[i++]);
+//         printf("\n");
+//         row = get_next_line(fd);
+//         free(tmp);
+//     }
+//     free(row);
+//     close(fd);
+// }
    

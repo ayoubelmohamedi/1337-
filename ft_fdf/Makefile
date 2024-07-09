@@ -12,11 +12,11 @@
 
 #include => $(NAME), all, clean, fclean and re
 
-NAME = fdf
+NAME = fdf.out
 ## to add -Wall -Wextra -Werror  
 CC = cc
 CFLAGS = -g -O3 
-SRCS = mlxtest.c get_next_line_bonus.c ft_helper.c
+SRCS = mlxtest.c get_next_line_bonus.c ft_helper.c ft_fdf.c
 
 OBJS = ${SRCS:.c=.o}
 RM 	 = rm -rf
