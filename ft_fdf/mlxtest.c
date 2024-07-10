@@ -179,6 +179,8 @@ int	main(int ac, char **av)
 	img.map = map;
 	img.angle = 0.523599; 
 	img.zoom = 4;
+	img.cols = cols;
+	img.rows = rows;
 	mappirize(&img, rows, cols, 0xFFFFFF);
 	printTable(map, rows, cols);
 
