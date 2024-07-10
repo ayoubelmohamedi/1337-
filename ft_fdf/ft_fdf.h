@@ -29,6 +29,25 @@ typedef struct s_color
     int color;
 } t_color;
 
+typedef	struct s_data
+{
+	void	*mlx;
+	void 	*win;
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	int 	zoom;
+	int 	width;
+	int		height;	
+	int		offset;
+	float 	angle;
+	size_t	cols;
+	size_t	rows;
+	t_point	**map;
+}	t_data;
+
 size_t      ft_colcount(const char *s, char c);
 int         *ft_split_int(const char *str, size_t cols);
 size_t      ft_countlines(char *filename);
@@ -40,6 +59,10 @@ int		ft_strchr_bool(char *s, int c);
 
 t_point *coordinatesTable(int ** table, size_t col, size_t row);
 int     **make_table(char *filename,size_t *rows, size_t *cols);
+
+
+//mapirize 
+void	mappirize(t_data *data, size_t rows, size_t cols, int color);
 
 //colorize
 // void    colorize(t_point *points,t_color * colors, size_t rows, size_t cols, char * filename)

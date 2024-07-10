@@ -4,17 +4,35 @@
 
 #include "ft_fdf.h"
 
-typedef	struct s_data
-{
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-	int 	zoom;
-	int		offset;
-	t_point	**map;
-}	t_data;
+int key_press(int keycode, t_data *data) {
+    printf("Key code: %d\n", keycode);
+	if (keycode == 65307)
+	{
+		mlx_destroy_image(data->mlx, data->img);
+		mlx_destroy_window(data->mlx,data->win);
+		// exit(0);
+	}
+	//up-down arrow
+	if (keycode == 65362)
+	{	
+		data->zoom += 1;
+		if (data->img)
+			mlx_destroy_image(data->mlx,data->img);	
+		data->img = mlx_new_image(data->mlx, data->width, data->height);
+		mappirize(data, data->rows, data->cols, 0xFFFFFF);		
+		// mlx_put_image_to_window(data->mlx, data->win, data->img, data->width, data->height);	
+		// mlx_loop(data->mlx);	
+	}
+	else if (keycode == 65364 && data->zoom > 1)
+	{
+		data->zoom -= 1;
+		// mlx_destroy_image(data->win,data->img);	
+		// mlx_new_image(data->img, data->width, data->height);
+		// mlx_loop(data->mlx);
+	}
+    return (0);
+}
+
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -24,19 +42,23 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;	
 }
 
-int get_min(int **table)
-{
-	int min;
-
-
-	return (min);
+double arcsin(double x) {
+    if (x < -1 || x > 1) {
+        // Input value is out of range
+        return NAN;
+    }
+    return atan(x / sqrt(1 - x * x));
 }
 
-void	mappirize(t_data *data, int rows, int cols, int color)
+void	mappirize(t_data *data, size_t rows, size_t cols, int color)
 {
 	char *dst;
 	size_t i, j;
 	int	new_x, new_y;
+	float		teta = data->angle;
+	printf("teta from data->angle => %f\n", teta);
+	// float teta  =  0.523599; 
+	// float teta  =  0.7071067811865475; 
 
 	i =0;
 	j =0;
@@ -45,22 +67,19 @@ void	mappirize(t_data *data, int rows, int cols, int color)
 	{
 		while (j++ < cols)
 		{
-			new_x = ((data->map[i][j].x - data->map[i][j].y) * cos(0.523599)); 
-			new_y =  (data->map[i][j].x + (data->map[i][j].y)) * sin(0.523599) - data->map[i][j].z;
-			data->map[i][j].x = new_x + 300;
-			data->map[i][j].y = new_y + 400;
+			new_x = ((data->map[i][j].x - data->map[i][j].y) * cos(teta)); 
+			new_y =  (data->map[i][j].x + (data->map[i][j].y)) * sin(teta) - data->map[i][j].z;
+			data->map[i][j].x = (new_x * data->zoom + data->width / 2);
+			data->map[i][j].y = (new_y * data->zoom +  data->height / 2);
 		
 			printf("(%d,%d) ",new_x, new_y);
-
-
 			// printf("(%d, %d) ", data->map[i][j].x, data->map[i][j].y);	
-			if (data->map[i][j].x > 0 && data->map[i][j].y > 0)
+			if (data->map[i][j].x > 0 && data->map[i][j].x < data->width && data->map[i][j].y > 0 && data->map[i][j].y < data->height)
 				my_mlx_pixel_put(data,data->map[i][j].x , data->map[i][j].y, color);
 			else
 				printf("\nNegative (%d,%d)\n",new_x, new_y);
 			// data->map[i][j].x += 200;
 			// data->map[i][j].y += 200;
-
 		}
 		j = 0;
 		i++;
@@ -150,14 +169,21 @@ int	main(int ac, char **av)
 
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx,720, 720, "fdf");
-	
+
+	img.mlx = mlx;	
+	img.win = mlx_win;
 	img.img = mlx_new_image(mlx, 720, 720);
+	img.width = 720;
+	img.height = 720;
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian); 	
 	img.map = map;
-	mappirize(&img, rows, cols, 0x00FF0000);
+	img.angle = 0.523599; 
+	img.zoom = 4;
+	mappirize(&img, rows, cols, 0xFFFFFF);
 	printTable(map, rows, cols);
 
 	mlx_put_image_to_window(mlx, mlx_win, img.img,0,0);
+	mlx_key_hook(mlx_win,  &key_press, &img);
 	mlx_loop(mlx);
 
 }
