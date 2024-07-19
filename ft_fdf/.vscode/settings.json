@@ -3,6 +3,8 @@
         "mlx.h": "c",
         "ft_fdf.h": "c",
         "stdio.h": "c",
-        "math.h": "c"
+        "math.h": "c",
+        "unistd.h": "c",
+        "libft.h": "c"
     }
 }

@@ -83,7 +83,7 @@ char	*get_next_line(int fd)
 	char		*buffer;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE <= 0
+	if (fd < 0 || BUFFER_SIZE <= 0
 		|| BUFFER_SIZE >= INT_MAX)
 		return (NULL);
 	buffer = (char *)malloc((size_t)(BUFFER_SIZE + 1));

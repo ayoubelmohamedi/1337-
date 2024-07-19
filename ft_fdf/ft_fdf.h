@@ -13,6 +13,18 @@
 #include "libft/libft.h"
 
 # define BASE16 "0123456789ABCDEF"
+# define  DEFAULT_COLOR 0xFFFFFF
+
+# define ARROW_LEFT 123
+# define ARROW_RIGHT 124
+# define ARROW_DOWN 65364 
+# define ARROW_UP 65362
+# define MOUSE_CLICK_LEFT 1
+# define MOUSE_CLICK_RIGHT 2
+# define MOUSE_CLICK_MIDDLE 3
+# define MOUSE_WHEEL_UP 4
+# define MOUSE_WHEEL_DOWN 5
+# define ESCAPE 53
 
 typedef struct  s_point
 {
@@ -38,7 +50,7 @@ typedef	struct s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-	int 	zoom;
+	double 	zoom;
 	int 	width;
 	int		height;	
 	int		offset;
@@ -62,7 +74,8 @@ int     **make_table(char *filename,size_t *rows, size_t *cols);
 
 
 //mapirize 
-void	mappirize(t_data *data, size_t rows, size_t cols, int color);
+void	ft_display(t_data *data);
+void	mappirize(t_data *data);
 
 //colorize
 // void    colorize(t_point *points,t_color * colors, size_t rows, size_t cols, char * filename)
@@ -85,5 +98,6 @@ void freeTable(int **table, char * filename);
 char *parsedcolors(t_point * points, size_t cols,size_t rows);
 
 
-
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+//comment
 #endif

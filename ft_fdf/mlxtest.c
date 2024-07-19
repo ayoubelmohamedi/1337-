@@ -1,38 +1,31 @@
 
-// #include <stdlib.h>
-// #include "mlx.h"
-
 #include "ft_fdf.h"
 
 int key_press(int keycode, t_data *data) {
-    printf("Key code: %d\n", keycode);
-	if (keycode == 65307)
+	if (keycode == ESCAPE)
 	{
+		//todo : add free **table and *data struct   
 		mlx_destroy_image(data->mlx, data->img);
 		mlx_destroy_window(data->mlx,data->win);
-		// exit(0);
+		exit(0);
 	}
 	//up-down arrow
-	if (keycode == 65362)
-	{	
-		data->zoom += 1;
-		if (data->img)
-			mlx_destroy_image(data->mlx,data->img);	
-		data->img = mlx_new_image(data->mlx, data->width, data->height);
-		mappirize(data, data->rows, data->cols, 0xFFFFFF);		
-		// mlx_put_image_to_window(data->mlx, data->win, data->img, data->width, data->height);	
-		// mlx_loop(data->mlx);	
-	}
-	else if (keycode == 65364 && data->zoom > 1)
-	{
-		data->zoom -= 1;
-		// mlx_destroy_image(data->win,data->img);	
-		// mlx_new_image(data->img, data->width, data->height);
-		// mlx_loop(data->mlx);
-	}
+	if (keycode == ARROW_UP)
+		data->zoom += 0.8;
+	if (keycode == ARROW_DOWN  && data->zoom > 1)
+		data->zoom -= 0.8;
+	ft_display(data);
     return (0);
 }
 
+void ft_display(t_data *data)
+{
+		mlx_destroy_image(data->mlx,data->img);
+		data->img = mlx_new_image(data->mlx,data->width, data->height);
+		data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
+		mappirize(data);
+		mlx_put_image_to_window(data->mlx, data->win, data->img,0,0);
+}
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -50,40 +43,31 @@ double arcsin(double x) {
     return atan(x / sqrt(1 - x * x));
 }
 
-void	mappirize(t_data *data, size_t rows, size_t cols, int color)
+void	mappirize(t_data *data)
 {
 	char *dst;
 	size_t i, j;
 	int	new_x, new_y;
-	float		teta = data->angle;
-	printf("teta from data->angle => %f\n", teta);
-	// float teta  =  0.523599; 
-	// float teta  =  0.7071067811865475; 
 
 	i =0;
 	j =0;
-	
-	while (i < rows)
+	while (i < data->rows)
 	{
-		while (j++ < cols)
+		while (j < data->cols)
 		{
-			new_x = ((data->map[i][j].x - data->map[i][j].y) * cos(teta)); 
-			new_y =  (data->map[i][j].x + (data->map[i][j].y)) * sin(teta) - data->map[i][j].z;
-			data->map[i][j].x = (new_x * data->zoom + data->width / 2);
-			data->map[i][j].y = (new_y * data->zoom +  data->height / 2);
-		
-			printf("(%d,%d) ",new_x, new_y);
-			// printf("(%d, %d) ", data->map[i][j].x, data->map[i][j].y);	
-			if (data->map[i][j].x > 0 && data->map[i][j].x < data->width && data->map[i][j].y > 0 && data->map[i][j].y < data->height)
-				my_mlx_pixel_put(data,data->map[i][j].x , data->map[i][j].y, color);
-			else
-				printf("\nNegative (%d,%d)\n",new_x, new_y);
-			// data->map[i][j].x += 200;
-			// data->map[i][j].y += 200;
+			new_x = ((data->map[i][j].x - data->map[i][j].y) * cos(data->angle)); 
+			new_y =  (data->map[i][j].x + (data->map[i][j].y)) * sin(data->angle) - data->map[i][j].z;
+			
+			new_x *= data->zoom;
+			new_y *= data->zoom;
+			new_x += (data->width) / 2;
+			new_y += data->height / 2 - (data->zoom * (data->rows / 2)); // 
+			if (new_x >= 0 && new_x < data->height && new_y >= 0 && new_y < data->width)
+				my_mlx_pixel_put(data, new_x, new_y ,data->map[i][j].color);	
+			j++;
 		}
 		j = 0;
 		i++;
-		printf("\n");
 	}
 }
 
@@ -103,27 +87,31 @@ int		ft_fetchColor(char *text)
 
 	color =	ft_strchr((const char*)text, ',');
 	if (!color)
-		return (0xFFFFFF);
+		return (DEFAULT_COLOR);
 	color++;
-	if (ft_strncmp(color,"0x",2))	
+	if (!ft_strncmp(color,"0x",2))	
 		color += 2;
-	return (ft_atoi_base(color,"0123456789abcdef"));
+	return (ft_atoi_base(color,BASE16));
 }
 
-t_point	*ft_parseLine(char **splitted, size_t curr_row, size_t cols)
+t_point	*ft_parseLine(char **splitted, int curr_row, size_t cols)
 {
 	t_point *row_map;
 	size_t i;
 
 	i = 0;
+	// printf("%zu cols \n", cols);
 	row_map = (t_point*)malloc(sizeof(t_point) * cols);
-	while (splitted[i])
+	// if (row_map == NULL)
+	// 	exit(2);
+	while (splitted[i] && i < cols)
 	{
 		row_map[i].x = curr_row;
 		row_map[i].y = i;
 		row_map[i].z = ft_atoi(splitted[i]);
 		row_map[i].color = ft_fetchColor(splitted[i]);
 		i++;
+		// printf()
 	}
 	freeItems((void*)splitted, cols);
 	return (row_map);
@@ -152,40 +140,43 @@ t_point **ft_genMap(char *filename, size_t rows, size_t cols)
 	return (map);
 }
 
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
 int	main(int ac, char **av)
 {
 	void	*mlx;
 	void	*mlx_win;
-	t_data	img;
+	t_data	*img;
 	t_point **map;
 
 	if (ac != 2)
 		return (1);
-	size_t cols = ft_getcols(av[1]);
-	size_t rows = ft_getrows(av[1]);
 
-	map = ft_genMap(av[1], rows, cols);	
-	// print_row(map, rows, cols);
+	img = malloc(sizeof(t_data));
+	img->cols = ft_getcols(av[1]);
+	img->rows = ft_getrows(av[1]);
+
+	map = ft_genMap(av[1], img->rows, img->cols);	
 
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx,720, 720, "fdf");
 
-	img.mlx = mlx;	
-	img.win = mlx_win;
-	img.img = mlx_new_image(mlx, 720, 720);
-	img.width = 720;
-	img.height = 720;
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian); 	
-	img.map = map;
-	img.angle = 0.523599; 
-	img.zoom = 4;
-	img.cols = cols;
-	img.rows = rows;
-	mappirize(&img, rows, cols, 0xFFFFFF);
-	printTable(map, rows, cols);
+	img->mlx = mlx;	
+	img->win = mlx_win;
+	img->width = 720;
+	img->height = 720;
+	img->img = mlx_new_image(mlx, img->width, img->height);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian); 	
+	img->map = map;
+	img->angle = 0.523599;
+	// int offset = max(img->cols, img->rows);
+	img->zoom = (double)(750 /2) / max(img->cols, img->rows);
+	// printf("zoom => %f \n", img->zoom);
+	mappirize(img);
+	mlx_put_image_to_window(img->mlx, mlx_win, img->img,0,0);
+	mlx_key_hook(img->win, key_press, img);
 
-	mlx_put_image_to_window(mlx, mlx_win, img.img,0,0);
-	mlx_key_hook(mlx_win,  &key_press, &img);
-	mlx_loop(mlx);
-
+	mlx_loop(mlx);	
 }

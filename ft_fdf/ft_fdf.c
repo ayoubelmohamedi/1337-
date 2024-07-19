@@ -86,16 +86,17 @@ void printTable(t_point **table, size_t rows, size_t cols)
 {
     size_t i;
     size_t r;
-    size_t max;
 
     i = 0;
     r = 0;
-    max = rows * cols;
     while (r < rows)
     {
         // printf("%d  | ",table[r][i]);
         while (i < cols)
-            printf("%d ", table[r][i++].z);
+        {
+            printf("%d ", table[r][i].z);
+            i++;
+        }
         printf("\n");
         i = 0;
         r++;

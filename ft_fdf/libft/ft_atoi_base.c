@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 
-
 #include "libft.h"
 
 
@@ -56,7 +55,10 @@ static  int	check_errors(char *str, char *base)
 		j = 0;
 		while (base[j] && (str[i] != base[j] ||
 				(str[i] == '-' || str[i] == '+')))
-			++j;
+				{
+					++j;
+
+				}
 		if (str[i] != base[j] && str[i] != '-' && str[i] != '+')
 			return (0);
 		i++;

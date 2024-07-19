@@ -12,11 +12,11 @@
 
 #include => $(NAME), all, clean, fclean and re
 
-NAME = fdf.out
+NAME = fdf
 ## to add -Wall -Wextra -Werror  
 CC = cc
-CFLAGS = -g -O3 
-SRCS = mlxtest.c get_next_line_bonus.c ft_helper.c ft_fdf.c
+CFLAGS = -O3 -g #-fsanitize=address
+SRCS = mlxtest.c get_next_line_bonus.c ft_helper.c
 
 OBJS = ${SRCS:.c=.o}
 RM 	 = rm -rf
@@ -47,7 +47,6 @@ clean:
 	$(MAKE) clean -C ./libft
 	$(RM) $(OBJS)
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(LIBFT)
 
-re:
-	fclean all
+re: fclean all

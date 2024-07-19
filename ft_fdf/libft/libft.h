@@ -13,6 +13,9 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+//todo delete 
+# include <stdio.h>
+
 # include <limits.h>
 # include <stdint.h>
 # include <stdlib.h>
