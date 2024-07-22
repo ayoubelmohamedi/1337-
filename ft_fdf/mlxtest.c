@@ -4,9 +4,10 @@
 int key_press(int keycode, t_data *data) {
 	if (keycode == ESCAPE)
 	{
-		//todo : add free **table and *data struct   
 		mlx_destroy_image(data->mlx, data->img);
 		mlx_destroy_window(data->mlx,data->win);
+		freeMap(data);
+		free(data);
 		exit(0);
 	}
 	//up-down arrow
@@ -33,14 +34,6 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;	
-}
-
-double arcsin(double x) {
-    if (x < -1 || x > 1) {
-        // Input value is out of range
-        return NAN;
-    }
-    return atan(x / sqrt(1 - x * x));
 }
 
 void	mappirize(t_data *data)
@@ -100,10 +93,8 @@ t_point	*ft_parseLine(char **splitted, int curr_row, size_t cols)
 	size_t i;
 
 	i = 0;
-	// printf("%zu cols \n", cols);
 	row_map = (t_point*)malloc(sizeof(t_point) * cols);
-	// if (row_map == NULL)
-	// 	exit(2);
+	
 	while (splitted[i] && i < cols)
 	{
 		row_map[i].x = curr_row;
@@ -111,9 +102,8 @@ t_point	*ft_parseLine(char **splitted, int curr_row, size_t cols)
 		row_map[i].z = ft_atoi(splitted[i]);
 		row_map[i].color = ft_fetchColor(splitted[i]);
 		i++;
-		// printf()
 	}
-	freeItems((void*)splitted, cols);
+	freeItems((void**)splitted, cols);
 	return (row_map);
 }
 
@@ -144,6 +134,17 @@ int max(int a, int b) {
     return (a > b) ? a : b;
 }
 
+
+void freeMap(t_data * data)
+{
+	size_t i;
+
+	i = 0;
+	while (i < data->rows)
+		free(data->map[i++]);
+	free(data->map);
+}
+
 int	main(int ac, char **av)
 {
 	void	*mlx;
@@ -158,8 +159,8 @@ int	main(int ac, char **av)
 	img->cols = ft_getcols(av[1]);
 	img->rows = ft_getrows(av[1]);
 
-	map = ft_genMap(av[1], img->rows, img->cols);	
-
+	map = ft_genMap(av[1], img->rows, img->cols);		
+	
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx,720, 720, "fdf");
 
@@ -171,12 +172,9 @@ int	main(int ac, char **av)
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian); 	
 	img->map = map;
 	img->angle = 0.523599;
-	// int offset = max(img->cols, img->rows);
 	img->zoom = (double)(750 /2) / max(img->cols, img->rows);
-	// printf("zoom => %f \n", img->zoom);
 	mappirize(img);
 	mlx_put_image_to_window(img->mlx, mlx_win, img->img,0,0);
 	mlx_key_hook(img->win, key_press, img);
-
 	mlx_loop(mlx);	
 }

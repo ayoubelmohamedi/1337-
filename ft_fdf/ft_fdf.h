@@ -24,7 +24,7 @@
 # define MOUSE_CLICK_MIDDLE 3
 # define MOUSE_WHEEL_UP 4
 # define MOUSE_WHEEL_DOWN 5
-# define ESCAPE 53
+# define ESCAPE 65307 
 
 typedef struct  s_point
 {
@@ -92,6 +92,8 @@ size_t ft_getrows(char *filename);
 // int		ft_fetchColor(char *text);
 
 //to delete 
+
+void freeMap(t_data * data);
 void printTable(t_point **table, size_t rows, size_t cols);
 void print_row(t_point **table, size_t rows, size_t cols);
 void freeTable(int **table, char * filename);
