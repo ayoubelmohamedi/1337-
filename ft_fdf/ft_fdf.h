@@ -57,6 +57,7 @@ typedef	struct s_data
 	float 	angle;
 	size_t	cols;
 	size_t	rows;
+	size_t	shift;
 	t_point	**map;
 }	t_data;
 

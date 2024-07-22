@@ -6,8 +6,10 @@ int key_press(int keycode, t_data *data) {
 	{
 		mlx_destroy_image(data->mlx, data->img);
 		mlx_destroy_window(data->mlx,data->win);
-		freeMap(data);
-		free(data);
+		if (data->map)
+			freeMap(data);
+		if (data)
+			free(data);
 		exit(0);
 	}
 	//up-down arrow
@@ -21,11 +23,14 @@ int key_press(int keycode, t_data *data) {
 
 void ft_display(t_data *data)
 {
+	if (data->map)
+	{
 		mlx_destroy_image(data->mlx,data->img);
 		data->img = mlx_new_image(data->mlx,data->width, data->height);
 		data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
 		mappirize(data);
 		mlx_put_image_to_window(data->mlx, data->win, data->img,0,0);
+	}
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
@@ -54,7 +59,7 @@ void	mappirize(t_data *data)
 			new_x *= data->zoom;
 			new_y *= data->zoom;
 			new_x += (data->width) / 2;
-			new_y += data->height / 2 - (data->zoom * (data->rows / 2)); // 
+			new_y += data->height / 2 - (data->zoom * (data->rows / 2));
 			if (new_x >= 0 && new_x < data->height && new_y >= 0 && new_y < data->width)
 				my_mlx_pixel_put(data, new_x, new_y ,data->map[i][j].color);	
 			j++;
@@ -145,6 +150,22 @@ void freeMap(t_data * data)
 	free(data->map);
 }
 
+
+void draw_line(t_data * data,t_point p1, t_point p2)
+{
+	int dx = p2.x - p1.x;
+	int dy = p2.y - p1.y;
+
+	t_point p = p1;
+	while (p.x < p2.x)
+	{
+		p.y  = p1.y + dy * (p.x - p1.x) / dx;
+		printf("current val of p.y => (%d, %d)\n", p.x, p.y);
+		my_mlx_pixel_put(data, p.x+ 300 , p.y + 300, 0xFFFFFF);
+		p.x++;
+	}
+}
+
 int	main(int ac, char **av)
 {
 	void	*mlx;
@@ -152,14 +173,14 @@ int	main(int ac, char **av)
 	t_data	*img;
 	t_point **map;
 
-	if (ac != 2)
-		return (1);
+	// if (ac != 2)
+	// 	return (1);
 
 	img = malloc(sizeof(t_data));
 	img->cols = ft_getcols(av[1]);
 	img->rows = ft_getrows(av[1]);
 
-	map = ft_genMap(av[1], img->rows, img->cols);		
+	// map = ft_genMap(av[1], img->rows, img->cols);		
 	
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx,720, 720, "fdf");
@@ -170,10 +191,12 @@ int	main(int ac, char **av)
 	img->height = 720;
 	img->img = mlx_new_image(mlx, img->width, img->height);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian); 	
-	img->map = map;
+	// img->map = map;
 	img->angle = 0.523599;
 	img->zoom = (double)(750 /2) / max(img->cols, img->rows);
-	mappirize(img);
+	
+
+
 	mlx_put_image_to_window(img->mlx, mlx_win, img->img,0,0);
 	mlx_key_hook(img->win, key_press, img);
 	mlx_loop(mlx);	

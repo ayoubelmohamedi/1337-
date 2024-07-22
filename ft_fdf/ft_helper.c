@@ -40,7 +40,7 @@ size_t ft_getcols(char *filename)
 	char *line;
 	char **split;
 	int fd;
-
+	
 	fd = open(filename, O_RDONLY);
 	line = get_next_line(fd);
 	split = ft_split(line, ' ');
