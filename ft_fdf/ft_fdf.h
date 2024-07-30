@@ -77,6 +77,7 @@ int     **make_table(char *filename,size_t *rows, size_t *cols);
 //mapirize 
 void	ft_display(t_data *data);
 void	mappirize(t_data *data);
+void draw_line(t_data * data,t_point p1, t_point p2, int color);
 
 //colorize
 // void    colorize(t_point *points,t_color * colors, size_t rows, size_t cols, char * filename)

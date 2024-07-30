@@ -2,6 +2,7 @@
 #include "ft_fdf.h"
 
 int key_press(int keycode, t_data *data) {
+	printf("key pressed is %d\n" , keycode);
 	if (keycode == ESCAPE)
 	{
 		mlx_destroy_image(data->mlx, data->img);
@@ -41,27 +42,49 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;	
 }
 
+t_point		ft_project (t_point p, t_data * data)
+{
+	double new_x;
+	double new_y;
+	struct s_point new_p;
+
+	// p = malloc(sizeof(t_point));
+	new_x = ((p.x - p.y) * cos(data->angle)); 
+	new_y =  (p.x + (p.y)) * sin(data->angle) - p.z;
+
+	new_x *= data->zoom;
+	new_y *= data->zoom;
+	new_x += (data->width) / 2;
+	new_y += data->height / 2 - (data->zoom * (data->rows / 2));
+
+	// new_p = {new_x , new_y, 0, 0xFFFFFF};
+
+	new_p.x = new_x;
+	new_p.y = new_y;
+	if (new_x < 0)
+		new_p.x = 0;
+	if (new_y < 0)
+		new_p.y = 0;
+	new_p.z = 0;
+	new_p.color = p.color;	
+	return (new_p);
+}
+
 void	mappirize(t_data *data)
 {
 	char *dst;
 	size_t i, j;
-	int	new_x, new_y;
+	t_point p1;
 
 	i =0;
 	j =0;
-	while (i < data->rows)
+	while (i < data->rows - 1)
 	{
-		while (j < data->cols)
+		while (j < data->cols - 1)
 		{
-			new_x = ((data->map[i][j].x - data->map[i][j].y) * cos(data->angle)); 
-			new_y =  (data->map[i][j].x + (data->map[i][j].y)) * sin(data->angle) - data->map[i][j].z;
-			
-			new_x *= data->zoom;
-			new_y *= data->zoom;
-			new_x += (data->width) / 2;
-			new_y += data->height / 2 - (data->zoom * (data->rows / 2));
-			if (new_x >= 0 && new_x < data->height && new_y >= 0 && new_y < data->width)
-				my_mlx_pixel_put(data, new_x, new_y ,data->map[i][j].color);	
+			draw_line(data, ft_project(data->map[i][j], data) ,ft_project(data->map[i][j + 1], data), data->map[i][j].color);
+			draw_line(data, ft_project(data->map[i][j], data) ,ft_project(data->map[i + 1][j], data), data->map[i][j].color);
+
 			j++;
 		}
 		j = 0;
@@ -139,7 +162,6 @@ int max(int a, int b) {
     return (a > b) ? a : b;
 }
 
-
 void freeMap(t_data * data)
 {
 	size_t i;
@@ -150,19 +172,46 @@ void freeMap(t_data * data)
 	free(data->map);
 }
 
-
-void draw_line(t_data * data,t_point p1, t_point p2)
+void draw_line(t_data * data,t_point p1, t_point p2, int color)
 {
-	int dx = p2.x - p1.x;
-	int dy = p2.y - p1.y;
+	double dx = p2.x - p1.x;
+	double dy = p2.y - p1.y;
 
-	t_point p = p1;
-	while (p.x < p2.x)
+	int pixels = sqrt((dx * dx) + (dy * dy));
+	dx /= pixels;
+	dy /= pixels;
+
+	double pixelY = p1.y;
+	double pixelX = p1.x;
+	while (pixels--)
 	{
-		p.y  = p1.y + dy * (p.x - p1.x) / dx;
-		printf("current val of p.y => (%d, %d)\n", p.x, p.y);
-		my_mlx_pixel_put(data, p.x+ 300 , p.y + 300, 0xFFFFFF);
-		p.x++;
+		if (pixelX < data->width && pixelY < data->height)
+			my_mlx_pixel_put(data , pixelX, pixelY , p1.color);
+		else
+			break;
+		pixelX += dx;
+		pixelY += dy;
+	}
+}
+
+void connect_dots(t_data * data)
+{
+	size_t r;
+	size_t c;
+	t_point ** map;
+
+	map = data->map;
+	r = 0;
+	c = 0;
+	while (r < data->rows)
+	{
+		while (c < data->cols)
+		{
+			if (r < data->rows && c < data->cols)
+				(draw_line(data, map[r][c], map[r][c+1], map[r][c].color), draw_line(data, map[r][c], map[r+1][c], map[r][c].color));
+			c++;
+		}
+		r++;
 	}
 }
 
@@ -173,15 +222,15 @@ int	main(int ac, char **av)
 	t_data	*img;
 	t_point **map;
 
-	// if (ac != 2)
-	// 	return (1);
+	if (ac != 2)
+		return (1);
 
 	img = malloc(sizeof(t_data));
 	img->cols = ft_getcols(av[1]);
 	img->rows = ft_getrows(av[1]);
 
-	// map = ft_genMap(av[1], img->rows, img->cols);		
-	
+	map = ft_genMap(av[1], img->rows, img->cols);		
+
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx,720, 720, "fdf");
 
@@ -191,12 +240,14 @@ int	main(int ac, char **av)
 	img->height = 720;
 	img->img = mlx_new_image(mlx, img->width, img->height);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian); 	
-	// img->map = map;
+	img->map = map;
 	img->angle = 0.523599;
 	img->zoom = (double)(750 /2) / max(img->cols, img->rows);
+	img->zoom = (double) (750 / 2) / 750;
 	
+	img->offset = 720 / 2;
 
-
+	mappirize(img);
 	mlx_put_image_to_window(img->mlx, mlx_win, img->img,0,0);
 	mlx_key_hook(img->win, key_press, img);
 	mlx_loop(mlx);	
