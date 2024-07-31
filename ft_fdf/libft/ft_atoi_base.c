@@ -41,34 +41,28 @@ static  int get_base_length(char *base)
 static  int	check_errors(char *str, char *base)
 {
 	int	i;
-	int	j;
-	int	start;
+	size_t b_len;
 
-	start = 0;
-	while (str[start] != '\0' && (str[start] == ' ' || str[start] == '\t' ||
-		str[start] == '\r' || str[start] == '\n' || str[start] == '\v' ||
-		str[start] == '\f'))
-		start++;
-	i = start;
-	while (str[i])
+	b_len = ft_strlen(base);
+	if (!base || b_len < 2)
+		return (1);	
+	i = 1;
+	while(base[i])
 	{
-		j = 0;
-		while (base[j] && (str[i] != base[j] ||
-				(str[i] == '-' || str[i] == '+')))
-				{
-					++j;
-
-				}
-		if (str[i] != base[j] && str[i] != '-' && str[i] != '+')
-			return (0);
+		if (ft_strchr(&base[i], base[i - 1]))
+			return (1);
 		i++;
 	}
-	if (i == 0)
-		return (0);
-	return (1);
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_strchr(base, str[i++]))
+			return (1);
+	}
+	return (0);
 }
 
-static  int	get_nb(char c, char *base)
+static  int	get_nbr(char c, char *base)
 {
 	int	i;
 
@@ -80,28 +74,22 @@ static  int	get_nb(char c, char *base)
 
 int	ft_atoi_base(char *str, char *base)
 {
-	int	s;
 	int	i;
 	int	res;
-	int	negative;
+	int	sign;
 	int	base_length;
 
-	if (!(base_length = get_base_length(base)) || !check_errors(str, base))
+	sign = 1;
+	if (*str == '+' || *str == '-')
+		if (*str++ == '-')
+			sign = -1;
+	if (*str == )
+	if (!(base_length = get_base_length(base)) || check_errors(str, base))
 		return (0);
-	s = 0;
-	while (str[s] != '\0' && (str[s] == ' ' || str[s] == '\t' || str[s] == '\r'
-			|| str[s] == '\n' || str[s] == '\v' || str[s] == '\f'))
-		s++;
-	i = s - 1;
 	res = 0;
-	negative = 1;
-	while (str[++i] && (((str[i] == '-' || str[i] == '+') && i == s) ||
-			(str[i] != '-' && str[i] != '+')))
-	{
-		if (str[i] == '-')
-			negative = -1;
-		else if (str[i] != '+')
-			res = (res * base_length) + (get_nb(str[i], base));
-	}
-	return (res * negative);
+	sign = 1;
+	
+	while (str[i])
+		res = (res * base_length) + (get_nbr(str[i++], base));
+	return (res * sign);
 }
