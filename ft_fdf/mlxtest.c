@@ -101,9 +101,23 @@ void	freeItems(void **item, size_t cols)
 	free(item);
 }
 
+void ft_upper_str(char * text)
+{
+	size_t i;
+
+	i = 0;
+	while (text[i])
+	{
+		if (text[i] >= 'a' && text[i] <= 'z')
+			text[i] = text[i] - 32;
+		i++;
+	}
+}
+
 int		ft_fetchColor(char *text)
 {
 	char *color;
+	char *upper_color;
 
 	color =	ft_strchr((const char*)text, ',');
 	if (!color)
@@ -111,6 +125,8 @@ int		ft_fetchColor(char *text)
 	color++;
 	if (!ft_strncmp(color,"0x",2))	
 		color += 2;
+	ft_upper_str(color);
+	printf("boolean color => %s\n", color);
 	return (ft_atoi_base(color,BASE16));
 }
 
@@ -195,6 +211,8 @@ void draw_line(t_data * data,t_point p1, t_point p2, int color)
 	}
 }
 
+
+
 int	main(int ac, char **av)
 {
 	void	*mlx;
@@ -202,41 +220,34 @@ int	main(int ac, char **av)
 	t_data	*img;
 	t_point **map;
 
+
 	if (ac != 2)
 		return (1);
 
-	// img = malloc(sizeof(t_data));
-	// img->cols = ft_getcols(av[1]);
-	// img->rows = ft_getrows(av[1]);
+	img = malloc(sizeof(t_data));
+	img->cols = ft_getcols(av[1]);
+	img->rows = ft_getrows(av[1]);
 
-	// map = ft_genMap(av[1], img->rows, img->cols);		
+	map = ft_genMap(av[1], img->rows, img->cols);		
 
-	// mlx = mlx_init();
-	// mlx_win = mlx_new_window(mlx,720, 720, "fdf");
+	mlx = mlx_init();
+	mlx_win = mlx_new_window(mlx,720, 720, "fdf");
 
-	char * hex = "0xFF";
-	int color = ft_atoi_base(hex, "0123456789ABCDEF");
-	char *base = "AB";
-	char * nbr_based = "ABC";
-
-	printf("check errors base =>  %d\n", check_errors(nbr_based ,base));
-	printf("value of [%s] => %d\n", hex, color);
-
-	// img->mlx = mlx;	
-	// img->win = mlx_win;
-	// img->width = 720;
-	// img->height = 720;
-	// img->img = mlx_new_image(mlx, img->width, img->height);
-	// img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian); 	
-	// img->map = map;
-	// img->angle = 0.523599;
-	// img->zoom = (double)(750 /2) / max(img->cols, img->rows);
-	// img->zoom = (double) (750 / 2) / 750;
+	img->mlx = mlx;	
+	img->win = mlx_win;
+	img->width = 720;
+	img->height = 720;
+	img->img = mlx_new_image(mlx, img->width, img->height);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian); 	
+	img->map = map;
+	img->angle = 0.523599;
+	img->zoom = (double)(750 /2) / max(img->cols, img->rows);
+	img->zoom = (double) (750 / 2) / 750;
 	
-	// img->offset = 720 / 2;
+	img->offset = 720 / 2;
 
-	// mappirize(img);
-	// mlx_put_image_to_window(img->mlx, mlx_win, img->img,0,0);
-	// mlx_key_hook(img->win, key_press, img);
-	// mlx_loop(mlx);	
+	mappirize(img);
+	mlx_put_image_to_window(img->mlx, mlx_win, img->img,0,0);
+	mlx_key_hook(img->win, key_press, img);
+	mlx_loop(mlx);	
 }
