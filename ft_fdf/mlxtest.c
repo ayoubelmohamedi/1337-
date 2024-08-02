@@ -126,7 +126,6 @@ int		ft_fetchColor(char *text)
 	if (!ft_strncmp(color,"0x",2))	
 		color += 2;
 	ft_upper_str(color);
-	printf("boolean color => %s\n", color);
 	return (ft_atoi_base(color,BASE16));
 }
 
@@ -144,7 +143,6 @@ t_point	*ft_parseLine(char **splitted, int curr_row, size_t cols)
 		row_map[i].y = i;
 		row_map[i].z = ft_atoi(splitted[i]);
 		row_map[i].color = ft_fetchColor(splitted[i]);
-		printf("color is %d\n", row_map[i].color);
 		i++;
 	}
 	freeItems((void**)splitted, cols);
@@ -202,16 +200,13 @@ void draw_line(t_data * data,t_point p1, t_point p2, int color)
 	
 	while (pixels--)
 	{
-		if (pixelX < data->width && pixelY < data->height)
+		if (pixelX > 0 && pixelX < data->width 
+			&& pixelY > 0 && pixelY < data->height)
 			my_mlx_pixel_put(data , pixelX, pixelY , p1.color);
-		else
-			break;
 		pixelX += dx;
 		pixelY += dy;
 	}
 }
-
-
 
 int	main(int ac, char **av)
 {
@@ -219,7 +214,6 @@ int	main(int ac, char **av)
 	void	*mlx_win;
 	t_data	*img;
 	t_point **map;
-
 
 	if (ac != 2)
 		return (1);
