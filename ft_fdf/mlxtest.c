@@ -1,6 +1,24 @@
 
 #include "ft_fdf.h"
 
+
+int scroll_hook(int keycode, t_data *data) {
+    
+    // Zoom in on scroll up, zoom out on scroll down
+	printf("mouse wheel is %d\n" , keycode);
+	
+    if (keycode == 5) {
+        // Zoom in
+        // data->zoom += 0.8;
+    } else if (keycode == 4) {
+        // Zoom out
+        // data->zoom -= 0.8;
+    }
+	// ft_display(data);
+
+	return (0);
+}
+
 int key_press(int keycode, t_data *data) {
 	printf("key pressed is %d\n" , keycode);
 	if (keycode == ESCAPE)
@@ -18,6 +36,10 @@ int key_press(int keycode, t_data *data) {
 		data->zoom += 0.8;
 	if (keycode == ARROW_DOWN  && data->zoom > 1)
 		data->zoom -= 0.8;
+	if (keycode == ARROW_RIGHT)
+		data->angle_x += 0.1;
+	if (keycode == ARROW_LEFT)
+		data->angle_x -= 0.1;
 	ft_display(data);
     return (0);
 }
@@ -42,32 +64,51 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;	
 }
 
+void ft_rotationX(t_point * dest_p, t_data * data)
+{
+	t_point *tmp = dest_p;
+
+	dest_p->x = tmp->x;
+	dest_p->y = tmp->y * cos(data->angle_x) + tmp->z * sin(data->angle_x);
+	dest_p->z = -tmp->y * sin(data->angle_x) + tmp->z * cos(data->angle_x);
+}
+
+void ft_rotationY(t_point * dest_p, t_data * data)
+{
+	t_point *tmp = dest_p; 
+
+	dest_p->x = tmp->x * cos(data->angle_y) - tmp->z * sin(data->angle_y);
+	dest_p->y = tmp->y;
+	dest_p->z = tmp->x * sin(data->angle_y) + tmp->z * cos(data->angle_y);
+}
+
 t_point		ft_project (t_point p, t_data * data)
 {
-	double new_x;
-	double new_y;
-	t_point new_p;
+	t_point dest_p;
 
-	// p = malloc(sizeof(t_point));
-	new_x = ((p.x - p.y) * cos(data->angle)); 
-	new_y =  (p.x + p.y) * sin(data->angle) - p.z;
+	// p.z = p.z * (sin(data.angle_y) + );
+	dest_p = p;
+	ft_rotationX(&dest_p, data);
+	ft_rotationY(&dest_p, data);
+	// p.z *= sin(data->angle_y) + cos(data->angle_y);
+	// new_x = p.x + (cos(data->angle_y) - sin(data->angle_y));
+	// new_y = p.y + (cos(data->angle_x) + p.z * sin(data->angle_x));
 
-	new_x *= data->zoom;
-	new_y *= data->zoom;
-	new_x += (data->width) / 2;
-	new_y += data->height / 2 - (data->zoom * (data->rows / 2));
+	// new_x *= -1;
+	// new_y *= -1;
+	// new_x = data->angle * (p.x * sqrt(3) - p.z * sqrt(3));
+	// new_y = (data->angle * (p.x + 2 * p.y + p.z));
+	// new_x = p.x * data->angle;
+	// new_y = p.y * data->angle;
 
-	// new_p = {new_x , new_y, 0, 0xFFFFFF};
+	dest_p.x *= data->zoom;
+	dest_p.y *= data->zoom;
+	dest_p.x += (data->width) / 2;
+	dest_p.y += data->height / 2 - (data->zoom * (data->rows / 2));
 
-	new_p.x = new_x;
-	new_p.y = new_y;
-	// if (new_x < 0)
-	// 	new_p.x = 0;
-	// if (new_y < 0)
-	// 	new_p.y = 0;
-	new_p.z = 0;
-	new_p.color = p.color;	
-	return (new_p);
+
+	dest_p.color = p.color;	
+	return (dest_p);
 }
 
 void	mappirize(t_data *data)
@@ -234,14 +275,18 @@ int	main(int ac, char **av)
 	img->img = mlx_new_image(mlx, img->width, img->height);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian); 	
 	img->map = map;
-	img->angle = 0.523599;
+	// img->angle = 0.523599;
+	img->angle_x = asin(1/sqrt(3));
+	img->angle_y = 45;
+
 	img->zoom = (double)(750 /2) / max(img->cols, img->rows);
 	img->zoom = (double) (750 / 2) / 750;
-	
+
 	img->offset = 720 / 2;
 
 	mappirize(img);
 	mlx_put_image_to_window(img->mlx, mlx_win, img->img,0,0);
 	mlx_key_hook(img->win, key_press, img);
+	mlx_mouse_hook(img->win, scroll_hook, img);
 	mlx_loop(mlx);	
 }
