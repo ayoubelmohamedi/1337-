@@ -103,7 +103,6 @@ void printTable(t_point **table, size_t rows, size_t cols)
     }
 }
 
-
 void print_row(t_point **table, size_t rows, size_t cols)
 {
     for (int i = 0; i < 7; i++)

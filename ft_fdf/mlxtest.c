@@ -1,25 +1,44 @@
 
 #include "ft_fdf.h"
 
+t_data *get_data(t_data *new)
+{
+	static t_data data;
 
-int scroll_hook(int keycode, t_data *data) {
+	if (new != NULL )
+		data  = *new;
+
+	return (&data);
+}
+
+int scroll_hook(int keycode, t_data *nothing) {
     
     // Zoom in on scroll up, zoom out on scroll down
 	printf("mouse wheel is %d\n" , keycode);
-	
+	t_data *data = get_data(NULL);
+	printf("inside %p\n", data);	
+
+	printf("INFO\n hight  = %d \n width = %d , zoom = %f\n", data->height, data->width, data->zoom);
+
     if (keycode == 5) {
         // Zoom in
-        // data->zoom += 0.8;
+
+		printf("scroll up\n");
+        data->zoom += 0.8;
     } else if (keycode == 4) {
+		printf("scroll down\n");
+		data->zoom -= 0.8;
         // Zoom out
         // data->zoom -= 0.8;
     }
-	// ft_display(data);
+	ft_display(data);
 
 	return (0);
 }
 
-int key_press(int keycode, t_data *data) {
+int key_press(int keycode, t_data *noth) {
+
+	t_data * data = get_data(NULL);
 	printf("key pressed is %d\n" , keycode);
 	if (keycode == ESCAPE)
 	{
@@ -33,9 +52,9 @@ int key_press(int keycode, t_data *data) {
 	}
 	//up-down arrow
 	if (keycode == ARROW_UP)
-		data->zoom += 0.8;
+		data->angle_y += 0.1;
 	if (keycode == ARROW_DOWN  && data->zoom > 1)
-		data->zoom -= 0.8;
+		data->angle_y -= 0.1;
 	if (keycode == ARROW_RIGHT)
 		data->angle_x += 0.1;
 	if (keycode == ARROW_LEFT)
@@ -48,9 +67,14 @@ void ft_display(t_data *data)
 {
 	if (data->map)
 	{
-		mlx_destroy_image(data->mlx,data->img);
+		mlx_destroy_image(data->mlx,data->img);//
 		data->img = mlx_new_image(data->mlx,data->width, data->height);
 		data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
+
+		printf("rotation of teta (x) = %f\n", data->angle_x);
+		printf("rotation of beta (y) = %f\n", data->angle_y);
+
+
 		mappirize(data);
 		mlx_put_image_to_window(data->mlx, data->win, data->img,0,0);
 	}
@@ -106,6 +130,7 @@ t_point		ft_project (t_point p, t_data * data)
 	dest_p.x += (data->width) / 2;
 	dest_p.y += data->height / 2 - (data->zoom * (data->rows / 2));
 
+	// printf("original image is %d\n", )
 
 	dest_p.color = p.color;	
 	return (dest_p);
@@ -279,6 +304,9 @@ int	main(int ac, char **av)
 	img->angle_x = asin(1/sqrt(3));
 	img->angle_y = 45;
 
+	// img->angle_x = 0;
+	// img->angle_y = 0;
+
 	img->zoom = (double)(750 /2) / max(img->cols, img->rows);
 	img->zoom = (double) (750 / 2) / 750;
 
@@ -286,7 +314,10 @@ int	main(int ac, char **av)
 
 	mappirize(img);
 	mlx_put_image_to_window(img->mlx, mlx_win, img->img,0,0);
-	mlx_key_hook(img->win, key_press, img);
-	mlx_mouse_hook(img->win, scroll_hook, img);
+
+	get_data(img);
+	mlx_key_hook(img->win, key_press, NULL);
+	
+	mlx_mouse_hook(img->win, scroll_hook, NULL);
 	mlx_loop(mlx);	
 }

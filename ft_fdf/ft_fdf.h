@@ -15,8 +15,8 @@
 # define BASE16 "0123456789ABCDEF"
 # define  DEFAULT_COLOR 0xFFFFFF
 
-# define ARROW_LEFT 123
-# define ARROW_RIGHT 124
+# define ARROW_LEFT 65361 
+# define ARROW_RIGHT 65363
 # define ARROW_DOWN 65364 
 # define ARROW_UP 65362
 # define MOUSE_CLICK_LEFT 1
@@ -28,9 +28,9 @@
 
 typedef struct  s_point
 {
-    int x;
-    int y;
-    int z;
+    double x;
+    double y;
+    double z;
     int color;
 } t_point;
 
@@ -54,7 +54,8 @@ typedef	struct s_data
 	int 	width;
 	int		height;	
 	int		offset;
-	float 	angle;
+	float 	angle_x;
+	float 	angle_y;
 	size_t	cols;
 	size_t	rows;
 	size_t	shift;

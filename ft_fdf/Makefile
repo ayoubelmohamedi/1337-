@@ -15,7 +15,7 @@
 NAME = fdf
 ## to add -Wall -Wextra -Werror  
 CC = cc
-CFLAGS = -g #-fsanitize=address
+CFLAGS = -g3 #-fsanitize=address
 SRCS = mlxtest.c get_next_line_bonus.c ft_helper.c
 
 OBJS = ${SRCS:.c=.o}
