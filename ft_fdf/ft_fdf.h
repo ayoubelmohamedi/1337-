@@ -41,6 +41,14 @@ typedef struct s_color
     int color;
 } t_color;
 
+typedef struct camera
+{
+	double x_angle;
+	double y_angle;
+	double z_angle;
+	double zoom;
+} t_camera;
+
 typedef	struct s_data
 {
 	void	*mlx;
@@ -50,15 +58,13 @@ typedef	struct s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-	double 	zoom;
 	int 	width;
 	int		height;	
 	int		offset;
-	float 	angle_x;
-	float 	angle_y;
 	size_t	cols;
 	size_t	rows;
 	size_t	shift;
+	t_camera *camera;
 	t_point	**map;
 }	t_data;
 
