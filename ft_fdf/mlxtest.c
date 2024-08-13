@@ -18,16 +18,16 @@ int scroll_hook(int keycode, t_data *nothing) {
 	t_data *data = get_data(NULL);
 	printf("inside %p\n", data);	
 
-	printf("INFO\n hight  = %d \n width = %d , zoom = %f\n", data->height, data->width, data->zoom);
+	printf("INFO\n hight  = %d \n width = %d , zoom = %f\n", data->height, data->width, data->camera->zoom);
 
     if (keycode == 5) {
         // Zoom in
 
 		printf("scroll up\n");
-        data->zoom += 0.8;
+        data->camera->zoom += 0.8;
     } else if (keycode == 4) {
 		printf("scroll down\n");
-		data->zoom -= 0.8;
+		data->camera->zoom -= 0.8;
         // Zoom out
         // data->zoom -= 0.8;
     }
@@ -52,13 +52,13 @@ int key_press(int keycode, t_data *noth) {
 	}
 	//up-down arrow
 	if (keycode == ARROW_UP)
-		data->angle_y += 0.1;
-	if (keycode == ARROW_DOWN  && data->zoom > 1)
-		data->angle_y -= 0.1;
+		data->camera->y_angle += 0.1;
+	if (keycode == ARROW_DOWN  && data->camera->zoom > 1)
+		data->camera->y_angle -= 0.1;
 	if (keycode == ARROW_RIGHT)
-		data->angle_x += 0.1;
+		data->camera->x_angle += 0.1;
 	if (keycode == ARROW_LEFT)
-		data->angle_x -= 0.1;
+		data->camera->x_angle -= 0.1;
 	ft_display(data);
     return (0);
 }
@@ -67,12 +67,12 @@ void ft_display(t_data *data)
 {
 	if (data->map)
 	{
-		mlx_destroy_image(data->mlx,data->img);//
+		mlx_destroy_image(data->mlx,data->img);
 		data->img = mlx_new_image(data->mlx,data->width, data->height);
 		data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
 
-		printf("rotation of teta (x) = %f\n", data->angle_x);
-		printf("rotation of beta (y) = %f\n", data->angle_y);
+		printf("rotation of teta (x) = %f\n", data->camera->x_angle);
+		printf("rotation of beta (y) = %f\n", data->camera->y_angle);
 
 
 		mappirize(data);
@@ -92,18 +92,24 @@ void ft_rotationX(t_point * dest_p, t_data * data)
 {
 	t_point *tmp = dest_p;
 
-	dest_p->x = tmp->x;
-	dest_p->y = tmp->y * cos(data->angle_x) + tmp->z * sin(data->angle_x);
-	dest_p->z = -tmp->y * sin(data->angle_x) + tmp->z * cos(data->angle_x);
+	dest_p->y = tmp->y * cos(data->camera->x_angle) + tmp->z * sin(data->camera->x_angle);
+	dest_p->z = -tmp->y * sin(data->camera->x_angle) + tmp->z * cos(data->camera->x_angle);
 }
 
 void ft_rotationY(t_point * dest_p, t_data * data)
 {
 	t_point *tmp = dest_p; 
 
-	dest_p->x = tmp->x * cos(data->angle_y) - tmp->z * sin(data->angle_y);
-	dest_p->y = tmp->y;
-	dest_p->z = tmp->x * sin(data->angle_y) + tmp->z * cos(data->angle_y);
+	dest_p->x = tmp->x * cos(data->camera->y_angle) - tmp->z * sin(data->camera->y_angle);
+	dest_p->z = -tmp->x * sin(data->camera->y_angle) + tmp->z * cos(data->camera->y_angle);
+}
+
+void ft_rotationZ(t_point * dest_p, t_data * data)
+{
+	t_point *tmp = dest_p; 
+
+	dest_p->x = tmp->x * cos(data->camera->z_angle) - tmp->y * sin(data->camera->z_angle);
+	dest_p->y = tmp->x * sin(data->camera->z_angle) + tmp->y * cos(data->camera->z_angle);
 }
 
 t_point		ft_project (t_point p, t_data * data)
@@ -114,6 +120,7 @@ t_point		ft_project (t_point p, t_data * data)
 	dest_p = p;
 	ft_rotationX(&dest_p, data);
 	ft_rotationY(&dest_p, data);
+	ft_rotationZ(&dest_p, data);
 	// p.z *= sin(data->angle_y) + cos(data->angle_y);
 	// new_x = p.x + (cos(data->angle_y) - sin(data->angle_y));
 	// new_y = p.y + (cos(data->angle_x) + p.z * sin(data->angle_x));
@@ -125,10 +132,10 @@ t_point		ft_project (t_point p, t_data * data)
 	// new_x = p.x * data->angle;
 	// new_y = p.y * data->angle;
 
-	dest_p.x *= data->zoom;
-	dest_p.y *= data->zoom;
+	dest_p.x *= data->camera->zoom;
+	dest_p.y *= data->camera->zoom;
 	dest_p.x += (data->width) / 2;
-	dest_p.y += data->height / 2 - (data->zoom * (data->rows / 2));
+	dest_p.y += data->height / 2 - (data->camera->zoom * (data->rows / 2));
 
 	// printf("original image is %d\n", )
 
@@ -274,6 +281,13 @@ void draw_line(t_data * data,t_point p1, t_point p2, int color)
 	}
 }
 
+double ft_min(double a, double b)
+{
+	if (a > b)
+		return (a);
+	return (b);	
+}
+
 int	main(int ac, char **av)
 {
 	void	*mlx;
@@ -301,14 +315,26 @@ int	main(int ac, char **av)
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian); 	
 	img->map = map;
 	// img->angle = 0.523599;
-	img->angle_x = asin(1/sqrt(3));
-	img->angle_y = 45;
+	// img->angle_x = asin(1/sqrt(3));
+	// img->angle_y = 45;
 
-	// img->angle_x = 0;
-	// img->angle_y = 0;
+	t_camera camera = {-asin(1/sqrt(3)) , 1/sqrt(3), asin(1/sqrt(3)), 0.5};
+	// angles.x_angle = asin(1/sqrt(3));
+	// angles.y_angle = 45;
+	// angles.z_angle = 0;
+	// angles.zoom = (double) (750 / 2) / 750; 
 
-	img->zoom = (double)(750 /2) / max(img->cols, img->rows);
-	img->zoom = (double) (750 / 2) / 750;
+	camera.zoom = ft_min((double)img->height / img->cols / 2,
+			(double)img->height / img->rows / 2);
+	printf("img.height / img->cols / 2 => %f\n", (double) img->height / img->cols / 2);
+	printf("img->height / img->rows / 2 => %f\n", (double) img->height / img->rows / 2);
+	camera.zoom = 1;
+	printf("zoom val => %f\n", ft_min(img->height / img->cols / 2,
+			img->height / img->rows / 2));
+	img->camera = &camera;	
+
+	// img->zoom = (double)(750 /2) / max(img->cols, img->rows);
+	// img->zoom = (double) (750 / 2) / 750;
 
 	img->offset = 720 / 2;
 
