@@ -71,6 +71,10 @@ typedef	struct s_data
 	t_point	**map;
 }	t_data;
 
+void 	ft_upper_str(char * text);
+t_point	*ft_parseLine(char **splitted, int curr_row, size_t cols);
+t_point **ft_genMap(char *filename, size_t rows, size_t cols);
+t_point		ft_project (t_point p, t_data * data);
 size_t      ft_colcount(const char *s, char c);
 int         *ft_split_int(const char *str, size_t cols);
 size_t      ft_countlines(char *filename);
@@ -110,7 +114,6 @@ void printTable(t_point **table, size_t rows, size_t cols);
 void print_row(t_point **table, size_t rows, size_t cols);
 void freeTable(int **table, char * filename);
 char *parsedcolors(t_point * points, size_t cols,size_t rows);
-
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 //comment

@@ -16,7 +16,8 @@ NAME = fdf
 ## to add -Wall -Wextra -Werror  
 CC = cc
 CFLAGS = -g3 #-fsanitize=address
-SRCS = mlxtest.c get_next_line_bonus.c ft_helper.c
+SRCS = ft_fdf.c get_next_line_bonus.c ft_helper.c ft_helper2.c \
+		ft_parser.c  ft_rotation.c 
 
 OBJS = ${SRCS:.c=.o}
 RM 	 = rm -rf
@@ -34,8 +35,6 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(OBJS) $(LIBFT) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
-# $(NAME): $(OBJS) $(LIBFT) $(MLX_LIB)
-# 	$(CC) $(OBJS) $(LIBFT) $(MLXFLAGS) $(X11_FLAGS) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
