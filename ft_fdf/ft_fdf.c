@@ -1,139 +1,89 @@
 
-
-//isometric projection
-// destination.x = source.x + cos(angle) * source.z
-// destination.y = source.y + sin(angle) * source.z
-
-// typedef struct fdf
-// {
-//     /* data */
-// };
-
-
-// void draw_table(table)
-// {
-//     int pixelx;
-//     int pixely;
-
-// }
 #include "ft_fdf.h"
 
-
-size_t ft_countlines(char *filename)
+t_data *get_data(t_data *new)
 {
-    size_t c;
-    char *line;
-    char *tmp;
-    int fd;
+	static t_data data;
 
-    c = 0;
-    fd = open(filename, O_RDONLY);
-    line = get_next_line(fd);
-    while (line != NULL)
-    {
-        c++;
-        tmp = line;
-        line = get_next_line(fd);
-        free(tmp);
+	if (new != NULL )
+		data  = *new;
+
+	return (&data);
+}
+
+int scroll_hook(int keycode, t_data *nothing) {
+    
+	t_data *data;
+
+	data = get_data(NULL); 
+    if (keycode == MOUSE_WHEEL_DOWN) {
+        data->camera->zoom += 0.8;
+    } else if (keycode == MOUSE_WHEEL_UP) {
+		data->camera->zoom -= 0.8;
     }
-    close(fd);
-    if (line)
-        free(line);
-    return (c);
+	ft_display(data);
+	return (0);
 }
 
+int key_press(int keycode, t_data *noth) {
 
-// int main (int c, char * argv[])
-// {
-//     int         fd;
-//     char        *row;
-//     int         **table;
-//     char        *filename;
-//     t_point     *points; 
-//     size_t      rows;
-//     size_t      cols;
+	t_data * data;
+	
+	data = get_data(NULL);
+	if (keycode == ESCAPE)
+	{
+		mlx_destroy_image(data->mlx, data->img);
+		mlx_destroy_window(data->mlx,data->win);
+		if (data->map)
+			freeMap(data);
+		free(data->camera);
+		exit(0);
+	}
+	if (keycode == ARROW_UP)
+		data->camera->y_angle += 0.1;
+	if (keycode == ARROW_DOWN  && data->camera->zoom > 1)
+		data->camera->y_angle -= 0.1;
+	if (keycode == ARROW_RIGHT)
+		data->camera->x_angle += 0.1;
+	if (keycode == ARROW_LEFT)
+		data->camera->x_angle -= 0.1;
+	ft_display(data);
+    return (0);
+}
 
-//     if (c != 2)
-//         return (1);
-
-//     filename = argv[1];
-//     fd = open(filename,O_RDONLY);
-//     table = make_table(filename, &rows, &cols);
-
-//     printf("rows %zu, cols %zu \n",rows, cols);
-//     // printTable(table, rows, cols);
-
-//     printf("number of rows => %zu\n", rows);
-//     printf("number of cols => %zu\n", cols);
-//     // printTable(table, rows, cols);
-//     points = coordinatesTable(table, cols, rows);
-
-//     int i = 0;
-//     int count = 0;
-//     while (i < (cols * rows))
-//     {
-//         printf("point(%d, %d, %d) ",points[i].x,points[i].y,points[i].z);
-//         i++;
-//     }
-//     // colorize(points, rows, cols, filename);
-//     // parsedcolors(points,cols,rows);
-
-//     close(fd);
-//     return (0);
-// }
-
-void printTable(t_point **table, size_t rows, size_t cols)
+void init_data(t_data * data, t_point ** map, char * filename)
 {
-    size_t i;
-    size_t r;
+	void	*mlx_win;
 
-    i = 0;
-    r = 0;
-    while (r < rows)
-    {
-        // printf("%d  | ",table[r][i]);
-        while (i < cols)
-        {
-            printf("%d ", table[r][i].z);
-            i++;
-        }
-        printf("\n");
-        i = 0;
-        r++;
-    }
+	data = malloc(sizeof(t_data));
+	data->cols = ft_getcols(filename);
+	data->rows = ft_getrows(filename);
+	data->mlx = mlx_init();
+	mlx_win = mlx_new_window(data->mlx, HIGHT, WIDTH, "fdf");
+	data->width = WIDTH;
+	data->rows = HIGHT;
+	data->img = mlx_new_image(data->mlx, data->width, data->height); 
+	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian); 
+	data->map = map;
+	data->offset = 720 / 2;
 }
 
-void print_row(t_point **table, size_t rows, size_t cols)
+
+int	main(int ac, char **av)
 {
-    for (int i = 0; i < 7; i++)
-        printf("%d ", table[9][i].z);
-    printf("\n");
+	t_data	*data;
+	t_camera * camera;
+	t_point **map;
+
+	if (ac != 2)
+		return (1);
+	map = ft_genMap(av[1], data->rows, data->cols);		
+	init_data(data, map , av[1]);	
+	init_camera(camera, data);	
+	get_data(data);	
+	mappirize(data);
+	mlx_put_image_to_window(data->mlx, data->win, data->img,0,0);
+	mlx_key_hook(data->win, key_press, NULL);
+	mlx_mouse_hook(data->win, scroll_hook, NULL);
+	mlx_loop(data->mlx);	
 }
-
-// void freeTable(int **table, char * filename)
-// {
-//     char *row;
-//     char *tmp;
-//     int fd;
-//     size_t cols;
-//     size_t i = 0;
-//     size_t j = 0;
-
-//     fd = open(filename, O_RDONLY);
-//     row = get_next_line(fd);
-//     cols = ft_colcount(row, ' ');
-//     while (row)
-//     {
-//         tmp = row;
-//         while (j < cols)
-//             free(&table[i][j++]);
-//         j = 0;
-//         free(&table[i++]);
-//         printf("\n");
-//         row = get_next_line(fd);
-//         free(tmp);
-//     }
-//     free(row);
-//     close(fd);
-// }
-   

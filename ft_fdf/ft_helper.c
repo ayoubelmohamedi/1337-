@@ -68,11 +68,36 @@ int *ft_split_int(const char *line, size_t col)
 	while (split[i])
 	{
 		res[i] = ft_atoi((const char*)split[i]);
-		// free(&split[i]);
 		i++;
 	}
 	free((void*)line);
-	// free(split);
 	return (res);
 }
+
+void ft_display(t_data *data)
+{
+	if (data->map)
+	{
+		mlx_destroy_image(data->mlx,data->img);
+		data->img = mlx_new_image(data->mlx,data->width, data->height);
+		data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
+		mappirize(data);
+		mlx_put_image_to_window(data->mlx, data->win, data->img,0,0);
+	}
+}
+
+void ft_upper_str(char * text)
+{
+	size_t i;
+
+	i = 0;
+	while (text[i])
+	{
+		if (text[i] >= 'a' && text[i] <= 'z')
+			text[i] = text[i] - 32;
+		i++;
+	}
+}
+
+
 
