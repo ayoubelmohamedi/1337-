@@ -74,7 +74,6 @@ void ft_display(t_data *data)
 		printf("rotation of teta (x) = %f\n", data->camera->x_angle);
 		printf("rotation of beta (y) = %f\n", data->camera->y_angle);
 
-
 		mappirize(data);
 		mlx_put_image_to_window(data->mlx, data->win, data->img,0,0);
 	}
@@ -305,12 +304,12 @@ int	main(int ac, char **av)
 	map = ft_genMap(av[1], img->rows, img->cols);		
 
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx,720, 720, "fdf");
+	mlx_win = mlx_new_window(mlx,HIGHT, WIDTH, "fdf");
 
 	img->mlx = mlx;	
 	img->win = mlx_win;
-	img->width = 720;
-	img->height = 720;
+	img->width = WIDTH;
+	img->height = HIGHT;
 	img->img = mlx_new_image(mlx, img->width, img->height);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian); 	
 	img->map = map;
@@ -323,14 +322,18 @@ int	main(int ac, char **av)
 	// angles.y_angle = 45;
 	// angles.z_angle = 0;
 	// angles.zoom = (double) (750 / 2) / 750; 
+	camera.zoom = ft_min((double)img->width / img->cols,
+			(double)img->height / img->rows);
 
-	camera.zoom = ft_min((double)img->height / img->cols / 2,
-			(double)img->height / img->rows / 2);
+	printf("cols is => %zu\n", img->cols);
+	// if (camera.zoom < 1)
+
 	printf("img.height / img->cols / 2 => %f\n", (double) img->height / img->cols / 2);
 	printf("img->height / img->rows / 2 => %f\n", (double) img->height / img->rows / 2);
-	camera.zoom = 1;
-	printf("zoom val => %f\n", ft_min(img->height / img->cols / 2,
-			img->height / img->rows / 2));
+	printf("zoom val => %f\n", camera.zoom);
+	// camera.zoom = 9;
+	// camera.zoom = 1.5;
+
 	img->camera = &camera;	
 
 	// img->zoom = (double)(750 /2) / max(img->cols, img->rows);

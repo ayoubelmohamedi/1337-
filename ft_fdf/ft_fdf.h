@@ -15,6 +15,9 @@
 # define BASE16 "0123456789ABCDEF"
 # define  DEFAULT_COLOR 0xFFFFFF
 
+
+#define WIDTH 720
+#define HIGHT 720
 # define ARROW_LEFT 65361 
 # define ARROW_RIGHT 65363
 # define ARROW_DOWN 65364 
