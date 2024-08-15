@@ -22,6 +22,8 @@ size_t ft_getrows(char *filename)
 
 	rows = 0;
 	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		exit(1);
 	line = get_next_line(fd);
 	while(line)
 	{

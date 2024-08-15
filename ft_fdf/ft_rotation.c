@@ -1,8 +1,11 @@
 
 #include "ft_fdf.h"
 
-void init_camera(t_camera * camera, t_data * data)
+void init_camera(t_data * data)
 {
+	t_camera  *camera;
+
+	camera = malloc(sizeof(t_camera));
 	camera->x_angle = -asin(1/sqrt(3));
 	camera->y_angle = 1/sqrt(3) ;
 	camera->z_angle  = asin(1/sqrt(3));
@@ -14,8 +17,8 @@ void init_camera(t_camera * camera, t_data * data)
 void ft_rotationX(t_point * dest_p, t_data * data)
 {
 	t_point *tmp;
-    
     tmp = dest_p;
+
 	dest_p->y = tmp->y * cos(data->camera->x_angle) + tmp->z * sin(data->camera->x_angle);
 	dest_p->z = -tmp->y * sin(data->camera->x_angle) + tmp->z * cos(data->camera->x_angle);
 }
@@ -42,9 +45,16 @@ t_point		ft_project (t_point p, t_data * data)
 	t_point dest_p;
 
 	dest_p = p;
+	// dest_p.x -= (data->map[0][0].x + (data->cols / 2));
+	// dest_p.y -= (data->map[0][0].y + (data->rows / 2));
+	// dest_p.y -= (data->cols / 2);
+
 	ft_rotationX(&dest_p, data);
 	ft_rotationY(&dest_p, data);
 	ft_rotationZ(&dest_p, data);
+
+	// dest_p.x += ( (data->cols / 2));
+	// dest_p.y += ((data->rows / 2));
 
 	dest_p.x *= data->camera->zoom;
 	dest_p.y *= data->camera->zoom;
