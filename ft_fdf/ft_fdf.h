@@ -70,6 +70,12 @@ typedef	struct s_data
 	t_point	**map;
 }	t_data;
 
+//error handling
+void ft_error();
+int is_extension_valid(char * filename);
+int is_file_valid(char * filename);
+int is_valid(char * filename);
+
 void		init_camera(t_data * data);
 double		ft_min(double a, double b);
 void 		ft_upper_str(char * text);

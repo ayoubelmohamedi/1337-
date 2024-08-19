@@ -71,14 +71,15 @@ int	main(int ac, char **av)
 	t_data	*data;
 	t_point **map;
 
-	if (ac != 2 && is_valid(av[1]))
+	if (ac != 2 && (!is_valid(av[1])))
 		return (1);
-	data = get_data(NULL);
-	init_data(data, av[1]);	
-	init_camera(data);	
-	mappirize(get_data(data));
-	mlx_put_image_to_window(data->mlx, data->win, data->img,0,0);
-	mlx_key_hook(data->win, key_press, NULL);
-	mlx_mouse_hook(data->win, scroll_hook, NULL);
-	mlx_loop(data->mlx);	
+	printf("file is valid\n");
+	// data = get_data(NULL);
+	// init_data(data, av[1]);	
+	// init_camera(data);	
+	// mappirize(get_data(data));
+	// mlx_put_image_to_window(data->mlx, data->win, data->img,0,0);
+	// mlx_key_hook(data->win, key_press, NULL);
+	// mlx_mouse_hook(data->win, scroll_hook, NULL);
+	// mlx_loop(data->mlx);	
 }
