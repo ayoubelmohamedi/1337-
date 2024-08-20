@@ -27,8 +27,8 @@ t_point **ft_genMap(char *filename, size_t rows, size_t cols)
 void	mappirize(t_data *data)
 {
 	char *dst;
-	size_t i, j;
-	t_point p1;
+	size_t i;
+	size_t j;
 
 	i =0;
 	j =0;

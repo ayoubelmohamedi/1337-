@@ -15,9 +15,8 @@
 # define BASE16 "0123456789ABCDEF"
 # define  DEFAULT_COLOR 0xFFFFFF
 
-
-#define WIDTH 720
-#define HIGHT 720
+#define	WIDTH 720
+#define	HEIGHT 720
 # define ARROW_LEFT 65361 
 # define ARROW_RIGHT 65363
 # define ARROW_DOWN 65364 
@@ -71,9 +70,17 @@ typedef	struct s_data
 	t_point	**map;
 }	t_data;
 
-void 	ft_upper_str(char * text);
-t_point	*ft_parseLine(char **splitted, int curr_row, size_t cols);
-t_point **ft_genMap(char *filename, size_t rows, size_t cols);
+//error handling
+void ft_error();
+int is_extension_valid(char * filename);
+int is_file_valid(char * filename);
+int is_valid(char * filename);
+
+void		init_camera(t_data * data);
+double		ft_min(double a, double b);
+void 		ft_upper_str(char * text);
+t_point		*ft_parseLine(char **splitted, int curr_row, size_t cols);
+t_point 	**ft_genMap(char *filename, size_t rows, size_t cols);
 t_point		ft_project (t_point p, t_data * data);
 size_t      ft_colcount(const char *s, char c);
 int         *ft_split_int(const char *str, size_t cols);
@@ -91,30 +98,28 @@ int     **make_table(char *filename,size_t *rows, size_t *cols);
 //mapirize 
 void	ft_display(t_data *data);
 void	mappirize(t_data *data);
-void draw_line(t_data * data,t_point p1, t_point p2, int color);
+void	draw_line(t_data * data,t_point p1, t_point p2, int color);
 
 //colorize
 // void    colorize(t_point *points,t_color * colors, size_t rows, size_t cols, char * filename)
 void    colorLine(t_point *points,char *line);
-int getorigin(int x, int y, int cols);
-int hascolor(char *filename);
-char *getcolor(const char *line, int *i);
-
+int		getorigin(int x, int y, int cols);
+int		hascolor(char *filename);
+char	*getcolor(const char *line, int *i);
 
 //utils
-size_t ft_getcols(char *filename);
-size_t ft_getrows(char *filename);
+size_t	ft_getcols(char *filename);
+size_t	ft_getrows(char *filename);
 
 // int		ft_fetchColor(char *text);
 
 //to delete 
 
-void freeMap(t_data * data);
-void printTable(t_point **table, size_t rows, size_t cols);
-void print_row(t_point **table, size_t rows, size_t cols);
-void freeTable(int **table, char * filename);
-char *parsedcolors(t_point * points, size_t cols,size_t rows);
-
+void 	freeMap(t_data * data);
+void 	printTable(t_point **table, size_t rows, size_t cols);
+void 	print_row(t_point **table, size_t rows, size_t cols);
+void	freeTable(int **table, char * filename);
+char 	*parsedcolors(t_point * points, size_t cols,size_t rows);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 //comment
 #endif

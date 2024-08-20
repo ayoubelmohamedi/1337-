@@ -7,7 +7,6 @@ t_data *get_data(t_data *new)
 
 	if (new != NULL )
 		data  = *new;
-
 	return (&data);
 }
 
@@ -19,7 +18,8 @@ int scroll_hook(int keycode, t_data *nothing) {
     if (keycode == MOUSE_WHEEL_DOWN) {
         data->camera->zoom += 0.8;
     } else if (keycode == MOUSE_WHEEL_UP) {
-		data->camera->zoom -= 0.8;
+		if (data->camera->zoom  - 0.8 > 1)
+			data->camera->zoom -= 0.8;
     }
 	ft_display(data);
 	return (0);
@@ -51,39 +51,37 @@ int key_press(int keycode, t_data *noth) {
     return (0);
 }
 
-void init_data(t_data * data, t_point ** map, char * filename)
+void init_data(t_data * data, char * filename)
 {
-	void	*mlx_win;
-
-	data = malloc(sizeof(t_data));
-	data->cols = ft_getcols(filename);
-	data->rows = ft_getrows(filename);
+	// data  = malloc(sizeof(data));
 	data->mlx = mlx_init();
-	mlx_win = mlx_new_window(data->mlx, HIGHT, WIDTH, "fdf");
+	data->rows = ft_getrows(filename);
+	data->cols = ft_getcols(filename);
 	data->width = WIDTH;
-	data->rows = HIGHT;
+	data->height = HEIGHT;
 	data->img = mlx_new_image(data->mlx, data->width, data->height); 
 	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian); 
-	data->map = map;
+	data->win = mlx_new_window(data->mlx, data->height, data->width, "fdf");
+	data->map = ft_genMap(filename, data->rows, data->cols);
 	data->offset = 720 / 2;
 }
-
 
 int	main(int ac, char **av)
 {
 	t_data	*data;
-	t_camera * camera;
 	t_point **map;
 
-	if (ac != 2)
+	if (ac != 2 || (!is_valid(av[1])))
 		return (1);
-	map = ft_genMap(av[1], data->rows, data->cols);		
-	init_data(data, map , av[1]);	
-	init_camera(camera, data);	
-	get_data(data);	
-	mappirize(data);
-	mlx_put_image_to_window(data->mlx, data->win, data->img,0,0);
-	mlx_key_hook(data->win, key_press, NULL);
-	mlx_mouse_hook(data->win, scroll_hook, NULL);
-	mlx_loop(data->mlx);	
+
+	printf("file is valid\n");
+	// data = get_data(NULL);
+	// init_data(data, av[1]);	
+	// init_camera(data);	
+	// mappirize(get_data(data));
+	// mlx_put_image_to_window(data->mlx, data->win, data->img,0,0);
+	// mlx_key_hook(data->win, key_press, NULL);
+	// mlx_mouse_hook(data->win, scroll_hook, NULL);
+	// mlx_loop(data->mlx);	
+	return (0);
 }

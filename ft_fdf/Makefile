@@ -17,7 +17,7 @@ NAME = fdf
 CC = cc
 CFLAGS = -g3 #-fsanitize=address
 SRCS = ft_fdf.c get_next_line_bonus.c ft_helper.c ft_helper2.c \
-		ft_parser.c  ft_rotation.c 
+		ft_parser.c  ft_rotation.c ft_error_handle.c 
 
 OBJS = ${SRCS:.c=.o}
 RM 	 = rm -rf
