@@ -2,28 +2,59 @@
 #include "ft_fdf.h"
 
 
-void ft_error()
+void ft_error(char *filename, int error)
 {
     size_t l;
     char * msg;
-
-    msg = "Found wrong line length. Exiting."; 
-    l = ft_strlen(msg); 
-    write(1,msg,l);
-    exit(1);
+    char * msg2;
+    
+    msg = "Found wrong line length. Exiting.\n"; 
+    msg2 = "No file ";
+    l = ft_strlen(filename); 
+    if (error == 0)
+        write(1,msg,34);
+    else if (error == 1)
+    {
+        write(1, msg2, 8);
+        write(1, filename, l);
+        write(1,"\n",1);
+        exit(1);
+    }
 }
 
 int is_extension_valid(char * filename)
 {
     size_t len;
-
-    len = ft_strlen(filename) - 5; 
+    len = ft_strlen(filename); 
     if (len < 5)
         return (0);
-    filename -= len;
-    if (ft_strncmp( filename, ".fdf" , 4))
+    filename += len - 4;
+    if (ft_strncmp(filename, ".fdf" , 4) == 0)
         return (1);
     return (0);
+}
+
+static size_t ft_count_elements(char ** str)
+{
+    size_t c;
+
+    c = 0;
+    while (str[c] != NULL)
+        c++;
+    return (c);
+}
+
+static void free_split(char ** str)
+{
+    size_t i;
+
+    i = 0;
+    while (str[i])
+    {
+        i++;
+        free(str[i - 1]);
+    }
+    free(str[i]);
 }
 
 int is_file_valid(char * filename)
@@ -35,42 +66,57 @@ int is_file_valid(char * filename)
 	char **split;
 	int fd;
     
-	cols = ft_getcols(filename);
 	fd = open(filename, O_RDONLY);
-	line = get_next_line(fd);
+    line = get_next_line(fd);
+    if (!line )
+        return (0);
 	split = ft_split(line, ' ');
-    c = 0;
-    while (line)
-    {
-        while (split[cols])
-	    {
-		    cols++;
-		    free(split[cols-1]);
-	    }
-        free(split);
+    c = ft_count_elements(split); 
+    free_split(split);
+    printf("val of c => %zu\n", c);
+    while (line != NULL)
+    { 
         tmp = line;
         line = get_next_line(fd);
+        if (!line)
+            break;
+        split = ft_split(line, ' ');
+        cols = ft_count_elements(split);
+        free(split);
         free(tmp);
         if (c != cols)
+        {
+            printf("shuffed line => [%s]\n", line);
             break;
+        }
     }
+    free(line);
 	close(fd);
-    printf("c == cols is => %d\n", c == cols);
+    printf("cols ==  %zu\n", cols);
+    printf("c ==  %zu\n", c);
 	return (c == cols);
 }
 
 int is_valid(char * filename)
-{
-    printf("1 - is_valid\n");
-
+{    
+    int fd;
+    
+    fd = open(filename, O_RDONLY);
+    if (fd < 0)
+    {
+        close(fd);
+        ft_error(filename, 1);
+    }
+    close(fd);
     if (filename && is_extension_valid(filename))
     {
-        printf("inside is_valid\n");
         if (!is_file_valid(filename))
-            ft_error();  
-        return (0);
-    }
-    if (!is_extension_valid(filename))
-        return (0);
-    return (1);
+        {
+            ft_error(filename, 0);
+            return (0);
+        }
+        return (1);
+    } 
+    ft_error(filename, 0);
+    return (0);
 }
