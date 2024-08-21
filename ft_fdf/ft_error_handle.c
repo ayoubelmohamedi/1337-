@@ -20,6 +20,11 @@ void ft_error(char *filename, int error)
         write(1,"\n",1);
         exit(1);
     }
+    else
+    {
+        write(1, "No data found.\n", 15);
+        exit(1);
+    }
 }
 
 int is_extension_valid(char * filename)
@@ -97,6 +102,21 @@ int is_file_valid(char * filename)
 	return (c == cols);
 }
 
+void is_file_empty(char *filename)
+{
+    int fd;
+    char * line;
+
+    fd = open(filename, O_RDONLY);
+    line = get_next_line(fd);    
+    close(fd);
+    if (line == NULL || *line == '\n')
+    {
+        free(line);
+        ft_error(filename, 2);
+    }
+}
+
 int is_valid(char * filename)
 {    
     int fd;
@@ -110,6 +130,7 @@ int is_valid(char * filename)
     close(fd);
     if (filename && is_extension_valid(filename))
     {
+        is_file_empty(filename);
         if (!is_file_valid(filename))
         {
             ft_error(filename, 0);
