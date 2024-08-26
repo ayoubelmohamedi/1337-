@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-moha <ael-moha@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:14:16 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/02/18 15:18:06 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/08/21 20:02:35 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,24 +79,25 @@ char	*ft_readfile(int fd, char *remain, char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*remain[1024];
+	static char	*remain;
 	char		*buffer;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0
-		|| BUFFER_SIZE >= INT_MAX)
+	if (fd == -5)
+		free(remain);
+	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
 		return (NULL);
 	buffer = (char *)malloc((size_t)(BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	line = ft_readfile(fd, remain[fd], buffer);
+	line = ft_readfile(fd, remain, buffer);
 	free(buffer);
 	if (!line)
 	{
-		free(remain[fd]);
-		remain[fd] = NULL;
+		free(remain);
+		remain = NULL;
 		return (NULL);
 	}
-	remain[fd] = ft_getline(&line);
+	remain = ft_getline(&line);
 	return (line);
 }

@@ -6,12 +6,11 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:35:58 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/05/07 16:36:24 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:06:06 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
 
 char	*ft_strchr(const char *s, int c)
 {

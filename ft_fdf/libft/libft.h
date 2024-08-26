@@ -6,24 +6,20 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 23:44:44 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/05/04 20:41:18 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/08/21 23:31:21 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-//todo delete 
-# include <stdio.h>
-
 # include <limits.h>
 # include <stdint.h>
 # include <stdlib.h>
 # include <unistd.h>
 
-
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 3
+#  define BUFFER_SIZE 1024
 # endif
 
 typedef struct s_list

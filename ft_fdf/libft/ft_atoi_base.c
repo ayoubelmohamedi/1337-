@@ -6,23 +6,22 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 20:36:56 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/05/07 16:37:20 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:05:34 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "libft.h"
 
-
-static  int	check_errors(char *str, char *base)
+static int	check_errors(char *str, char *base)
 {
-	int	i;
-	size_t b_len;
+	int		i;
+	size_t	b_len;
 
-	if (!base || ((b_len = ft_strlen(base)) < 2))
-		return (1);	
+	b_len = ft_strlen(base);
+	if (!base || (b_len < 2))
+		return (1);
 	i = 1;
-	while(base[i])
+	while (base[i])
 	{
 		if (ft_strchr(&base[i], base[i - 1]))
 			return (1);
@@ -37,7 +36,7 @@ static  int	check_errors(char *str, char *base)
 	return (0);
 }
 
-static  int	get_nbr(char c, char *base)
+static int	get_nbr(char c, char *base)
 {
 	int	i;
 
@@ -55,7 +54,7 @@ int	ft_atoi_base(char *str, char *base)
 	int	base_length;
 
 	res = 0;
-	i	= 0;
+	i = 0;
 	sign = 1;
 	if (*str == '+' || *str == '-')
 		if (*str++ == '-')
