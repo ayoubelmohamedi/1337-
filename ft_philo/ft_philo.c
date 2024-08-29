@@ -23,9 +23,10 @@ int	is_valid(char **args)
 	return (1);
 }
 
-void	*ft_perform_work(t_prop props)
+void	*ft_perform_work(void *args)
 {
 	static int nbr = 0;
+	t_prop props = *((t_prop *) args);
 	printf("working thread nbr => %d , time to die is => %d\n", nbr, props.time_to_die);
 	nbr++;
 	return (NULL);
