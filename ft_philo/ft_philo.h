@@ -15,14 +15,28 @@
 
 # include <pthread.h>
 # include <stdio.h>
+# include <stdlib.h>
 
-typedef struct s_prop
+
+typedef struct s_philo
 {
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	eating_time;
-}		t_prop;
+	int index;
+	int	t_die;
+	int	t_eat;
+	int	t_sleep;
+} t_philo;
+
+
+typedef struct s_all
+{
+	int eat_count;
+	int nbr_philos;
+	int t_die;
+	int t_eat;
+	int t_sleep;
+	t_philo *philos;
+} t_all;
+
 
 int		ft_isdigit(int c);
 int		ft_atoi(const char *nbr);
