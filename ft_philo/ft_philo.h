@@ -41,4 +41,7 @@ typedef struct s_all
 int		ft_isdigit(int c);
 int		ft_atoi(const char *nbr);
 
+//errors
+void   ft_err_exit(t_philo * philos);
+
 #endif

@@ -26,19 +26,26 @@ int	is_valid(char **args)
 void	*ft_perform_work(void *args)
 {
 	static int nbr = 0;
-	t_prop props = *((t_prop *) args);
-	printf("working thread nbr => %d , time to die is => %d\n", nbr, props.time_to_die);
+	t_all t_table = *((t_all *) args);
+	printf("working thread nbr => %d , time to die is => %d\n", t_table.philos->index, t_table.t_die);
 	nbr++;
 	return (NULL);
 }
 
-void	ft_init_threads(pthread_t threads, t_all table)
+int	ft_init_threads(pthread_t threads[], t_all *table)
 {
 	size_t i;
+	int res;
 
 	i = 0;
-	while (i < table.nbr_philos)
-		threads[i++] = pthread_create(&threads[i], NULL, ft_perform_work, &props); 
+	while (i < table->nbr_philos)
+	{
+		res = pthread_create(&threads[i], NULL, ft_perform_work, table); 
+		if (!res)
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 int ft_init_philos(t_all * t_table)
@@ -67,11 +74,12 @@ int	main(int c, char **argv)
 
 	if (c != 6 || !is_valid(argv))
 		return (1);
-	pthread_t *threads[ft_atoi(argv[1])];
+	pthread_t threads[ft_atoi(argv[1])];
 	t_all	t_table = {ft_atoi(argv[5]), ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), NULL};
 
 	ft_init_philos(&t_table);
-	ft_init_threads(threads ,t_table);
+	if (ft_init_threads(threads ,&t_table))
+		ft_err_exit(t_table.philos);
 	res = 	i++;
 	return (0);
 }
