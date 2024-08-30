@@ -23,8 +23,6 @@ int	is_valid(char **args)
 	return (1);
 }
 
-#include<unistd.h>
-
 void	*ft_perform_work(void *args)
 {
 	t_philo philo = *((t_philo *) args);
