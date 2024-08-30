@@ -13,6 +13,7 @@
 NAME = philo 
 CC = cc
 # CFLAGS   =	-Wall -Wextra -Werror -pthread
+CFLAGS = -g
 SRCS = ft_philo.c ft_helpers.c ft_errors.c
 OBJS = $(SRCS:.c=.o)
 

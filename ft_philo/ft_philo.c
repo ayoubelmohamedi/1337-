@@ -23,12 +23,15 @@ int	is_valid(char **args)
 	return (1);
 }
 
+#include<unistd.h>
+
 void	*ft_perform_work(void *args)
 {
-	static int nbr = 0;
-	t_all t_table = *((t_all *) args);
-	printf("working thread nbr => %d , time to die is => %d\n", t_table.philos->index, t_table.t_die);
-	nbr++;
+	t_philo philo = *((t_philo *) args);
+	printf("working philo index => %d , time to eating => %d\n", philo.index, philo.t_eat);
+	printf("eating...\n");
+	sleep(10);
+	printf("philo %d done eating\n", philo.index);
 	return (NULL);
 }
 
@@ -38,11 +41,18 @@ int	ft_init_threads(pthread_t threads[], t_all *table)
 	int res;
 
 	i = 0;
+	// printf("second address %p\n", &threads[2]);
+	printf("nbr of philos => %d\n", table->nbr_philos);	
 	while (i < table->nbr_philos)
 	{
-		res = pthread_create(&threads[i], NULL, ft_perform_work, table); 
-		if (!res)
-			return (0);
+		printf("i ===> %zu\n", i);
+		printf("inside init_thread\n");
+		printf("thread address %p\n" ,&threads[i]);
+		if (pthread_create(&threads[i], NULL, ft_perform_work, &table->philos[i]))
+		{
+			printf("problem in thread creation\n");
+			return (0); 
+		}
 		i++;
 	}
 	return (1);
@@ -62,7 +72,8 @@ int ft_init_philos(t_all * t_table)
 		philos[i].index = i;
 		philos[i].t_die = t_table->t_die;
 		philos[i].t_eat = t_table->t_eat;
-		philos[i++].t_sleep = t_table->t_sleep;
+		philos[i].t_sleep = t_table->t_sleep;
+		philos[i++].nbr_philos = t_table->nbr_philos;
 	}
 	return (1);
 }
@@ -74,12 +85,23 @@ int	main(int c, char **argv)
 
 	if (c != 6 || !is_valid(argv))
 		return (1);
+	printf("threads number is => %d\n", ft_atoi(argv[1]));
 	pthread_t threads[ft_atoi(argv[1])];
 	t_all	t_table = {ft_atoi(argv[5]), ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), NULL};
-
-	ft_init_philos(&t_table);
-	if (ft_init_threads(threads ,&t_table))
+	if (!ft_init_philos(&t_table))
+		return (1);
+	if (!ft_init_threads(threads ,&t_table))
+	{
+		printf("thread exiting \n");
 		ft_err_exit(t_table.philos);
-	res = 	i++;
+	}
+	i = 0;
+	printf("hello\n");
+	while (i < t_table.nbr_philos)
+	{
+		if (pthread_join(threads[i],NULL))
+			ft_err_exit(t_table.philos);
+		i++;
+	}
 	return (0);
 }

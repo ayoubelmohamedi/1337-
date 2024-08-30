@@ -17,13 +17,13 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-
 typedef struct s_philo
 {
 	int index;
 	int	t_die;
 	int	t_eat;
 	int	t_sleep;
+	int nbr_philos;
 } t_philo;
 
 
