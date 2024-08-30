@@ -35,24 +35,16 @@ void	*ft_perform_work(void *args)
 	return (NULL);
 }
 
-int	ft_init_threads(pthread_t threads[], t_all *table)
+int	ft_init_threads(pthread_t *threads, t_all *table)
 {
 	size_t i;
 	int res;
 
 	i = 0;
-	// printf("second address %p\n", &threads[2]);
-	printf("nbr of philos => %d\n", table->nbr_philos);	
 	while (i < table->nbr_philos)
 	{
-		printf("i ===> %zu\n", i);
-		printf("inside init_thread\n");
-		printf("thread address %p\n" ,&threads[i]);
 		if (pthread_create(&threads[i], NULL, ft_perform_work, &table->philos[i]))
-		{
-			printf("problem in thread creation\n");
 			return (0); 
-		}
 		i++;
 	}
 	return (1);
@@ -75,6 +67,7 @@ int ft_init_philos(t_all * t_table)
 		philos[i].t_sleep = t_table->t_sleep;
 		philos[i++].nbr_philos = t_table->nbr_philos;
 	}
+	t_table->philos = philos;
 	return (1);
 }
 
@@ -85,18 +78,14 @@ int	main(int c, char **argv)
 
 	if (c != 6 || !is_valid(argv))
 		return (1);
-	printf("threads number is => %d\n", ft_atoi(argv[1]));
 	pthread_t threads[ft_atoi(argv[1])];
+	pthread_t *threads = malloc(sizeof(pthread_t) * ft_atoi(argv[1]));
 	t_all	t_table = {ft_atoi(argv[5]), ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), NULL};
 	if (!ft_init_philos(&t_table))
 		return (1);
 	if (!ft_init_threads(threads ,&t_table))
-	{
-		printf("thread exiting \n");
 		ft_err_exit(t_table.philos);
-	}
 	i = 0;
-	printf("hello\n");
 	while (i < t_table.nbr_philos)
 	{
 		if (pthread_join(threads[i],NULL))
