@@ -23,13 +23,24 @@ int	is_valid(char **args)
 	return (1);
 }
 
+void eat (t_philo * philo)
+{
+	if (philo->l_fork && philo->r_forl)
+		usleep(philo->t_sleep);
+}
+
 void	*ft_perform_work(void *args)
 {
-	t_philo philo = *((t_philo *) args);
-	printf("working philo index => %d , time to eating => %d\n", philo.index, philo.t_eat);
-	printf("eating...\n");
-	sleep(10);
-	printf("philo %d done eating\n", philo.index);
+	t_philo philo;
+	
+	philo = *((t_philo *) args);
+	while (1)
+	{
+		eat(&philo);
+		sleep(&philo);
+		die(&philo);
+	}
+
 	return (NULL);
 }
 
@@ -63,7 +74,8 @@ int ft_init_philos(t_all * t_table)
 		philos[i].t_die = t_table->t_die;
 		philos[i].t_eat = t_table->t_eat;
 		philos[i].t_sleep = t_table->t_sleep;
-		philos[i++].nbr_philos = t_table->nbr_philos;
+		philos[i].nbr_philos = t_table->nbr_philos;
+		philos[i++].fork = t_table->fork;
 	}
 	t_table->philos = philos;
 	return (1);
@@ -73,12 +85,14 @@ int	main(int c, char **argv)
 {
 	int res;
 	int i;
+	pthread_mutex_t fork;
 
 	if (c != 6 || !is_valid(argv))
 		return (1);
+	if (pthread_mutex_init(&fork, NULL))
+		return (1);
 	pthread_t threads[ft_atoi(argv[1])];
-	pthread_t *threads = malloc(sizeof(pthread_t) * ft_atoi(argv[1]));
-	t_all	t_table = {ft_atoi(argv[5]), ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), NULL};
+	t_all	t_table = {ft_atoi(argv[5]), ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), &fork,NULL};
 	if (!ft_init_philos(&t_table))
 		return (1);
 	if (!ft_init_threads(threads ,&t_table))
