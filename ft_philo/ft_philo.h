@@ -14,14 +14,17 @@
 # define FT_PHILO_H
 
 #include <stdbool.h>
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-#include<unistd.h>
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/time.h>
 
 # define LOCK pthread_mutex_lock
 # define UNLOCK pthread_mutex_unlock
 # define DSTR pthread_mutex_destroy
+
+typedef enum { THINKING, HUNGRY, EATING } State;
 
 typedef struct s_philo
 {
@@ -29,11 +32,8 @@ typedef struct s_philo
 	int	t_die;
 	int	t_eat;
 	int	t_sleep;
-	int nbr_philos;
-	pthread_mutex_t *l_fork;
-	pthread_mutex_t *r_forl;
-	bool has_fork;
-
+	int is_dead;
+	t_all *table;
 } t_philo;
 
 
@@ -44,10 +44,12 @@ typedef struct s_all
 	int t_die;
 	int t_eat;
 	int t_sleep;
-	pthread_mutex_t *fork;
+	State *state;
+	pthread_mutex_t *forks;
+	pthread_mutex_t *critical_region;
+	pthread_mutex_t *output_mtx;
 	t_philo *philos;
 } t_all;
-
 
 int		ft_isdigit(int c);
 int		ft_atoi(const char *nbr);

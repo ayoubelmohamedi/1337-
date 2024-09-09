@@ -23,10 +23,75 @@ int	is_valid(char **args)
 	return (1);
 }
 
-void eat (t_philo * philo)
+size_t current_time_in_milliseconds() {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return (size_t)(tv.tv_sec) * 1000 + (tv.tv_usec) / 1000;
+}
+
+size_t left(t_philo philo) 
+{  
+    // number of the left neighbor of philosopher i, for whom both forks are available
+    return (philo.index - 1 + philo.table->nbr_philos) % philo.table->nbr_philos; // N is added for the case when  i - 1 is negative
+}
+
+size_t inline right(t_philo philo) 
+{  
+    // number of the right neighbor of the philosopher i, for whom both forks are available
+    return (philo.index + 1) % philo.index;
+}
+
+void ft_usleep(size_t time_to_sleep)
 {
-	if (philo->l_fork && philo->r_forl)
-		usleep(philo->t_sleep);
+	usleep(time_to_sleep * 1000); 
+}
+
+
+void ft_eat(t_philo philo)
+{
+	LOCK(philo.table->output_mtx);
+	printf("%zu %d is eating\n", current_time_in_milliseconds(), philo.index);
+	UNLOCK(philo.table->output_mtx);
+	ft_usleep(philo.t_eat);
+}
+
+void ft_think(t_philo philo)
+{
+	LOCK(philo.table->output_mtx);
+	printf("%zu %d is thinking\n", current_time_in_milliseconds(), philo.index);
+	UNLOCK(philo.table->output_mtx);
+	ft_usleep(philo.t_sleep);
+}
+
+void test(t_philo philo)
+{
+	if (philo.table->state[philo.index] == HUNGRY
+		&& philo.table->state[left(philo)] != EATING && philo.table->state[right(philo)] != EATING)
+		{
+			philo.table->state[philo.index] = EATING;
+			//todo check if two side forks available
+			// both_forks_available[i].release();
+		}
+}
+
+void ft_takeforks(t_philo philo)
+{
+	LOCK(philo.table->critical_region);
+	philo.table->state[philo.index] = HUNGRY;
+	LOCK(philo.table->output_mtx);
+	printf("%zu %d is hungry\n", current_time_in_milliseconds(), philo.index);
+	UNLOCK(philo.table->output_mtx);
+	test(philo);
+	UNLOCK(philo.table->critical_region);
+}
+
+void ft_putforks(t_philo philo)
+{
+	LOCK(philo.table->critical_region);
+	philo.table->state[philo.index] = THINKING;
+	test(philo.table->philos[left(philo)]);
+	test(philo.table->philos[right(philo)]);
+	UNLOCK(philo.table->critical_region);	
 }
 
 void	*ft_perform_work(void *args)
@@ -36,12 +101,11 @@ void	*ft_perform_work(void *args)
 	philo = *((t_philo *) args);
 	while (1)
 	{
-		eat(&philo);
-		sleep(&philo);
-		die(&philo);
+		ft_think(philo);
+		ft_takeforks(philo);
+		ft_eat(philo);
+		put_forks(philo);
 	}
-
-	return (NULL);
 }
 
 int	ft_init_threads(pthread_t *threads, t_all *table)
@@ -74,8 +138,8 @@ int ft_init_philos(t_all * t_table)
 		philos[i].t_die = t_table->t_die;
 		philos[i].t_eat = t_table->t_eat;
 		philos[i].t_sleep = t_table->t_sleep;
-		philos[i].nbr_philos = t_table->nbr_philos;
-		philos[i++].fork = t_table->fork;
+		philos[i].is_dead = 0;
+		philos[i++].table = t_table;
 	}
 	t_table->philos = philos;
 	return (1);
@@ -86,13 +150,15 @@ int	main(int c, char **argv)
 	int res;
 	int i;
 	pthread_mutex_t fork;
+	pthread_mutex_t output_mtx;
 
 	if (c != 6 || !is_valid(argv))
 		return (1);
-	if (pthread_mutex_init(&fork, NULL))
+	if (pthread_mutex_init(&fork, NULL) || pthread_mutex_init(&fork, NULL))
 		return (1);
+	State state[ft_atoi(argv[1])];
 	pthread_t threads[ft_atoi(argv[1])];
-	t_all	t_table = {ft_atoi(argv[5]), ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), &fork,NULL};
+	t_all	t_table = {ft_atoi(argv[5]), ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), &state, &fork, &output_mtx, NULL};
 	if (!ft_init_philos(&t_table))
 		return (1);
 	if (!ft_init_threads(threads ,&t_table))
