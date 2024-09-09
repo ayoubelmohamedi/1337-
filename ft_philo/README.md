@@ -10,7 +10,7 @@ A philosopher can only eat their spaghetti when they have both a left and right 
 [pthreads](https://en.wikipedia.org/wiki/Pthreads) defines a set of C programming language types, functions and constants. It is implemented with a pthread.h header and a thread library. see also [UNIX Specification, Version 2 Threads Extensions](https://unix.org/unix/version2/whatsnew/login_threads.html)
 There are around 100 threads procedures, all prefixed pthread_ and they can be categorized into five groups:
 * Thread management – creating, joining threads etc.
-* [Mutexes](https://en.wikipedia.org/wiki/Lock_(computer_science)) : provides mutual exclusion => blocks multiple users from accessing the same shared variable or data (known as critical section)at the same time.
+* [Mutexes](https://en.wikipedia.org/wiki/Lock_(computer_science)) : provides mutual exclusion => blocks multiple users from accessing the same shared variable or data ([critical section](https://en.wikipedia.org/wiki/Critical_section))at the same time.
 * [Condition variables](https://en.wikipedia.org/wiki/Condition_variable) ?!
 * Synchronization between threads using [read write locks](https://en.wikipedia.org/wiki/Readers%E2%80%93writer_lock) and [barriers](https://en.wikipedia.org/wiki/Barrier_(computer_science)) (Barries wait for threads to be created first in order for work to start. use it in case you need all threads to start at the same time)
 * [Spinlocks](https://en.wikipedia.org/wiki/Spinlock)
@@ -40,7 +40,7 @@ define DSTR pthread_mutex_destroy
 ## Problems :
 
 * **Deadlock** : each process is waiting (everyone is holding one fork, waiting for the other one)
-* **Race conditions** : threads sharing [critical section](https://en.wikipedia.org/wiki/Critical_section) (solved by mutual exclusion)
+* **Race conditions** : threads sharing data, making changes at the same time (solved by mutual exclusion)
 * **Resource Starvation** : thread or process is perpetually denied access, mostly due to Resource Allocation held by other threads, or poor scheduling.
 
 >_example of poor scheduling_ : thread is locking the mutex immediately	after unlocking it, not giving enough time for another thread to access it.
