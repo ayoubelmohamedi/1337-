@@ -8,6 +8,7 @@ A philosopher can only eat their spaghetti when they have both a left and right 
  
 ## About pthread library
 [pthreads](https://en.wikipedia.org/wiki/Pthreads) defines a set of C programming language types, functions and constants. It is implemented with a pthread.h header and a thread library. see also [UNIX Specification, Version 2 Threads Extensions](https://unix.org/unix/version2/whatsnew/login_threads.html)
+
 There are around 100 threads procedures, all prefixed pthread_ and they can be categorized into five groups:
 * Thread management – creating, joining threads etc.
 * [Mutexes](https://en.wikipedia.org/wiki/Lock_(computer_science)) : provides mutual exclusion => blocks multiple users from accessing the same shared variable or data ([critical section](https://en.wikipedia.org/wiki/Critical_section))at the same time.
