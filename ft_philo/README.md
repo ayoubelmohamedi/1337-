@@ -49,6 +49,29 @@ define DSTR pthread_mutex_destroy
 
 >_real-world example of livelock_ is when two people in a narrow corridor both try to move aside to let the other pass but end up swaying back and forth without making progress.
 
+## Semaphores
+
+[Semaphore](https://en.wikipedia.org/wiki/Semaphore_(programming)) is datatype for control access to a common resource.
+
+trivial semaphore can be incremented or decremented, or toggled) .
+> example: Consider a variable A and a boolean variable S. A is only accessed when S is marked true. Thus, S is a semaphore for A.
+
+**counting semaphores**: allow an arbitrary resource count.
+**binary semaphores**: restricted to the values 0 and 1 (or locked/unlocked, unavailable/available).
+
+> exampe of binary semaphores, initializing five forks to zero
+
+```
+std::binary_semaphore both_forks_available[N]
+{
+    std::binary_semaphore{0}, std::binary_semaphore{0},
+    std::binary_semaphore{0}, std::binary_semaphore{0},
+    std::binary_semaphore{0}
+};
+```
+
+
+
 ## Dijkstra's solution
 This solution negates resource holding, making sure each philosopher holds both forks or wait.
 
