@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:55:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/08/29 10:32:42 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:44:55 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define DSTR pthread_mutex_destroy
 
 typedef enum { THINKING, HUNGRY, EATING } State;
+
+typedef struct s_all t_all;
 
 typedef struct s_philo
 {

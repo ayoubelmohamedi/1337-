@@ -16,6 +16,10 @@ int	ft_atoi(const char *nbr)
 	sign = 1;
 	res = 0;
 	i = 0;
+	printf("atoi == > %s\n", nbr);
+
+	if (nbr == NULL)
+		return (0);
 	while (nbr[i] == '\t' || nbr[i] == '\n' || nbr[i] == '\v' || nbr[i] == '\f'
 		|| nbr[i] == '\r' || nbr[i] == ' ')
 		i++;

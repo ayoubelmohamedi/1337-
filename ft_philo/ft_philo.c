@@ -35,7 +35,7 @@ size_t left(t_philo philo)
     return (philo.index - 1 + philo.table->nbr_philos) % philo.table->nbr_philos; // N is added for the case when  i - 1 is negative
 }
 
-size_t inline right(t_philo philo) 
+size_t right(t_philo philo) 
 {  
     // number of the right neighbor of the philosopher i, for whom both forks are available
     return (philo.index + 1) % philo.index;
@@ -68,8 +68,10 @@ void test(t_philo philo)
 	if (philo.table->state[philo.index] == HUNGRY
 		&& philo.table->state[left(philo)] != EATING && philo.table->state[right(philo)] != EATING)
 		{
+			LOCK(&philo.table->forks[philo.index]);
 			philo.table->state[philo.index] = EATING;
-			//todo check if two side forks available
+			UNLOCK(&philo.table->forks[philo.index]);
+			// alternative with semaphores 
 			// both_forks_available[i].release();
 		}
 }
@@ -104,7 +106,7 @@ void	*ft_perform_work(void *args)
 		ft_think(philo);
 		ft_takeforks(philo);
 		ft_eat(philo);
-		put_forks(philo);
+		ft_putforks(philo);
 	}
 }
 
@@ -149,16 +151,24 @@ int	main(int c, char **argv)
 {
 	int res;
 	int i;
-	pthread_mutex_t fork;
 	pthread_mutex_t output_mtx;
+	pthread_mutex_t critical_region;
 
-	if (c != 6 || !is_valid(argv))
-		return (1);
-	if (pthread_mutex_init(&fork, NULL) || pthread_mutex_init(&fork, NULL))
-		return (1);
+
+	// if (c != 5 || !is_valid(argv))
+	// 	return (1);
+	pthread_mutex_t forks[ft_atoi(argv[1])];
 	State state[ft_atoi(argv[1])];
+	i = 0;
+	while (i < ft_atoi(argv[1]))
+	{
+		pthread_mutex_init(&forks[i],NULL);
+		state[i++] = THINKING;
+	} 
 	pthread_t threads[ft_atoi(argv[1])];
-	t_all	t_table = {ft_atoi(argv[5]), ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), &state, &fork, &output_mtx, NULL};
+	pthread_mutex_init(&output_mtx, NULL);
+	pthread_mutex_init(&critical_region, NULL);
+	t_all	t_table = {ft_atoi(argv[4]), ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), state, forks, &critical_region, &output_mtx, NULL};
 	if (!ft_init_philos(&t_table))
 		return (1);
 	if (!ft_init_threads(threads ,&t_table))
