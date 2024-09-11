@@ -38,7 +38,7 @@ size_t left(t_philo philo)
 size_t right(t_philo philo) 
 {  
     // number of the right neighbor of the philosopher i, for whom both forks are available
-    return (philo.index + 1) % philo.index;
+    return (philo.index + 1) % philo.table->nbr_philos;
 }
 
 void ft_usleep(size_t time_to_sleep)
