@@ -46,6 +46,7 @@ typedef struct s_all
 	int t_die;
 	int t_eat;
 	int t_sleep;
+	size_t curr_time;
 	State *state;
 	pthread_mutex_t *forks;
 	pthread_mutex_t *critical_region;

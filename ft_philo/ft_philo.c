@@ -50,15 +50,15 @@ void ft_usleep(size_t time_to_sleep)
 void ft_eat(t_philo philo)
 {
 	LOCK(philo.table->output_mtx);
-	printf("%zu %d is eating\n", current_time_in_milliseconds(), philo.index);
+	printf("%zu %d is eating\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);
 	UNLOCK(philo.table->output_mtx);
 	ft_usleep(philo.t_eat);
 }
 
-void ft_think(t_philo philo)
+void ft_sleeping(t_philo philo)
 {
 	LOCK(philo.table->output_mtx);
-	printf("%zu %d is thinking\n", current_time_in_milliseconds(), philo.index);
+	printf("%zu %d is sleeping\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);
 	UNLOCK(philo.table->output_mtx);
 	ft_usleep(philo.t_sleep);
 }
@@ -70,6 +70,10 @@ void test(t_philo philo)
 		{
 			LOCK(&philo.table->forks[philo.index]);
 			philo.table->state[philo.index] = EATING;
+			LOCK(philo.table->output_mtx);
+			printf("%zu %d has taken a fork\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);
+			printf("%zu %d has taken a fork\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);
+			UNLOCK(philo.table->output_mtx);
 			UNLOCK(&philo.table->forks[philo.index]);
 			// alternative with semaphores 
 			// both_forks_available[i].release();
@@ -81,7 +85,7 @@ void ft_takeforks(t_philo philo)
 	LOCK(philo.table->critical_region);
 	philo.table->state[philo.index] = HUNGRY;
 	LOCK(philo.table->output_mtx);
-	printf("%zu %d is hungry\n", current_time_in_milliseconds(), philo.index);
+	printf("%zu %d is thinking\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);
 	UNLOCK(philo.table->output_mtx);
 	test(philo);
 	UNLOCK(philo.table->critical_region);
@@ -103,10 +107,10 @@ void	*ft_perform_work(void *args)
 	philo = *((t_philo *) args);
 	while (1)
 	{
-		ft_think(philo);
 		ft_takeforks(philo);
 		ft_eat(philo);
 		ft_putforks(philo);
+		ft_sleeping(philo);
 	}
 }
 
@@ -168,7 +172,7 @@ int	main(int c, char **argv)
 	pthread_t threads[ft_atoi(argv[1])];
 	pthread_mutex_init(&output_mtx, NULL);
 	pthread_mutex_init(&critical_region, NULL);
-	t_all	t_table = {ft_atoi(argv[4]), ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), state, forks, &critical_region, &output_mtx, NULL};
+	t_all	t_table = {ft_atoi(argv[4]), ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), current_time_in_milliseconds(),state, forks, &critical_region, &output_mtx, NULL};
 	if (!ft_init_philos(&t_table))
 		return (1);
 	if (!ft_init_threads(threads ,&t_table))
