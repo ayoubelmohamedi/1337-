@@ -68,13 +68,14 @@ void test(t_philo philo)
 	if (philo.table->state[philo.index] == HUNGRY
 		&& philo.table->state[left(philo)] != EATING && philo.table->state[right(philo)] != EATING)
 		{
-			LOCK(&philo.table->forks[philo.index]);
 			philo.table->state[philo.index] = EATING;
+			printf("==============\n");
+			printf("philo => %d\n", philo.index);
+			printf("==============\n");
 			LOCK(philo.table->output_mtx);
 			printf("%zu %d has taken a fork\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);
 			printf("%zu %d has taken a fork\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);
 			UNLOCK(philo.table->output_mtx);
-			UNLOCK(&philo.table->forks[philo.index]);
 			// alternative with semaphores 
 			// both_forks_available[i].release();
 		}
@@ -83,10 +84,10 @@ void test(t_philo philo)
 void ft_takeforks(t_philo philo)
 {
 	LOCK(philo.table->critical_region);
-	philo.table->state[philo.index] = HUNGRY;
 	LOCK(philo.table->output_mtx);
-	printf("%zu %d is thinking\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);
-	UNLOCK(philo.table->output_mtx);
+	printf("%zu %d is thinking\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);	
+	UNLOCK(philo.table->output_mtx);	
+	philo.table->state[philo.index] = HUNGRY;
 	test(philo);
 	UNLOCK(philo.table->critical_region);
 }
@@ -94,7 +95,7 @@ void ft_takeforks(t_philo philo)
 void ft_putforks(t_philo philo)
 {
 	LOCK(philo.table->critical_region);
-	philo.table->state[philo.index] = THINKING;
+	philo.table->state[philo.index] = ;
 	test(philo.table->philos[left(philo)]);
 	test(philo.table->philos[right(philo)]);
 	UNLOCK(philo.table->critical_region);	
