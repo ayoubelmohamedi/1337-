@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:55:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/09/11 20:44:10 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:31:28 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_all
 	int t_sleep;
 	size_t curr_time;
 	State *state;
-	pthread_mutex_t *forks;
+	pthread_mutex_t *both_forks_available;
 	pthread_mutex_t *critical_region;
 	pthread_mutex_t *output_mtx;
 	t_philo *philos;

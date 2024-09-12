@@ -46,11 +46,17 @@ void ft_usleep(size_t time_to_sleep)
 	usleep(time_to_sleep * 1000); 
 }
 
+void ft_think(t_philo philo) 
+{
+    LOCK(philo.table->output_mtx);  // critical section for uninterrupted print
+	printf("%zu %d is thinking\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);
+    UNLOCK(philo.table->output_mtx);
+}
 
 void ft_eat(t_philo philo)
 {
 	LOCK(philo.table->output_mtx);
-	printf("%zu %d is eating\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);
+	printf("\t\t\t%zu %d is eating\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);
 	UNLOCK(philo.table->output_mtx);
 	ft_usleep(philo.t_eat);
 }
@@ -69,50 +75,50 @@ void test(t_philo philo)
 		&& philo.table->state[left(philo)] != EATING && philo.table->state[right(philo)] != EATING)
 		{
 			philo.table->state[philo.index] = EATING;
-			printf("==============\n");
-			printf("philo => %d\n", philo.index);
-			printf("==============\n");
 			LOCK(philo.table->output_mtx);
 			printf("%zu %d has taken a fork\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);
 			printf("%zu %d has taken a fork\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);
 			UNLOCK(philo.table->output_mtx);
 			// alternative with semaphores 
-			// both_forks_available[i].release();
+			UNLOCK(&philo.table->both_forks_available[philo.index]);
 		}
 }
 
 void ft_takeforks(t_philo philo)
 {
 	LOCK(philo.table->critical_region);
-	LOCK(philo.table->output_mtx);
-	printf("%zu %d is thinking\n", current_time_in_milliseconds() - philo.table->curr_time, philo.index);	
-	UNLOCK(philo.table->output_mtx);	
 	philo.table->state[philo.index] = HUNGRY;
+	ft_think(philo);	
 	test(philo);
 	UNLOCK(philo.table->critical_region);
+	LOCK(&philo.table->both_forks_available[philo.index]);
 }
 
 void ft_putforks(t_philo philo)
 {
 	LOCK(philo.table->critical_region);
-	philo.table->state[philo.index] = ;
+	philo.table->state[philo.index] = THINKING;
 	test(philo.table->philos[left(philo)]);
 	test(philo.table->philos[right(philo)]);
-	UNLOCK(philo.table->critical_region);	
+	UNLOCK(philo.table->critical_region);
 }
+
+static int times = 0;
 
 void	*ft_perform_work(void *args)
 {
 	t_philo philo;
 	
 	philo = *((t_philo *) args);
-	while (1)
+	while (times++ < 5)
 	{
 		ft_takeforks(philo);
 		ft_eat(philo);
 		ft_putforks(philo);
 		ft_sleeping(philo);
+		ft_think(philo);
 	}
+	return (NULL);
 }
 
 int	ft_init_threads(pthread_t *threads, t_all *table)
@@ -159,21 +165,20 @@ int	main(int c, char **argv)
 	pthread_mutex_t output_mtx;
 	pthread_mutex_t critical_region;
 
-
 	// if (c != 5 || !is_valid(argv))
 	// 	return (1);
-	pthread_mutex_t forks[ft_atoi(argv[1])];
+	pthread_mutex_t both_forks_available[ft_atoi(argv[1])];
 	State state[ft_atoi(argv[1])];
 	i = 0;
 	while (i < ft_atoi(argv[1]))
 	{
-		pthread_mutex_init(&forks[i],NULL);
+		pthread_mutex_init(&both_forks_available[i],NULL);
 		state[i++] = THINKING;
 	} 
 	pthread_t threads[ft_atoi(argv[1])];
 	pthread_mutex_init(&output_mtx, NULL);
 	pthread_mutex_init(&critical_region, NULL);
-	t_all	t_table = {ft_atoi(argv[4]), ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), current_time_in_milliseconds(),state, forks, &critical_region, &output_mtx, NULL};
+	t_all	t_table = {ft_atoi(argv[4]), ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), current_time_in_milliseconds(),state, both_forks_available, &critical_region, &output_mtx, NULL};
 	if (!ft_init_philos(&t_table))
 		return (1);
 	if (!ft_init_threads(threads ,&t_table))
