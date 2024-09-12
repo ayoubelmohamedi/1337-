@@ -83,7 +83,13 @@ std::binary_semaphore both_forks_available[N]
 };
 ```
 
+## Mutexes vs Semaphores
 
+- **Mutex**: owned by the threads that locks it. Only one thread can access a shared resource at a time. A mutex doesn't have signaling capabilities.
+- **semaphore**:  has a count and does not have ownership. Any thread can signal or wait on the semaphore.
+  > _Signaling_: A semaphore can be used to signal between threads ( (e.g., one thread waits for a signal while another thread signals the semaphore).
+  
+  > _Semaphores_ can be used to control access to a resource pool, allowing more than one thread to access resources concurrently if the semaphore count is greater than 1.
 
 ## Dijkstra's solution
 This solution negates resource holding, making sure each philosopher holds both forks or wait.
