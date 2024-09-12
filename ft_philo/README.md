@@ -38,6 +38,19 @@ define LOCK pthread_mutex_lock
 define UNLOCK pthread_mutex_unlock
 define DSTR pthread_mutex_destroy
 ```
+## synchronization primitive:
+
+
+[synchronization primitive](https://en.wikipedia.org/wiki/Synchronization_(computer_science)) prevents state from being modified or accessed by multiple threads of execution at once.
+1. **mutexes**:  provides mutual exclusion, allowing only one thread to access a resource at a time.
+2. **Semaphores**:  signalling mechanisms. it is variable the can be incremented/decremented (counting semaphores) sitting a limit to how many thread can access the ressource. they can also be toglled true/false (binary semaphores) to signal resource access availability.
+3. **Condition variables**:  allow threads to wait until a particular condition is met. Often used in conjunction with mutexes to avoid race conditions.
+4. **Barriers**: synchronize a group of threads at a certain point in execution so they can start simultaneously.
+5. **Spinlocks**: A type of mutex that keeps checking (or "spinning") until the lock becomes available. (best for short-time wait).
+6. **Read/write locks**: These allow multiple threads to read a resource concurrently while providing exclusive access for writing.
+7. **Atomic Operations**: low-level operations that ensure certain operations on variables are completed without interruption, thus preventing race conditions.
+
+
 ## Problems :
 
 * **Deadlock** : each process is waiting (everyone is holding one fork, waiting for the other one)
