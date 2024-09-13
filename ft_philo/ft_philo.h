@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:55:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/09/12 10:31:28 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:37:12 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@
 # define DSTR pthread_mutex_destroy
 
 typedef enum { THINKING, HUNGRY, EATING } State;
+
+
+#define RESET "\033[0m"
+#define AC_BLACK "\x1b[30m"
+#define AC_RED "\x1b[31m"
+#define AC_GREEN "\x1b[32m"
+#define AC_YELLOW "\x1b[33m"
+#define AC_BLUE "\x1b[34m"
 
 typedef struct s_all t_all;
 
