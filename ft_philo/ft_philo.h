@@ -17,6 +17,8 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+// #include <libft.h>
+
 #include <unistd.h>
 #include <sys/time.h>
 
@@ -39,27 +41,30 @@ typedef struct s_all t_all;
 typedef struct s_philo
 {
 	int index;
-	int	t_die;
-	int	t_eat;
-	int	t_sleep;
-	int is_dead;
-	t_all *table;
+	pthread_mutex_t *my_fork;
+	pthread_mutex_t *r_fork;
+	t_all *all;
 } t_philo;
 
 
 typedef struct s_all
 {
-	int eat_count;
 	int nbr_philos;
 	int t_die;
 	int t_eat;
 	int t_sleep;
-	size_t curr_time;
-	State *state;
+	int eat_count;
+	int ac;
+	char **av;	
 	pthread_mutex_t *forks;
+	pthread_t *threads;
+	t_philo *philos;
+	size_t curr_time;
+
+
+	State *state;
 	pthread_mutex_t *critical_region;
 	pthread_mutex_t *output_mtx;
-	t_philo *philos;
 } t_all;
 
 int		ft_isdigit(int c);
