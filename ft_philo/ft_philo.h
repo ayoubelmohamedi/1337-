@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:55:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/09/14 21:47:21 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:02:35 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_all t_all;
 typedef struct s_philo
 {
 	int index;
+	int last_eat;
 	pthread_mutex_t *my_fork;
 	pthread_mutex_t *r_fork;
 	t_all *all;
@@ -60,9 +61,7 @@ typedef struct s_all
 	pthread_t *threads;
 	t_philo *philos;
 	size_t curr_time;
-
-
-	State *state;
+	
 	pthread_mutex_t *critical_region;
 	pthread_mutex_t *output_mtx;
 } t_all;

@@ -6,7 +6,7 @@
 #    By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/27 17:11:24 by ael-moha          #+#    #+#              #
-#    Updated: 2024/08/27 17:52:41 by ael-moha         ###   ########.fr        #
+#    Updated: 2024/09/19 10:02:20 by ael-moha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ INCLUDES = -I../libft/
 NAME = philo 
 CC = cc
 # CFLAGS   =	-Wall -Wextra -Werror 
-CFLAGS = -g 
+CFLAGS = -g -fsanitize=threads
 SRCS = ft_philo.c ft_helpers.c ft_errors.c
 OBJS = $(SRCS:.c=.o)
 
