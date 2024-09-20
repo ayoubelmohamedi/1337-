@@ -10,11 +10,10 @@
 #                                                                              #
 # **************************************************************************** #
 
-INCLUDES = -I../libft/
 NAME = philo 
 CC = cc
 # CFLAGS   =	-Wall -Wextra -Werror 
-CFLAGS = -g -fsanitize=threads
+CFLAGS = -g -fsanitize=thread
 SRCS = ft_philo.c ft_helpers.c ft_errors.c
 OBJS = $(SRCS:.c=.o)
 
@@ -22,10 +21,10 @@ RM = rm -f
 all: $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES)  -c $< -o $@ 
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 $(NAME): $(OBJS) 
-	$(CC) $(OBJS)  -o $(NAME) 
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) 
 
 clean:
 	$(RM) $(OBJS)

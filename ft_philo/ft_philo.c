@@ -54,11 +54,10 @@ void ft_eat(t_philo *philo)
 	LOCK(philo->all->output_mtx);
 	printf(AC_YELLOW "%zu\t%d is eating\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
 	UNLOCK(philo->all->output_mtx);	
-
+	philo->last_eat = current_time_in_milliseconds();	
 	ft_usleep(philo->all->t_eat);
-	philo->last_eat = current_time_in_milliseconds();
-	UNLOCK(philo->r_fork);
 	UNLOCK(philo->my_fork);
+	UNLOCK(philo->r_fork);
 }
 
 void ft_sleeping(t_philo *philo)
@@ -93,7 +92,7 @@ int	ft_init_threads(t_all *all)
 	all->curr_time = current_time_in_milliseconds();
 	while (i < all->nbr_philos)
 	{
-		if (pthread_create(all->threads + i, NULL, routine, all->philos + i))
+		if (pthread_create(&all->threads[i], NULL, routine, &all->philos[i]))
 			return (0); 
 		i++;
 	}
@@ -113,12 +112,21 @@ int init_all(t_all *all, int ac, char **av)
 	else
 		all->eat_count = ft_atoi(av[5]);
 	size_t i = 0;
+	pthread_mutex_init(all->output_mtx, NULL);
 	while (i < all->nbr_philos)
 	{
 		all->philos[i].index = i + 1;
-		pthread_mutex_init(all->forks + i, NULL);
-		all->philos[i].my_fork = all->forks + i;
-		all->philos[i].r_fork = all->forks + ((i + 1) % all->nbr_philos);
+		pthread_mutex_init(&all->forks[i], NULL);
+		if (i == all->nbr_philos - 1)
+		{
+			all->philos[i].r_fork = &all->forks[i];
+			all->philos[i].my_fork = &all->forks[((i + 1) % all->nbr_philos)] ;
+		}
+		else
+		{
+			all->philos[i].my_fork = &all->forks[i];
+			all->philos[i].r_fork = &all->forks[((i + 1) % all->nbr_philos)] ;
+		}
 		all->philos[i].all = all;
 		i++;
 	}
@@ -128,12 +136,18 @@ int init_all(t_all *all, int ac, char **av)
 
 void ft_monitor(t_all * all)
 {
-	// if (!all)
-	// 	return ;
-	int i = 0;
+	if (!all)
+		return ;
+	int i;
 	while (true)
 	{
-		// while (all->philos[i])	
+		i = 0;
+		while (i < all->nbr_philos)
+		{
+			if ((size_t)(current_time_in_milliseconds  - all->philos[i].last_eat) > all->t_die)
+				ft_exit(&all->philos[i]);
+			i++;
+		}
 	}
 }
 
@@ -145,10 +159,13 @@ int	main(int ac, char **argv)
 	pthread_mutex_t forks[ft_atoi(argv[1])];
 	pthread_t threads[ft_atoi(argv[1])];
 	t_philo philos[ft_atoi(argv[1])];
+	pthread_mutex_t output;
+
 
 	all.forks = forks;
 	all.threads = threads;
 	all.philos = philos;
+	all.output_mtx = &output;
 	init_all(&all, ac, argv);
 	ft_init_threads(&all);
 	ft_monitor(&all);

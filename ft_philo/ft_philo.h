@@ -28,7 +28,6 @@
 
 typedef enum { THINKING, HUNGRY, EATING } State;
 
-
 #define RESET "\033[0m"
 #define AC_BLACK "\x1b[30m"
 #define AC_RED "\x1b[31m"
@@ -61,8 +60,6 @@ typedef struct s_all
 	pthread_t *threads;
 	t_philo *philos;
 	size_t curr_time;
-	
-	pthread_mutex_t *critical_region;
 	pthread_mutex_t *output_mtx;
 } t_all;
 
