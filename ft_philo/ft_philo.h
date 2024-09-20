@@ -68,6 +68,11 @@ typedef struct s_all
 
 int		ft_isdigit(int c);
 int		ft_atoi(const char *nbr);
+void 	ft_err_exit(t_philo * philos);
+void 	ft_exit(t_philo * philo);
+
+
+size_t current_time_in_milliseconds();
 
 //errors
 void   ft_err_exit(t_philo * philos);
