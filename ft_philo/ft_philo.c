@@ -54,7 +54,10 @@ void ft_eat(t_philo *philo)
 	LOCK(philo->all->output_mtx);
 	printf(AC_YELLOW "%zu\t%d is eating\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
 	UNLOCK(philo->all->output_mtx);	
+	LOCK(philo->all->meal_mtx);
 	philo->last_eat = current_time_in_milliseconds();	
+	UNLOCK(philo->all->meal_mtx);
+	
 	ft_usleep(philo->all->t_eat);
 	UNLOCK(philo->my_fork);
 	UNLOCK(philo->r_fork);
@@ -92,6 +95,7 @@ int	ft_init_threads(t_all *all)
 	all->curr_time = current_time_in_milliseconds();
 	while (i < all->nbr_philos)
 	{
+		all->philos[i].last_eat = current_time_in_milliseconds();
 		if (pthread_create(&all->threads[i], NULL, routine, &all->philos[i]))
 			return (0); 
 		i++;
@@ -113,6 +117,7 @@ int init_all(t_all *all, int ac, char **av)
 		all->eat_count = ft_atoi(av[5]);
 	size_t i = 0;
 	pthread_mutex_init(all->output_mtx, NULL);
+	pthread_mutex_init(all->meal_mtx, NULL);
 	while (i < all->nbr_philos)
 	{
 		all->philos[i].index = i + 1;
@@ -144,8 +149,11 @@ void ft_monitor(t_all * all)
 		i = 0;
 		while (i < all->nbr_philos)
 		{
+			LOCK(all->meal_mtx);
 			if ((size_t)(current_time_in_milliseconds  - all->philos[i].last_eat) > all->t_die)
-				ft_exit(&all->philos[i]);
+				(UNLOCK(all->meal_mtx), ft_exit(&all->philos[i]));
+			UNLOCK(all->meal_mtx);
+			
 			i++;
 		}
 	}

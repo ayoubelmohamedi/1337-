@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:55:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/09/19 19:02:35 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/09/21 11:40:01 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_all
 	int ac;
 	char **av;	
 	pthread_mutex_t *forks;
+	pthread_mutex_t *meal_mtx; 
 	pthread_t *threads;
 	t_philo *philos;
 	size_t curr_time;

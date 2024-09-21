@@ -13,8 +13,9 @@ void   ft_err_exit(t_philo * philo)
 
 void ft_exit(t_philo * philo)
 {
+
     LOCK(philo->all->output_mtx);
-    printf(AC_RED "%zu %d died\n" RESET, current_time_in_milliseconds() - philo->all->curr_time ,philo->index);
-    UNLOCK(philo->all->output_mtx);
+    printf(AC_RED " %zu %d died\n" RESET, current_time_in_milliseconds() - philo->all->curr_time ,philo->index);
     exit(1);
+    UNLOCK(philo->all->output_mtx);
 }
