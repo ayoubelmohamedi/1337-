@@ -78,8 +78,14 @@ void* routine(void *args)
 	philo = ((t_philo *) args);
 	if (philo->index % 2 == 0)//prevent deadlock
 		ft_usleep((philo->all->t_eat / 2));
-	while (1)
+
+	while (philo->all->simulation_running)
 	{
+		if (current_time_in_milliseconds() - philo->last_eat > philo->all->t_die)
+		{
+			declare_death(philo);
+			break;
+		}
 		ft_eat(philo);
 		ft_sleeping(philo);
 		ft_think(philo);
@@ -111,6 +117,7 @@ int init_all(t_all *all, int ac, char **av)
 	all->t_die = ft_atoi(av[2]);
 	all->t_eat = ft_atoi(av[3]);
 	all->t_sleep =  ft_atoi(av[4]);
+	all->simulation_running = 1;
 	if(!av[5])
 		all->eat_count = -1;
 	else
@@ -139,25 +146,31 @@ int init_all(t_all *all, int ac, char **av)
 }
 
 
-void ft_monitor(t_all * all)
-{
-	if (!all)
-		return ;
-	int i;
-	while (true)
-	{
-		i = 0;
-		while (i < all->nbr_philos)
-		{
-			LOCK(all->meal_mtx);
-			if ((size_t)(current_time_in_milliseconds  - all->philos[i].last_eat) > all->t_die)
-				(UNLOCK(all->meal_mtx), ft_exit(&all->philos[i]));
-			UNLOCK(all->meal_mtx);
+// void ft_monitor(t_all * all)
+// {
+// 	if (!all)
+// 		return ;
+// 	int i;
+// 	while (true)
+// 	{
+// 		i = 0;
+
+// 		while (i < all->nbr_philos)
+// 		{
+// 			LOCK(all->meal_mtx);
+// 			size_t val = current_time_in_milliseconds(); 	
+// 			size_t l_eat = all->philos[i].last_eat; 
+// 			if ((size_t)(val  - l_eat) > all->t_die)
+// 			{
+// 				printf("philo %d, died %d ms\n", all->philos[i].index, (int)(val - l_eat));
+// 				(UNLOCK(all->meal_mtx), ft_exit(&all->philos[i]));
+// 			}
+// 			UNLOCK(all->meal_mtx);
 			
-			i++;
-		}
-	}
-}
+// 			i++;
+// 		}
+// 	}
+// }
 
 int	main(int ac, char **argv)
 {
@@ -176,7 +189,7 @@ int	main(int ac, char **argv)
 	all.output_mtx = &output;
 	init_all(&all, ac, argv);
 	ft_init_threads(&all);
-	ft_monitor(&all);
+	// ft_monitor(&all);
 	i = 0;
 	while (i < all.nbr_philos)
 	{

@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:55:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/09/21 11:40:01 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/09/21 18:18:40 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_all t_all;
 typedef struct s_philo
 {
 	int index;
-	int last_eat;
+	size_t last_eat;
 	pthread_mutex_t *my_fork;
 	pthread_mutex_t *r_fork;
 	t_all *all;
@@ -54,20 +54,22 @@ typedef struct s_all
 	int t_eat;
 	int t_sleep;
 	int eat_count;
+	int simulation_running;
 	int ac;
 	char **av;	
+	size_t curr_time;
 	pthread_mutex_t *forks;
 	pthread_mutex_t *meal_mtx; 
 	pthread_t *threads;
 	t_philo *philos;
-	size_t curr_time;
+	pthread_mutex_t *dead_lock;
 	pthread_mutex_t *output_mtx;
 } t_all;
 
 int		ft_isdigit(int c);
 int		ft_atoi(const char *nbr);
 void 	ft_err_exit(t_philo * philos);
-void 	ft_exit(t_philo * philo);
+void	declare_death(t_philo *philo);
 
 
 size_t current_time_in_milliseconds();
