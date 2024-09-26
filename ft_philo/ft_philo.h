@@ -46,7 +46,6 @@ typedef struct s_philo
 	t_all *all;
 } t_philo;
 
-
 typedef struct s_all
 {
 	int nbr_philos;
@@ -73,6 +72,8 @@ void	declare_death(t_philo *philo);
 
 
 size_t current_time_in_milliseconds();
+int ft_check_simulation(t_philo *philo);
+
 
 //errors
 void   ft_err_exit(t_philo * philos);

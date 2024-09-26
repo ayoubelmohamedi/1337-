@@ -43,7 +43,6 @@ void ft_think(t_philo *philo)
 	UNLOCK(philo->all->output_mtx);
 }
 
-
 void ft_eat(t_philo *philo)
 {
 	LOCK(philo->my_fork);
@@ -52,12 +51,12 @@ void ft_eat(t_philo *philo)
 	printf(AC_YELLOW "%zu\t%d takes a fork\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
 
 	LOCK(philo->all->output_mtx);
-	printf(AC_YELLOW "%zu\t%d is eating\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
+	printf(AC_RED "%zu\t%d is eating\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
 	UNLOCK(philo->all->output_mtx);	
 	LOCK(philo->all->meal_mtx);
 	philo->last_eat = current_time_in_milliseconds();	
 	UNLOCK(philo->all->meal_mtx);
-	
+
 	ft_usleep(philo->all->t_eat);
 	UNLOCK(philo->my_fork);
 	UNLOCK(philo->r_fork);
@@ -78,15 +77,14 @@ void* routine(void *args)
 	philo = ((t_philo *) args);
 	if (philo->index % 2 == 0)//prevent deadlock
 		ft_usleep((philo->all->t_eat / 2));
-	LOCK(philo->all->dead_lock);
-	while (philo->all->simulation_running)
+	while (1)
 	{	
+		if (!ft_check_simulation(philo))
+			return (NULL);
 		ft_eat(philo);
 		ft_sleeping(philo);
 		ft_think(philo);
 	}
-	UNLOCK(philo->all->dead_lock);
-	
 	return (NULL);
 }
 
@@ -142,7 +140,6 @@ int init_all(t_all *all, int ac, char **av)
 	return (0);
 }
 
-
 void ft_monitor(t_all * all)
 {
 	if (!all)
@@ -151,7 +148,6 @@ void ft_monitor(t_all * all)
 	while (true)
 	{
 		i = 0;
-
 		while (i < all->nbr_philos)
 		{
 			LOCK(all->meal_mtx);
@@ -161,6 +157,7 @@ void ft_monitor(t_all * all)
 			{
 				declare_death(&all->philos[i]);
 				UNLOCK(all->meal_mtx);
+				return ;
 			}
 			UNLOCK(all->meal_mtx);
 			i++;
@@ -170,14 +167,12 @@ void ft_monitor(t_all * all)
 
 int	main(int ac, char **argv)
 {
-
 	int i;
 	t_all all;
 	pthread_mutex_t forks[ft_atoi(argv[1])];
 	pthread_t threads[ft_atoi(argv[1])];
 	t_philo philos[ft_atoi(argv[1])];
 	pthread_mutex_t output;
-
 
 	all.forks = forks;
 	all.threads = threads;
