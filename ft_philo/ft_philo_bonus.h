@@ -14,7 +14,8 @@
 #include <unistd.h>
 #include <sys/time.h>
 
-typedef enum { THINKING, HUNGRY, EATING } State;
+#define LOCK sem_wait
+#define UNLOCK sem_post
 
 #define RESET "\033[0m"
 #define AC_BLACK "\x1b[30m"
@@ -29,8 +30,7 @@ typedef struct s_philo
 {
 	int index;
 	size_t last_eat;
-    State state;
-	sem_t *has_forks;
+	sem_t *forks;
 	t_all *all;
 } t_philo;
 

@@ -2,18 +2,6 @@
 #include "ft_philo_bonus.h"
 
 
-size_t left(t_philo *philo) 
-{  
-    // number of the left neighbor of philosopher i, for whom both forks are available
-    return (philo->index - 1 + philo->all->nbr_philos) % philo->all->nbr_philos; // N is added for the case when  i - 1 is negative
-}
-
-size_t right(t_philo *philo) 
-{  
-    // number of the right neighbor of the philosopher i, for whom both forks are available
-    return (philo->index + 1) % philo->all->nbr_philos;
-}
-
 void ft_usleep(size_t time_to_sleep)
 {
 	size_t current = current_time_in_milliseconds();
@@ -21,7 +9,10 @@ void ft_usleep(size_t time_to_sleep)
 		usleep(500);
 }
 
-void ft_think(int i, t_all * all)
+
+
+
+void ft_think(t_philo * philo)
 {
 	LOCK(philo->all->output_mtx);
 	printf(AC_BLUE "%zu %d is thinking\n" RESET , current_time_in_milliseconds() - philo->all->curr_time, philo->index);
@@ -29,31 +20,61 @@ void ft_think(int i, t_all * all)
 	ft_usleep((philo->all->t_die - (current_time_in_milliseconds() - philo->last_eat)) / 2);
 }
 
-void ft_test(int process_nbr, t_all *all)
+void ft_eat (t_philo * philo)
 {
-    if (all->philos[process_nbr].state == HUNGRY && all->philos[process_nbr].state != EATING
-        && all->philos[process_nbr].state != EATING)
-        {
-           all->philos[process_nbr].state != EATING;
-           
-        }
+    LOCK(philo->all->forks);
+    LOCK(philo->all->forks);
+    
+    
+    
+
+    UNLOCK(philo->all->forks);
+    UNLOCK(philo->all->forks);
 }
 
 
-void routine(int process_nbr, t_all *all)
+void routine(t_philo *philo)
 {
-    printf("current pid => %d\n", process_nbr);
-
     while (1)
     {
-        
+        ft_eat(philo);
+        ft_sleep(philo);
+        ft_think(philo);
     }
+}
+
+size_t current_time_in_milliseconds() {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return (((tv.tv_sec) * 1000) + ((tv.tv_usec) / 1000));
+}
+
+
+void ft_monitor(t_all *all)
+{
+
+    size_t i;
+
+    i = 0;
+    while (i < all->nbr_philos)
+    {
+        size_t val = current_time_in_milliseconds();
+        if ((size_t)( val - all->philos[i].last_eat) > all->t_die)
+		    {
+                //declare death
+                //clear data
+                exit(1);
+				return ;
+			} 
+
+        i = 0;
+    }
+
 }
 
 
 int main(int ac, char *av)
 {
-
     int nbr_philos = 5;
     sem_t *forks; 
     pid_t processes[nbr_philos];
@@ -67,23 +88,29 @@ int main(int ac, char *av)
         exit(1);
     all.philos = malloc(sizeof(t_philo) * nbr_philos);
     while (i < nbr_philos)
-    {
+    { 
         processes[i] = fork();
+        if (processes[i] < 0)
+        {
+            //free all
+            exit(1);
+        }
         if (processes[i] == 0)
         {
-            routine();
+            all.philos[i].index = i;
+            all.philos[i].all = &all;
+            all.philos[i].forks = forks;
+            all.philos[i].last_eat = current_time_in_milliseconds();
+            routine(&all.philos[i]);
+        }
+        else
+        {
+
         }
         i++;
     }
     i = 0;
-    while (i < nbr_philos)
-    {
-        routine(i++, &all);
-    }
-
-    ft_monitor(all);
-    while (i < nbr_philos)
-        sem_destroy(&forks[i++]); 
+    ft_monitor(&all);
 
     return (0);
 }
