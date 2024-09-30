@@ -39,19 +39,20 @@ void ft_usleep(size_t time_to_sleep)
 void ft_think(t_philo *philo) 
 {
 	LOCK(philo->all->output_mtx);
-	printf(AC_BLUE "%zu\t%d is thinking\n" RESET , current_time_in_milliseconds() - philo->all->curr_time, philo->index);
+	printf(AC_BLUE "%zu %d is thinking\n" RESET , current_time_in_milliseconds() - philo->all->curr_time, philo->index);
 	UNLOCK(philo->all->output_mtx);
+	ft_usleep((philo->all->t_die - (current_time_in_milliseconds() - philo->last_eat)) / 2);
 }
 
 void ft_eat(t_philo *philo)
 {
 	LOCK(philo->my_fork);
-	printf(AC_YELLOW "%zu\t%d takes a fork\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
+	printf(AC_YELLOW "%zu %d has taken a fork\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
 	LOCK(philo->r_fork);
-	printf(AC_YELLOW "%zu\t%d takes a fork\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
+	printf(AC_YELLOW "%zu %d has taken a fork\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
 
 	LOCK(philo->all->output_mtx);
-	printf(AC_RED "%zu\t%d is eating\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
+	printf(AC_RED "%zu %d is eating\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
 	UNLOCK(philo->all->output_mtx);	
 	LOCK(philo->all->meal_mtx);
 	philo->last_eat = current_time_in_milliseconds();	
@@ -65,7 +66,7 @@ void ft_eat(t_philo *philo)
 void ft_sleeping(t_philo *philo)
 {
 	LOCK(philo->all->output_mtx);
-	printf(AC_GREEN "%zu\t%d is sleeping\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
+	printf(AC_GREEN "%zu %d is sleeping\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
 	UNLOCK(philo->all->output_mtx);
 	ft_usleep(philo->all->t_sleep);
 }
@@ -82,8 +83,13 @@ void* routine(void *args)
 		if (!ft_check_simulation(philo))
 			return (NULL);
 		ft_eat(philo);
+		if (!ft_check_simulation(philo))
+			return (NULL);
 		ft_sleeping(philo);
+		if (!ft_check_simulation(philo))
+			return (NULL);
 		ft_think(philo);
+
 	}
 	return (NULL);
 }
@@ -120,6 +126,7 @@ int init_all(t_all *all, int ac, char **av)
 	size_t i = 0;
 	pthread_mutex_init(all->output_mtx, NULL);
 	pthread_mutex_init(all->meal_mtx, NULL);
+	pthread_mutex_init(all->dead_lock, NULL);
 	while (i < all->nbr_philos)
 	{
 		all->philos[i].index = i + 1;
@@ -156,7 +163,6 @@ void ft_monitor(t_all * all)
 			if ((size_t)(val  - l_eat) > all->t_die)
 			{
 				declare_death(&all->philos[i]);
-				UNLOCK(all->meal_mtx);
 				return ;
 			}
 			UNLOCK(all->meal_mtx);
@@ -173,19 +179,20 @@ int	main(int ac, char **argv)
 	pthread_t threads[ft_atoi(argv[1])];
 	t_philo philos[ft_atoi(argv[1])];
 	pthread_mutex_t output;
+	pthread_mutex_t dead_lock;
+	pthread_mutex_t meal_mtx;
 
 	all.forks = forks;
 	all.threads = threads;
 	all.philos = philos;
 	all.output_mtx = &output;
+	all.meal_mtx = &meal_mtx; 
+	all.dead_lock = &dead_lock;
 	init_all(&all, ac, argv);
 	ft_init_threads(&all);
 	ft_monitor(&all);
 	i = 0;
 	while (i < all.nbr_philos)
-	{
-		pthread_join(threads[i], NULL);
-		i++;
-	}
+		pthread_join(threads[i++], NULL);
 	return (0);
 }
