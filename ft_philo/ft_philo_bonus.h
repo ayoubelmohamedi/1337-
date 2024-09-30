@@ -8,6 +8,7 @@
 // #include <libft.h>
 
 #include <semaphore.h>
+#include <fcntl.h>
 #include <sys/types.h>
 
 #include <unistd.h>
@@ -44,11 +45,9 @@ typedef struct s_all
 	int ac;
 	char **av;	
 	size_t curr_time;
-	sem_t *has_forks;
+	sem_t *forks;
 	pid_t *processes;
 	t_philo *philos;
-	pthread_mutex_t *critical_region;
-	pthread_mutex_t *output_mtx;
 } t_all;
 
 int		ft_isdigit(int c);

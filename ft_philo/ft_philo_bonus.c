@@ -34,15 +34,11 @@ void ft_test(int process_nbr, t_all *all)
     if (all->philos[process_nbr].state == HUNGRY && all->philos[process_nbr].state != EATING
         && all->philos[process_nbr].state != EATING)
         {
-           all->philos[process_nbr].state = EATING;
+           all->philos[process_nbr].state != EATING;
            
         }
 }
 
-void ft_take_forks(int i, t_all *all)
-{
-
-}
 
 void routine(int process_nbr, t_all *all)
 {
@@ -50,32 +46,32 @@ void routine(int process_nbr, t_all *all)
 
     while (1)
     {
-        ft_take_forks(process_nbr, all);
-        ft_eat(process_nbr, all);
-        ft_put_forks(process_nbr, all);
-        ft_sleep(process_nbr, all);
-        ft_think(process_nbr, all);
+        
     }
 }
+
 
 int main(int ac, char *av)
 {
 
     int nbr_philos = 5;
-    sem_t forks[nbr_philos]; 
-    int processes[nbr_philos];
+    sem_t *forks; 
+    pid_t processes[nbr_philos];
     int m_pid;
     t_all all;
 
     size_t i = 0;
     m_pid = getpid();
+    forks = sem_open("forks", O_CREAT, 0666, nbr_philos);
+    if (!forks)
+        exit(1);
+    all.philos = malloc(sizeof(t_philo) * nbr_philos);
     while (i < nbr_philos)
     {
         processes[i] = fork();
-        if (sem_init(&forks[i], 0, 0) != 0)
+        if (processes[i] == 0)
         {
-            perror("Failed to initialize semaphore\n");
-            exit(1);
+            routine();
         }
         i++;
     }
