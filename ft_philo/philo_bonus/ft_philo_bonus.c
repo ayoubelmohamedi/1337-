@@ -110,9 +110,10 @@ int main(int ac, char *av)
             all.philos[i].forks = forks;
             all.philos[i].last_eat = current_time_in_milliseconds();
             routine(&all.philos[i]); 
-            if (pthread_create(all.agents[i], ft_agent, all.philos[i]))
+            if (pthread_create(all.agents[i], ft_agent, &all.philos[i]))
 			    return (0); 
-            ft_agent(&all.philos[i]);
+            // when to add pthread_join ?
+            // maybe here >  > ? 
         }
         else
         {
