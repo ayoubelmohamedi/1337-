@@ -14,7 +14,7 @@ NAME = philo_bonus
 CC = cc
 # CFLAGS   =	-Wall -Wextra -Werror 
 CFLAGS = -g 
-SRCS = ft_philo_bonus.c ft_gen_names.c ft_utils.c ft_errors.c
+SRCS = ft_philo_bonus.c ft_gen_names.c ft_utils.c ft_errors.c ft_routines.c
 OBJS = $(SRCS:.c=.o)
 
 RM = rm -f
