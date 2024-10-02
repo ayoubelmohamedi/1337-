@@ -23,11 +23,7 @@ int	is_valid(char **args)
 	return (1);
 }
 
-size_t current_time_in_milliseconds() {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    return (((tv.tv_sec) * 1000) + ((tv.tv_usec) / 1000));
-}
+
 
 void* routine(void *args)
 {

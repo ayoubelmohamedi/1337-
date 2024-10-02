@@ -7,6 +7,13 @@ int	ft_isdigit(int c)
 		return (1);
 	return (0);
 }
+
+size_t current_time_in_milliseconds() {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return (((tv.tv_sec) * 1000) + ((tv.tv_usec) / 1000));
+}
+
 int	ft_atoi(const char *nbr)
 {
 	int			sign;
