@@ -76,7 +76,7 @@ void* routine(void *args)
 	t_philo *philo;
 
 	philo = ((t_philo *) args);
-	if (philo->index % 2 == 0)//prevent deadlock
+	if (philo->index % 2 == 0) //prevent deadlock
 		ft_usleep((philo->all->t_eat / 2));
 	while (1)
 	{	
@@ -89,7 +89,6 @@ void* routine(void *args)
 		if (!ft_check_simulation(philo))
 			return (NULL);
 		ft_think(philo);
-
 	}
 	return (NULL);
 }
