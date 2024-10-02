@@ -1,62 +1,7 @@
 
 #include "ft_philo_bonus.h"
 
-
-void ft_usleep(size_t time_to_sleep)
-{
-	size_t current = current_time_in_milliseconds();
-	while (current_time_in_milliseconds() - current < time_to_sleep)
-		usleep(500);
-}
-
-void ft_think(t_philo * philo)
-{
-	LOCK(philo->all->output_sem);
-	printf(AC_BLUE "%zu %d is thinking\n" RESET , current_time_in_milliseconds() - philo->all->curr_time, philo->index);
-	UNLOCK(philo->all->output_sem);
-	ft_usleep((philo->all->t_die - (current_time_in_milliseconds() - philo->last_eat)) / 2);
-}
-
-void ft_sleep(t_philo *philo)
-{
-	LOCK(philo->all->output_sem);
-	printf(AC_BLUE "%zu %d is sleeping\n" RESET , current_time_in_milliseconds() - philo->all->curr_time, philo->index);
-	UNLOCK(philo->all->output_sem);
-    
-    ft_usleep(philo->all->t_sleep);
-}
-
-void ft_eat (t_philo * philo)
-{
-    LOCK(philo->all->forks);
-    LOCK(philo->all->output_sem);
-	printf(AC_YELLOW "%zu %d has taken a fork\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
-    UNLOCK(philo->all->output_sem);
-
-    LOCK(philo->all->forks);
-    LOCK(philo->all->output_sem);
-	printf(AC_YELLOW "%zu %d has taken a fork\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
-    UNLOCK(philo->all->output_sem);
-
-    LOCK(philo->all->output_sem);
-	printf(AC_RED "%zu %d is eating\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
-    UNLOCK(philo->all->output_sem); 
-
-    LOCK(philo->all->meal_sem);
-    philo->last_eat = current_time_in_milliseconds(); 
-    UNLOCK(philo->all->meal_sem);
-    ft_usleep(philo->all->t_eat); 
-    UNLOCK(philo->all->forks);
-    UNLOCK(philo->all->forks);
-}
-
-size_t current_time_in_milliseconds() {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    return (((tv.tv_sec) * 1000) + ((tv.tv_usec) / 1000));
-}
-
-// listen to child processes
+// listen to child processes, exit all processes if one is death
 void ft_monitor(t_all *all)
 {
     size_t i;
@@ -75,7 +20,6 @@ void ft_monitor(t_all *all)
                 kill(all->processes[i++], SIGTERM);
             return ;
         }
-
     }
 }
 
@@ -103,7 +47,6 @@ void ft_agent(t_philo * philo)
             return ;
         }
         UNLOCK(philo->all->meal_sem[philo->index]);
-
     }
 }
 
