@@ -172,6 +172,10 @@ void ft_monitor(t_all * all)
 
 int	main(int ac, char **argv)
 {
+
+	//todo : 1- stop philo when cycle of eating is reached
+	// 2 - allocate mutexes in heap
+	// 3- handle parsing 
 	int i;
 	t_all all;
 	pthread_mutex_t forks[ft_atoi(argv[1])];
