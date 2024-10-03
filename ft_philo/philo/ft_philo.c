@@ -99,7 +99,6 @@ void ft_monitor(t_all * all)
 	}
 }
 
-
 void f_mtx(void *ptr)
 {
 	if (ptr)
@@ -140,7 +139,7 @@ int	main(int ac, char **argv)
 	int i;
 	t_all all;
 
-	if (!((ac == 4 || ac == 5) && is_valid(argv)))
+	if (!((ac == 4 || ac == 5) && is_valid(ac, argv)))
 	{
 		ft_perror('p');
 		return (1);

@@ -66,7 +66,7 @@ typedef struct s_all
 // utils
 int		ft_isdigit(int c);
 int		ft_atoi(const char *nbr);
-int		is_valid(char **args);
+int		is_valid(int ac, char **args);
 int		ft_is_nbr(char *nbr);
 size_t	current_time_in_milliseconds();
 
