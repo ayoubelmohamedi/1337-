@@ -65,16 +65,19 @@ typedef struct s_all
 	pthread_mutex_t *output_mtx;
 } t_all;
 
+// utils
 int		ft_isdigit(int c);
 int		ft_atoi(const char *nbr);
+int		is_valid(char **args);
+int		ft_is_nbr(char *nbr);
+size_t	current_time_in_milliseconds();
+
+//errors
 void 	ft_err_exit(t_philo * philos);
 void	declare_death(t_philo *philo);
 
-size_t current_time_in_milliseconds();
-int ft_check_simulation(t_philo *philo);
+int	ft_check_simulation(t_philo *philo);
 
 
-//errors
-void   ft_err_exit(t_philo * philos);
 
 #endif
