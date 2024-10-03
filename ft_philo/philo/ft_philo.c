@@ -134,12 +134,14 @@ int malloc_data(t_all * all)
 int	main(int ac, char **argv)
 {
 
-	//todo : 1- stop philo when cycle of eating is reached
-	// 2 - allocate mutexes in heap <-- current 
-	// 3- handle parsing
+	//todo : 1- stop philo when cycle of eating is reached []
+	// 2 - allocate mutexes in heap [x]
+	// 3- handle parsing <--  current 
 	int i;
 	t_all all;
-	
+
+	if (!((ac == 4 || ac == 5) && is_valid(argv)))
+		return (1);
 	if(!malloc_data(&all))
 		return (1);
 	init_all(&all, ac, argv);
