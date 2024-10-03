@@ -30,14 +30,18 @@ int	ft_is_nbr(char *nbr)
 
 int	is_valid(int ac, char **args)
 {
-	if (!ft_is_nbr(args[1]) || !ft_is_nbr(args[2]) || !ft_is_nbr(args[3]))
-		return (0);
-	if (!ft_is_nbr(args[4]))
-		return (0);
-	// to check, the last item should be optional 
+	size_t i;
+
+	i = 1;
+	while (i < 4)
+	{
+		if (!ft_is_nbr(args[i]) || ft_atoi(args[i]) < 0)
+			return (0);
+		i++;
+	}
 	if (ac == 5)
 	{
-		if (!ft_is_nbr(args[5]))
+		if (!ft_is_nbr(args[5]) && ft_atoi(args[5]) < 0)
 			return (0);
 	}
 	return (1);
