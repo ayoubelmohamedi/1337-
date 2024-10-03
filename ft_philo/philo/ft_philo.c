@@ -11,6 +11,7 @@ void* routine(void *args)
 		ft_usleep((philo->all->t_eat / 2));
 	while (1)
 	{	
+		if ()
 		if (!ft_check_simulation(philo))
 			return (NULL);
 		ft_eat(philo);
@@ -140,6 +141,7 @@ int	main(int ac, char **argv)
 	// 2 - allocate mutexes in heap [x]
 	// 3- handle parsing <-- [x]  
 	// 4 - shorten init_all [x]
+	// 5 - check if all works in mandatory []
 	int i;
 	t_all all;
 
