@@ -2,9 +2,6 @@
 #include "ft_philo.h"
 
 
-
-
-
 void* routine(void *args)
 {
 	t_philo *philo;
@@ -45,8 +42,6 @@ int	ft_init_threads(t_all *all)
 
 int init_all(t_all *all, int ac, char **av)
 {
-	all->ac = ac;
-	all->av = av;
 	all->nbr_philos =  ft_atoi(av[1]);
 	all->t_die = ft_atoi(av[2]);
 	all->t_eat = ft_atoi(av[3]);
@@ -104,32 +99,54 @@ void ft_monitor(t_all * all)
 	}
 }
 
+
+void f_mtx(void *ptr)
+{
+	if (ptr)
+		free(ptr);
+}
+
+int malloc_data(t_all * all)
+{
+	pthread_mutex_t *forks;
+	pthread_t *threads;
+	t_philo *philos;
+	pthread_mutex_t *mutexes;
+
+	forks = malloc(sizeof(pthread_mutex_t) * all->nbr_philos);
+	threads = malloc(sizeof(pthread_t) * all->nbr_philos);
+	philos = malloc(sizeof(t_philo) * all->nbr_philos);
+	mutexes = malloc(sizeof(pthread_mutex_t) * 3);
+	if (!forks || !threads || !philos || !mutexes)
+	{
+		(f_mtx(forks), f_mtx(threads), f_mtx(philos), f_mtx(mutexes));
+		return (0);
+	}
+	all->forks = forks;
+	all->threads = threads;
+	all->philos = philos;
+	all->output_mtx = &mutexes[0];
+	all->meal_mtx = &mutexes[1]; 
+	all->dead_lock = &mutexes[2];	
+	return (1);
+}
+
 int	main(int ac, char **argv)
 {
 
 	//todo : 1- stop philo when cycle of eating is reached
-	// 2 - allocate mutexes in heap
-	// 3- handle parsing 
+	// 2 - allocate mutexes in heap <-- current 
+	// 3- handle parsing
 	int i;
 	t_all all;
-	pthread_mutex_t forks[ft_atoi(argv[1])];
-	pthread_t threads[ft_atoi(argv[1])];
-	t_philo philos[ft_atoi(argv[1])];
-	pthread_mutex_t output;
-	pthread_mutex_t dead_lock;
-	pthread_mutex_t meal_mtx;
-
-	all.forks = forks;
-	all.threads = threads;
-	all.philos = philos;
-	all.output_mtx = &output;
-	all.meal_mtx = &meal_mtx; 
-	all.dead_lock = &dead_lock;
+	
+	if(!malloc_data(&all))
+		return (1);
 	init_all(&all, ac, argv);
 	ft_init_threads(&all);
 	ft_monitor(&all);
 	i = 0;
 	while (i < all.nbr_philos)
-		pthread_join(threads[i++], NULL);
+		pthread_join(all.threads[i++], NULL);
 	return (0);
 }
