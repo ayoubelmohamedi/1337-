@@ -9,7 +9,6 @@ void f_mtx(void *ptr)
 
 void ft_perror(char c)
 {
-    //print error => parsing , memory allocatin, 
     if (c == 'p')
         printf("parsing error\n");
     if (c == 'm')
@@ -40,8 +39,4 @@ void declare_death(t_philo *philo) {
     UNLOCK(philo->all->output_mtx);
     philo->all->simulation_running = 0; 
     UNLOCK(philo->all->dead_lock);
-
-    // unlock meal_mtx here
-	// UNLOCK(philo->all->meal_mtx);   
-   
 }
