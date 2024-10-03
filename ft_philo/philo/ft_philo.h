@@ -70,6 +70,10 @@ int		is_valid(int ac, char **args);
 int		ft_is_nbr(char *nbr);
 size_t	current_time_in_milliseconds();
 
+//parsing
+void ft_parse(t_all *all, int ac, char **argv);
+
+
 //errors
 void	ft_perror(char c);
 void 	ft_err_exit(t_philo * philos);

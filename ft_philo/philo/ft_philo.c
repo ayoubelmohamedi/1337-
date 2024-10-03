@@ -130,20 +130,30 @@ int malloc_data(t_all * all)
 	return (1);
 }
 
+
+void ft_parse(t_all *all, int ac, char **argv)
+{
+
+	all->nbr_philos = ft_atoi(argv[1]);
+	all->t_die = ft_atoi(argv[2]);
+	all->t_eat = ft_atoi(argv[3]);
+	all->t_sleep = ft_atoi(argv[4]);
+	if (ac == 5)
+		all->eat_count = ft_atoi(argv[5]);
+}
+
 int	main(int ac, char **argv)
 {
 
 	//todo : 1- stop philo when cycle of eating is reached []
 	// 2 - allocate mutexes in heap [x]
-	// 3- handle parsing <--  current 
+	// 3- handle parsing <-- [x] current 
 	int i;
 	t_all all;
 
 	if (!((ac == 4 || ac == 5) && is_valid(ac, argv)))
-	{
-		ft_perror('p');
 		return (1);
-	}
+	ft_parse(&all, ac, argv);
 	if(!malloc_data(&all))
 		return (1);
 	init_all(&all, ac, argv);
