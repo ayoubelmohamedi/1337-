@@ -8,7 +8,8 @@ int	ft_isdigit(int c)
 	return (0);
 }
 
-size_t current_time_in_milliseconds() {
+size_t current_time_in_milliseconds()
+{
     struct timeval tv;
     gettimeofday(&tv, NULL);
     return (((tv.tv_sec) * 1000) + ((tv.tv_usec) / 1000));
@@ -27,12 +28,18 @@ int	ft_is_nbr(char *nbr)
 	return (1);
 }
 
-int	is_valid(char **args)
+int	is_valid(int ac, char **args)
 {
 	if (!ft_is_nbr(args[1]) || !ft_is_nbr(args[2]) || !ft_is_nbr(args[3]))
 		return (0);
-	if (!ft_is_nbr(args[4]) || !ft_is_nbr(args[5]))
+	if (!ft_is_nbr(args[4]))
 		return (0);
+	// to check, the last item should be optional 
+	if (ac == 5)
+	{
+		if (!ft_is_nbr(args[5]))
+			return (0);
+	}
 	return (1);
 }
 
