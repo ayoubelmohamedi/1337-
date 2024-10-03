@@ -29,7 +29,9 @@ void ft_eat(t_philo *philo)
 	printf(AC_RED "%zu %d is eating\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
 	UNLOCK(philo->all->output_mtx);	
 	LOCK(philo->all->meal_mtx);
-	philo->last_eat = current_time_in_milliseconds();	
+	philo->last_eat = current_time_in_milliseconds();
+	if (philo->meal_count >= 0)
+		philo->meal_count++;
 	UNLOCK(philo->all->meal_mtx);
 
 	ft_usleep(philo->all->t_eat);

@@ -33,6 +33,10 @@ int	ft_init_threads(t_all *all)
 	while (i < all->nbr_philos)
 	{
 		all->philos[i].last_eat = current_time_in_milliseconds();
+		if (all->eat_count > 0)
+			all->philos[i].meal_count = 0;
+		else
+			all->philos[i].meal_count = -1;
 		if (pthread_create(&all->threads[i], NULL, routine, &all->philos[i]))
 			return (0); 
 		i++;
@@ -41,16 +45,7 @@ int	ft_init_threads(t_all *all)
 }
 
 int init_all(t_all *all, int ac, char **av)
-{
-	all->nbr_philos =  ft_atoi(av[1]);
-	all->t_die = ft_atoi(av[2]);
-	all->t_eat = ft_atoi(av[3]);
-	all->t_sleep =  ft_atoi(av[4]);
-	all->simulation_running = 1;
-	if(!av[5])
-		all->eat_count = -1;
-	else
-		all->eat_count = ft_atoi(av[5]);
+{	
 	size_t i = 0;
 	pthread_mutex_init(all->output_mtx, NULL);
 	pthread_mutex_init(all->meal_mtx, NULL);
@@ -127,13 +122,15 @@ int malloc_data(t_all * all)
 
 void ft_parse(t_all *all, int ac, char **argv)
 {
-
 	all->nbr_philos = ft_atoi(argv[1]);
 	all->t_die = ft_atoi(argv[2]);
 	all->t_eat = ft_atoi(argv[3]);
 	all->t_sleep = ft_atoi(argv[4]);
 	if (ac == 5)
 		all->eat_count = ft_atoi(argv[5]);
+	else
+		all->eat_count = -1;
+	all->simulation_running = 1;
 }
 
 int	main(int ac, char **argv)
@@ -141,7 +138,8 @@ int	main(int ac, char **argv)
 
 	//todo : 1- stop philo when cycle of eating is reached []
 	// 2 - allocate mutexes in heap [x]
-	// 3- handle parsing <-- [x] current 
+	// 3- handle parsing <-- [x]  
+	// 4 - shorten init_all [x]
 	int i;
 	t_all all;
 

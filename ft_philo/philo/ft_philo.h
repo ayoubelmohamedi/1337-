@@ -41,6 +41,7 @@ typedef struct s_philo
 {
 	int index;
 	size_t last_eat;
+	size_t meal_count;
 	pthread_mutex_t *my_fork;
 	pthread_mutex_t *r_fork;
 	t_all *all;
@@ -75,6 +76,7 @@ void ft_parse(t_all *all, int ac, char **argv);
 
 
 //errors
+void f_mtx(void *ptr);
 void	ft_perror(char c);
 void 	ft_err_exit(t_philo * philos);
 void	declare_death(t_philo *philo);
