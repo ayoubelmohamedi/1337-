@@ -99,12 +99,6 @@ void ft_monitor(t_all * all)
 	}
 }
 
-void f_mtx(void *ptr)
-{
-	if (ptr)
-		free(ptr);
-}
-
 int malloc_data(t_all * all)
 {
 	pthread_mutex_t *forks;

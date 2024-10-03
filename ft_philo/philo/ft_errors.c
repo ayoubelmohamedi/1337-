@@ -1,11 +1,10 @@
 
 #include "ft_philo.h"
 
-void   ft_err_exit(t_philo * philo) 
+void f_mtx(void *ptr)
 {
-    if (philo)
-        free(philo);
-    exit(1);
+	if (ptr)
+		free(ptr);
 }
 
 void ft_perror(char c)
