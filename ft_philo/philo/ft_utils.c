@@ -28,21 +28,44 @@ int	ft_is_nbr(char *nbr)
 	return (1);
 }
 
+int ft_check_max_zero(int ac, char **args)
+{
+	if (ac > 5)
+	{
+		ft_perror('c');
+		return (1);
+	}
+	if (ac > 4 && ft_isdigit(args[1]) && ft_atoi(args[1]) == 0) 
+	{
+		ft_perror('z');
+		return (1);
+	}
+	return (0);
+}
+
 int	is_valid(int ac, char **args)
 {
 	size_t i;
 
 	i = 1;
+	if (ft_check_max_zero(ac, args))
+		return (0);
 	while (i < 4)
 	{
 		if (!ft_is_nbr(args[i]) || ft_atoi(args[i]) < 0)
+		{
+			ft_perror('p');
 			return (0);
+		}
 		i++;
 	}
 	if (ac == 5)
 	{
 		if (!ft_is_nbr(args[5]) && ft_atoi(args[5]) < 0)
+		{
+			ft_perror('p');
 			return (0);
+		}
 	}
 	return (1);
 }

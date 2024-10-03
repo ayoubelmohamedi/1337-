@@ -79,7 +79,6 @@ int main(int ac, char *av)
 
     size_t i = 0;
     m_pid = getpid();
-
     all.nbr_philos = nbr_philos;
     forks = sem_open("forks", O_CREAT, 0666, nbr_philos);
     output_sem = sem_open("output", O_CREAT, 0666, 1);
