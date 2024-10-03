@@ -54,8 +54,6 @@ typedef struct s_all
 	int t_sleep;
 	int eat_count;
 	int simulation_running;
-	int ac;
-	char **av;	
 	size_t curr_time;
 	pthread_mutex_t *forks;
 	pthread_mutex_t *meal_mtx; 
