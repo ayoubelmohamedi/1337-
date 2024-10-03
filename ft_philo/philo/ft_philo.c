@@ -11,7 +11,8 @@ void* routine(void *args)
 		ft_usleep((philo->all->t_eat / 2));
 	while (1)
 	{	
-		if ()
+		if (philo->all->eat_count >= 0 && (philo->meal_count == philo->all->eat_count))
+			return (NULL);
 		if (!ft_check_simulation(philo))
 			return (NULL);
 		ft_eat(philo);
@@ -142,6 +143,7 @@ int	main(int ac, char **argv)
 	// 3- handle parsing <-- [x]  
 	// 4 - shorten init_all [x]
 	// 5 - check if all works in mandatory []
+	// 6 - handle leaks <-- []
 	int i;
 	t_all all;
 
