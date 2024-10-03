@@ -8,6 +8,15 @@ void   ft_err_exit(t_philo * philo)
     exit(1);
 }
 
+void ft_error(char c)
+{
+    //print error => parsing , memory allocatin, 
+    if (c == 'p')
+        printf("parsing error\n");
+    if (c == 'm')
+        printf("memory allocation failed\n");
+}
+
 int ft_check_simulation(t_philo *philo)
 {
     int res;

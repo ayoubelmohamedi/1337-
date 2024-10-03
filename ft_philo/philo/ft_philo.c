@@ -141,7 +141,10 @@ int	main(int ac, char **argv)
 	t_all all;
 
 	if (!((ac == 4 || ac == 5) && is_valid(argv)))
+	{
+		ft_perror('p');
 		return (1);
+	}
 	if(!malloc_data(&all))
 		return (1);
 	init_all(&all, ac, argv);

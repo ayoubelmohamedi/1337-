@@ -71,6 +71,7 @@ int		ft_is_nbr(char *nbr);
 size_t	current_time_in_milliseconds();
 
 //errors
+void	ft_perror(char c);
 void 	ft_err_exit(t_philo * philos);
 void	declare_death(t_philo *philo);
 
