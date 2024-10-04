@@ -35,7 +35,7 @@ int ft_check_max_zero(int ac, char **args)
 		ft_perror('c');
 		return (1);
 	}
-	if (ac > 4 && ft_isdigit(args[1]) && ft_atoi(args[1]) == 0) 
+	if (ac > 4 && ft_is_nbr(args[1]) && ft_atoi(args[1]) == 0) 
 	{
 		ft_perror('z');
 		return (1);
