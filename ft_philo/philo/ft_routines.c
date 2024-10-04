@@ -1,5 +1,4 @@
 
-
 #include "ft_philo.h"
 
 
@@ -46,4 +45,3 @@ void ft_sleeping(t_philo *philo)
 	UNLOCK(philo->all->output_mtx);
 	ft_usleep(philo->all->t_sleep);
 }
-

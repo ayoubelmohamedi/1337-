@@ -22,6 +22,8 @@
 #include <unistd.h>
 #include <sys/time.h>
 
+
+
 # define LOCK pthread_mutex_lock
 # define UNLOCK pthread_mutex_unlock
 # define DSTR pthread_mutex_destroy
@@ -72,16 +74,20 @@ int		ft_is_nbr(char *nbr);
 size_t	current_time_in_milliseconds();
 
 //parsing
-void ft_parse(t_all *all, int ac, char **argv);
+void	ft_parse(t_all *all, int ac, char **argv);
 
+//routines
+void	ft_usleep(size_t time_to_sleep);
+void	ft_think(t_philo *philo);
+void	ft_eat(t_philo *philo);
+void	ft_sleeping(t_philo *philo);
 
 //errors
-void f_mtx(void *ptr);
+void	f_mtx(void *ptr);
 void	ft_perror(char c);
 void 	ft_err_exit(t_philo * philos);
 void	declare_death(t_philo *philo);
-
-int	ft_check_simulation(t_philo *philo);
+int		ft_check_simulation(t_philo *philo);
 
 
 
