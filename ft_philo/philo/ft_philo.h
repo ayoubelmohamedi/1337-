@@ -58,10 +58,11 @@ typedef struct s_all
 	int eat_count;
 	int simulation_running;
 	size_t curr_time;
-	pthread_mutex_t *forks;
-	pthread_mutex_t *meal_mtx; 
-	pthread_t *threads;
 	t_philo *philos;
+	pthread_t *threads;
+	pthread_mutex_t *forks;
+	pthread_mutex_t *mutexes; 
+	pthread_mutex_t *meal_mtx; 
 	pthread_mutex_t *dead_lock;
 	pthread_mutex_t *output_mtx;
 } t_all;

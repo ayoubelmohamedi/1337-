@@ -48,10 +48,12 @@ int	ft_init_threads(t_all *all)
 
 int init_all(t_all *all, int ac, char **av)
 {	
-	size_t i = 0;
+	size_t i;
+
 	pthread_mutex_init(all->output_mtx, NULL);
 	pthread_mutex_init(all->meal_mtx, NULL);
 	pthread_mutex_init(all->dead_lock, NULL);
+	i = 0;
 	while (i < all->nbr_philos)
 	{
 		all->philos[i].index = i + 1;
@@ -115,6 +117,7 @@ int malloc_data(t_all * all)
 	all->forks = forks;
 	all->threads = threads;
 	all->philos = philos;
+	all-> mutexes = mutexes;
 	all->output_mtx = &mutexes[0];
 	all->meal_mtx = &mutexes[1]; 
 	all->dead_lock = &mutexes[2];	
@@ -144,16 +147,16 @@ int	main(int ac, char **argv)
 	// 4 - shorten init_all [x]
 	// 5 - check if all works in mandatory []
 	// 6 - handle leaks <-- []
-	int i;
-	// t_all all;
-	printf("first hello \n");
+	// int i;
+	t_all all;
+
 	if (!(is_valid(ac, argv)))
 		return (1);
-	// ft_parse(&all, ac, argv);
-	// if(!malloc_data(&all))
-	// 	return (1);
-	// init_all(&all, ac, argv);
-	// ft_init_threads(&all);
+	ft_parse(&all, ac, argv);
+	if(!malloc_data(&all))
+		return (1);
+	init_all(&all, ac, argv);
+	ft_init_threads(&all);
 	// ft_monitor(&all);
 	// i = 0;
 	// while (i < all.nbr_philos)
