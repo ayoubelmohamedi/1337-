@@ -14,7 +14,7 @@ NAME = philo
 CC = cc
 # CFLAGS   =	-Wall -Wextra -Werror 
 CFLAGS = -g -fsanitize=thread
-SRCS = ft_philo.c ft_utils.c ft_errors.c ft_routines 
+SRCS = ft_philo.c ft_utils.c ft_errors.c ft_routines.c 
 OBJS = $(SRCS:.c=.o)
 
 RM = rm -f

@@ -30,7 +30,7 @@ int	ft_is_nbr(char *nbr)
 
 int ft_check_max_zero(int ac, char **args)
 {
-	if (ac > 5)
+	if (ac > 5 || ac <= 1)
 	{
 		ft_perror('c');
 		return (1);

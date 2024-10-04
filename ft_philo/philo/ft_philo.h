@@ -67,11 +67,12 @@ typedef struct s_all
 } t_all;
 
 // utils
+size_t 	current_time_in_milliseconds();
+
 int		ft_isdigit(int c);
 int		ft_atoi(const char *nbr);
 int		is_valid(int ac, char **args);
 int		ft_is_nbr(char *nbr);
-size_t	current_time_in_milliseconds();
 
 //parsing
 void	ft_parse(t_all *all, int ac, char **argv);

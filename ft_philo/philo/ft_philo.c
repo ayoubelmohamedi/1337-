@@ -145,18 +145,18 @@ int	main(int ac, char **argv)
 	// 5 - check if all works in mandatory []
 	// 6 - handle leaks <-- []
 	int i;
-	t_all all;
-
-	if (!((ac == 4 || ac == 5) && is_valid(ac, argv)))
+	// t_all all;
+	printf("first hello \n");
+	if (!(is_valid(ac, argv)))
 		return (1);
-	ft_parse(&all, ac, argv);
-	if(!malloc_data(&all))
-		return (1);
-	init_all(&all, ac, argv);
-	ft_init_threads(&all);
-	ft_monitor(&all);
-	i = 0;
-	while (i < all.nbr_philos)
-		pthread_join(all.threads[i++], NULL);
+	// ft_parse(&all, ac, argv);
+	// if(!malloc_data(&all))
+	// 	return (1);
+	// init_all(&all, ac, argv);
+	// ft_init_threads(&all);
+	// ft_monitor(&all);
+	// i = 0;
+	// while (i < all.nbr_philos)
+	// 	pthread_join(all.threads[i++], NULL);
 	return (0);
 }
