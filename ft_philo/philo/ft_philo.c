@@ -7,12 +7,16 @@ void* routine(void *args)
 	t_philo *philo;
 
 	philo = ((t_philo *) args);
+	
 	if (philo->index % 2 == 0) //prevent deadlock
 		ft_usleep((philo->all->t_eat / 2));
 	while (1)
-	{	
+	{
 		if (philo->all->eat_count >= 0 && (philo->meal_count == philo->all->eat_count))
+		{
+			printf("eat_count = %d , curr_count = %zu \n", philo->all->eat_count, philo->meal_count);
 			return (NULL);
+		}
 		if (!ft_check_simulation(philo))
 			return (NULL);
 		ft_eat(philo);
@@ -124,14 +128,13 @@ int malloc_data(t_all * all)
 	return (1);
 }
 
-
 void ft_parse(t_all *all, int ac, char **argv)
 {
 	all->nbr_philos = ft_atoi(argv[1]);
 	all->t_die = ft_atoi(argv[2]);
 	all->t_eat = ft_atoi(argv[3]);
 	all->t_sleep = ft_atoi(argv[4]);
-	if (ac == 5)
+	if (ac == 6)
 		all->eat_count = ft_atoi(argv[5]);
 	else
 		all->eat_count = -1;
@@ -146,8 +149,8 @@ int	main(int ac, char **argv)
 	// 3- handle parsing <-- [x]  
 	// 4 - shorten init_all [x]
 	// 5 - check if all works in mandatory []
-	// 6 - handle leaks <-- []
-	// int i;
+	// 6 - handle leaks <-- [] Last 
+	int i;
 	t_all all;
 
 	if (!(is_valid(ac, argv)))
@@ -158,8 +161,8 @@ int	main(int ac, char **argv)
 	init_all(&all, ac, argv);
 	ft_init_threads(&all);
 	// ft_monitor(&all);
-	// i = 0;
-	// while (i < all.nbr_philos)
-	// 	pthread_join(all.threads[i++], NULL);
+	i = 0;
+	while (i < all.nbr_philos)
+		pthread_join(all.threads[i++], NULL);
 	return (0);
 }
