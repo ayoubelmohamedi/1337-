@@ -43,7 +43,7 @@ typedef struct s_philo
 {
 	int index;
 	size_t last_eat;
-	size_t meal_count;
+	int meal_count;
 	pthread_mutex_t *my_fork;
 	pthread_mutex_t *r_fork;
 	t_all *all;
