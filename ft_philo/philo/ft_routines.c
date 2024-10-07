@@ -20,9 +20,14 @@ void ft_think(t_philo *philo)
 void ft_eat(t_philo *philo)
 {
 	LOCK(philo->my_fork);
+	LOCK(philo->all->output_mtx);	
 	printf(AC_YELLOW "%zu %d has taken a fork\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
+	UNLOCK(philo->all->output_mtx);	
+
 	LOCK(philo->r_fork);
+	LOCK(philo->all->output_mtx);	
 	printf(AC_YELLOW "%zu %d has taken a fork\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
+	UNLOCK(philo->all->output_mtx);
 
 	LOCK(philo->all->output_mtx);
 	printf(AC_RED "%zu %d is eating\n" RESET, current_time_in_milliseconds() - philo->all->curr_time, philo->index);
