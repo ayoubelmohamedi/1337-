@@ -7,16 +7,14 @@ void* routine(void *args)
 	t_philo *philo;
 
 	philo = ((t_philo *) args);
-	
+	if (philo->all->eat_count == 0)
+		return (NULL);
 	if (philo->index % 2 == 0) //prevent deadlock
 		ft_usleep((philo->all->t_eat / 2));
 	while (1)
 	{
-		if (philo->all->eat_count >= 0 && (philo->meal_count == philo->all->eat_count))
-		{
-			printf("eat_count = %d , curr_count = %zu \n", philo->all->eat_count, philo->meal_count);
+		if (philo->all->eat_count > 0 && (philo->meal_count == philo->all->eat_count))
 			return (NULL);
-		}
 		if (!ft_check_simulation(philo))
 			return (NULL);
 		ft_eat(philo);
