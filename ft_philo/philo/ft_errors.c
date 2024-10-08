@@ -7,6 +7,15 @@ void f_mtx(void *ptr)
 		free(ptr);
 }
 
+
+void ft_free_all(t_all *all)
+{
+    free(all->forks);
+    free(all->threads);
+    free(all->philos);
+    free(all->mutexes);
+}
+
 void ft_perror(char c)
 {
     if (c == 'p')

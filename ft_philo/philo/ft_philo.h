@@ -86,6 +86,7 @@ void	ft_sleeping(t_philo *philo);
 
 //errors
 void	f_mtx(void *ptr);
+void	ft_free_all(t_all *all);
 void	ft_perror(char c);
 void 	ft_err_exit(t_philo * philos);
 void	declare_death(t_philo *philo);

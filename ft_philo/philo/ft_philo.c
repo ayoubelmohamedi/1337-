@@ -142,12 +142,12 @@ void ft_parse(t_all *all, int ac, char **argv)
 int	main(int ac, char **argv)
 {
 
-	//todo : 1- stop philo when cycle of eating is reached []
+	//todo : 1- stop philo when cycle of eating is reached [x]
 	// 2 - allocate mutexes in heap [x]
 	// 3- handle parsing <-- [x]  
 	// 4 - shorten init_all [x]
-	// 5 - check if all works in mandatory []
-	// 6 - handle leaks <-- [] Last 
+	// 5 - check if all works in mandatory [] Last  
+	// 6 - handle leaks <-- [x]
 	int i;
 	t_all all;
 
@@ -158,9 +158,10 @@ int	main(int ac, char **argv)
 		return (1);
 	init_all(&all, ac, argv);
 	ft_init_threads(&all);
-	// ft_monitor(&all);
+	ft_monitor(&all);
 	i = 0;
 	while (i < all.nbr_philos)
 		pthread_join(all.threads[i++], NULL);
+	ft_free_all(&all);
 	return (0);
 }
