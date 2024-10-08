@@ -52,12 +52,10 @@ int	is_valid(int ac, char **args)
 		return (0);
 	while (i < ac)
 	{
+		if (!ft_is_nbr(args[i]))
 		{
-			if (!ft_is_nbr(args[i]))
-			{
-				ft_perror('p');
-				return (0);
-			}
+			ft_perror('p');
+			return (0);
 		}
 		i++;
 	}
