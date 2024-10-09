@@ -144,10 +144,10 @@ int	main(int ac, char **argv)
 
 	//todo : 1- stop philo when cycle of eating is reached [x]
 	// 2 - allocate mutexes in heap [x]
-	// 3- handle parsing <-- [x]  
+	// 3- handle parsing [x]  
 	// 4 - shorten init_all [x]
-	// 5 - check if all works in mandatory [] Last  
-	// 6 - handle leaks <-- [x]
+	// 5 - check if all works in mandatory [] <-- Last  
+	// 6 - handle leaks [x]
 	int i;
 	t_all all;
 
