@@ -1,6 +1,16 @@
 
 #include "ft_philo_bonus.h"
 
+size_t ft_strlen(char *name)
+{
+    size_t i;
+
+    i = 0;
+    while (name[i])
+        i++;
+    return (i);
+}
+
 char *ft_itoa(int nbr)
 {
     int len;
@@ -59,7 +69,7 @@ char **philo_names(int nbr_philos)
 
     i = -1;
     names = malloc(sizeof(char*) * nbr_philos);
-    while (++i < names)
+    while (++i < nbr_philos)
         names[i] = gen_name(i);
     return names;
 }
