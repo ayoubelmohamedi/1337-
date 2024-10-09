@@ -79,6 +79,8 @@ void	ft_sleep(t_philo *philo);
 
 //ft_errors
 void	declare_death(t_philo *philo);
+void	ft_perror(char c);
+
 
 size_t current_time_in_milliseconds();
 int ft_check_simulation(t_philo *philo);

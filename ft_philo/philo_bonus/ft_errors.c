@@ -2,6 +2,17 @@
 
 #include "ft_philo_bonus.h"
 
+void ft_perror(char c)
+{
+    if (c == 'p')
+        printf("parsing error\n");
+    if (c == 'm')
+        printf("memory allocation failed\n");
+    if (c == 'z')
+        printf("nbr of philos is 0\n");
+    if (c == 'c')
+        printf("parsing error: check nbr of arguments\n");
+}
 
 void declare_death(t_philo * philo)
 {
