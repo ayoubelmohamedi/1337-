@@ -33,8 +33,11 @@ void routine(t_philo *philo)
     }
 }
 
-void ft_agent(t_philo * philo)
+void *ft_agent(void *parms)
 {
+    t_philo * philo;
+
+    philo = (t_philo*) parms;
     //check death in current process
     while (1)
     {
@@ -44,15 +47,13 @@ void ft_agent(t_philo * philo)
         if ((curr_t - l_eat) > philo->all->t_die)
         {
             declare_death(philo);
-            return ;
+            return (NULL);
         }
         UNLOCK(philo->all->meal_sem[philo->index]);
     }
+    return (NULL);
 }
 
-// 1 - fix first errors
-// 2- format the file 
-// 3- handle parsing
 
 sem_t **init_meal_sem(t_all *all)
 {
@@ -70,13 +71,27 @@ sem_t **init_meal_sem(t_all *all)
     return (meal_sem);
 }
 
-int ft_init_all(t_all *all, int ac, char **av)
+int ft_init_all(t_all *all)
 {
-    int i;
+    size_t i;
+
 
     i = 1;
 
     return (i);   
+}
+
+int malloc_data(t_all * all)
+{
+
+    all->forks = sem_open("forks", O_CREAT, 0666, all->nbr_philos);
+    all->output_sem = sem_open("output", O_CREAT, 0666, 1);
+    all->meal_sem = init_meal_sem(all);
+    all->agents = malloc(sizeof(pthread_t) * all->nbr_philos); 
+    all->processes = malloc(sizeof(pid_t) * all->nbr_philos);
+    //to check if malloc fails 
+
+	return (1);
 }
 
 void ft_parse(t_all *all, int ac, char **argv)
@@ -92,50 +107,35 @@ void ft_parse(t_all *all, int ac, char **argv)
 	all->simulation_running = 1;
 }
 
+// 1 - fix first errors [] 
+// 2- format the file  []
+// 3- handle parsing []
+
 int main(int ac, char **av)
 {
-    int nbr_philos = 5;
-    sem_t *forks; 
-    sem_t *output_sem;
-    sem_t **meal_sem;
-    pid_t processes[nbr_philos];
-    pthread_t *threads;
-    int m_pid;
     t_all all;
 
     size_t i = 0;
-    if (ft_init_all(&all))
+	if (!(is_valid(ac, av)))
+		return (1);
+    ft_parse(&all, ac, av);
+    if(!malloc_data(&all))
         return (0);
-    m_pid = getpid();
-    all.nbr_philos = nbr_philos;
-    forks = sem_open("forks", O_CREAT, 0666, nbr_philos);
-    output_sem = sem_open("output", O_CREAT, 0666, 1);
-    meal_sem = init_meal_sem(&all);
-    
-    threads = malloc(sizeof(pthread_t) * nbr_philos);
-    //free all in case of error
-    if (!threads)
-        return (1);
-    all.forks = forks;
-    all.output_sem = output_sem;
-    all.meal_sem = meal_sem;
-    if (!forks)
-        exit(1);
-    // agents are threads to track their process's death
-    all.agents = malloc(sizeof(t_philo) * nbr_philos);
-    while (i < nbr_philos)
+    // if (ft_init_all(&all))
+    //     return (0);
+    while (i < all.nbr_philos)
     { 
-        processes[i] = fork();
-        if (processes[i] < 0)
+        all.processes[i] = fork();
+        if (all.processes[i] < 0)
         {
             //free all
             exit(1);
         }
-        if (processes[i] == 0)
+        if (all.processes[i] == 0)
         {
             all.philos[i].index = i;
             all.philos[i].all = &all;
-            all.philos[i].forks = forks;
+            all.philos[i].forks = all.forks;
             all.philos[i].last_eat = current_time_in_milliseconds();
             routine(&all.philos[i]); 
             if (pthread_create(&all.agents[i], NULL, ft_agent, &all.philos[i]))
@@ -151,7 +151,6 @@ int main(int ac, char **av)
         i++;
     }
     i = 0;
-    ft_monitor(&all);
-    
+    ft_monitor(&all); 
     return (0);
 }

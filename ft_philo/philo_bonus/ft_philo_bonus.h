@@ -68,6 +68,7 @@ size_t ft_strlen(char *name);
 int		ft_isdigit(int c);
 int		ft_atoi(const char *nbr);
 void 	ft_err_exit(t_philo * philos);
+int		is_valid(int ac, char **args);
 void	ft_parse(t_all *all, int ac, char **argv);
 
 //routines
@@ -75,8 +76,6 @@ void	ft_usleep(size_t time_to_sleep);
 void	ft_think(t_philo *philo);
 void	ft_eat(t_philo *philo);
 void	ft_sleep(t_philo *philo);
-
-
 
 //ft_errors
 void	declare_death(t_philo *philo);
