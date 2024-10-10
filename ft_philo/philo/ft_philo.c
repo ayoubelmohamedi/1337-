@@ -12,12 +12,17 @@ void* routine(void *args)
 	if (philo->index % 2 == 0) //prevent deadlock
 		ft_usleep((philo->all->t_eat / 2));
 	while (1)
-	{
-		if (philo->all->eat_count > 0 && (philo->meal_count == philo->all->eat_count))
-			return (NULL);
+	{	
 		if (!ft_check_simulation(philo))
 			return (NULL);
 		ft_eat(philo);
+		if (philo->all->eat_count > 0 && philo->meal_count  == philo->all->eat_count)
+		{
+			LOCK(philo->all->meal_mtx);
+			philo->all->all_eat++;
+			UNLOCK(philo->all->meal_mtx);
+			return (NULL);
+		}
 		if (!ft_check_simulation(philo))
 			return (NULL);
 		ft_sleeping(philo);
@@ -78,15 +83,23 @@ int init_all(t_all *all, int ac, char **av)
 
 void ft_monitor(t_all * all)
 {
-	if (!all)
-		return ;
 	int i;
+	
+	printf("eat_count ==> %d \n", all->eat_count);
+	if (all->eat_count == 0)
+		return ;
 	while (true)
 	{
 		i = 0;
 		while (i < all->nbr_philos)
 		{
 			LOCK(all->meal_mtx);
+			if (all->all_eat == all->eat_count)
+			{
+				printf("all eating is done\n");
+				UNLOCK(all->meal_mtx);
+				return ;
+			}
 			size_t val = current_time_in_milliseconds(); 	
 			size_t l_eat = all->philos[i].last_eat; 
 			if ((size_t)(val  - l_eat) > all->t_die)
@@ -139,15 +152,14 @@ void ft_parse(t_all *all, int ac, char **argv)
 	all->simulation_running = 1;
 }
 
+// 0 - if eat_count is zero, quit program [x]
+// 1 - assign eat counter to each philo [] 
+// 2- if one die, process should stop []
+// 3 - check if all woks
+// 4 - free memory 
+
 int	main(int ac, char **argv)
 {
-
-	//todo : 1- stop philo when cycle of eating is reached [x]
-	// 2 - allocate mutexes in heap [x]
-	// 3- handle parsing [x]  
-	// 4 - shorten init_all [x]
-	// 5 - check if all works in mandatory [] <-- Last  
-	// 6 - handle leaks [x]
 	int i;
 	t_all all;
 
@@ -162,6 +174,6 @@ int	main(int ac, char **argv)
 	i = 0;
 	while (i < all.nbr_philos)
 		pthread_join(all.threads[i++], NULL);
-	ft_free_all(&all);
+	// ft_free_all(&all);
 	return (0);
 }

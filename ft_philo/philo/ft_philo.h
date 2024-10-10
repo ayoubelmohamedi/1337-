@@ -56,6 +56,7 @@ typedef struct s_all
 	int t_eat;
 	int t_sleep;
 	int eat_count;
+	int all_eat;
 	int simulation_running;
 	size_t curr_time;
 	t_philo *philos;
