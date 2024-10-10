@@ -15,7 +15,8 @@ void* routine(void *args)
 	{	
 		if (!ft_check_simulation(philo))
 			return (NULL);
-		ft_eat(philo);
+		if (!ft_eat(philo))
+			return (NULL);
 		if (philo->all->eat_count > 0 && philo->meal  == philo->all->eat_count)
 		{
 			LOCK(philo->all->mutex_eat_counter);
@@ -156,7 +157,7 @@ void ft_parse(t_all *all, int ac, char **argv)
 }
 
 // 0 - if eat_count is zero, quit program [x]
-// 1 - assign eat counter to each philo [x] 
+// 1 - assign eat counter to each philo [x]
 // 2- if one die, process should stop []
 // 3 - check if all woks
 // 4 - free memory  and pthread_mutex_destroy before exit [] 

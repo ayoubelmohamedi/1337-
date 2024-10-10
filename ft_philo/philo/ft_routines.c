@@ -17,13 +17,14 @@ void ft_think(t_philo *philo)
 	ft_usleep((philo->all->t_die - (current_time_in_milliseconds() - philo->last_eat)) / 2);
 }
 
-void ft_eat(t_philo *philo)
+bool ft_eat(t_philo *philo)
 {
 	LOCK(philo->my_fork);
 	LOCK(philo->all->output_mtx);	
 	printf(AC_YELLOW "%zu %d has taken a fork\n" RESET, current_time_in_milliseconds() - philo->all->start_time, philo->index);
 	UNLOCK(philo->all->output_mtx);	
-
+	if (philo->all->nbr_philos == 1)
+		return (UNLOCK(philo->my_fork), 0);
 	LOCK(philo->r_fork);
 	LOCK(philo->all->output_mtx);	
 	printf(AC_YELLOW "%zu %d has taken a fork\n" RESET, current_time_in_milliseconds() - philo->all->start_time, philo->index);
@@ -40,6 +41,7 @@ void ft_eat(t_philo *philo)
 	ft_usleep(philo->all->t_eat);
 	UNLOCK(philo->my_fork);
 	UNLOCK(philo->r_fork);
+	return (1);
 }
 
 void ft_sleeping(t_philo *philo)

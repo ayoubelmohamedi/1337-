@@ -83,7 +83,7 @@ void	ft_parse(t_all *all, int ac, char **argv);
 //routines
 void	ft_usleep(size_t time_to_sleep);
 void	ft_think(t_philo *philo);
-void	ft_eat(t_philo *philo);
+bool	ft_eat(t_philo *philo);
 void	ft_sleeping(t_philo *philo);
 
 //errors
