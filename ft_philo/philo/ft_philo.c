@@ -16,11 +16,11 @@ void* routine(void *args)
 		if (!ft_check_simulation(philo))
 			return (NULL);
 		ft_eat(philo);
-		if (philo->all->eat_count > 0 && philo->meal_count  == philo->all->eat_count)
+		if (philo->all->eat_count > 0 && philo->meal  == philo->all->eat_count)
 		{
-			LOCK(philo->all->meal_mtx);
+			LOCK(philo->all->mutex_eat_counter);
 			philo->all->all_eat++;
-			UNLOCK(philo->all->meal_mtx);
+			UNLOCK(philo->all->mutex_eat_counter);
 			return (NULL);
 		}
 		if (!ft_check_simulation(philo))
@@ -38,14 +38,14 @@ int	ft_init_threads(t_all *all)
 	size_t i;
 
 	i = 0;
-	all->curr_time = current_time_in_milliseconds();
+	all->start_time = current_time_in_milliseconds();
 	while (i < all->nbr_philos)
 	{
 		all->philos[i].last_eat = current_time_in_milliseconds();
 		if (all->eat_count > 0)
-			all->philos[i].meal_count = 0;
+			all->philos[i].meal = 0;
 		else
-			all->philos[i].meal_count = -1;
+			all->philos[i].meal = -1;
 		if (pthread_create(&all->threads[i], NULL, routine, &all->philos[i]))
 			return (0); 
 		i++;
@@ -80,12 +80,11 @@ int init_all(t_all *all, int ac, char **av)
 	}
 	return (0);
 }
-
+// todo: shorten function 
 void ft_monitor(t_all * all)
 {
 	int i;
 	
-	printf("eat_count ==> %d \n", all->eat_count);
 	if (all->eat_count == 0)
 		return ;
 	while (true)
@@ -93,13 +92,15 @@ void ft_monitor(t_all * all)
 		i = 0;
 		while (i < all->nbr_philos)
 		{
-			LOCK(all->meal_mtx);
+			LOCK(all->mutex_eat_counter);
+			// to delete 
 			if (all->all_eat == all->eat_count)
 			{
-				printf("all eating is done\n");
-				UNLOCK(all->meal_mtx);
+				printf("all_eat => %d ||| eat_count  %d\n", all->all_eat, all->eat_count);
+				UNLOCK(all->mutex_eat_counter);
 				return ;
 			}
+			UNLOCK(all->mutex_eat_counter);
 			size_t val = current_time_in_milliseconds(); 	
 			size_t l_eat = all->philos[i].last_eat; 
 			if ((size_t)(val  - l_eat) > all->t_die)
@@ -107,7 +108,6 @@ void ft_monitor(t_all * all)
 				declare_death(&all->philos[i]);
 				return ;
 			}
-			UNLOCK(all->meal_mtx);
 			i++;
 		}
 	}
@@ -146,17 +146,20 @@ void ft_parse(t_all *all, int ac, char **argv)
 	all->t_eat = ft_atoi(argv[3]);
 	all->t_sleep = ft_atoi(argv[4]);
 	if (ac == 6)
+	{
 		all->eat_count = ft_atoi(argv[5]);
+		all->mutex_eat_counter = malloc(sizeof(pthread_mutex_t));
+	}
 	else
 		all->eat_count = -1;
 	all->simulation_running = 1;
 }
 
 // 0 - if eat_count is zero, quit program [x]
-// 1 - assign eat counter to each philo [] 
+// 1 - assign eat counter to each philo [x] 
 // 2- if one die, process should stop []
 // 3 - check if all woks
-// 4 - free memory 
+// 4 - free memory  and pthread_mutex_destroy before exit [] 
 
 int	main(int ac, char **argv)
 {
