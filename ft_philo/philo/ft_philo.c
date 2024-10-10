@@ -96,11 +96,7 @@ void ft_monitor(t_all * all)
 			LOCK(all->mutex_eat_counter);
 			// to delete 
 			if (all->all_eat == all->eat_count)
-			{
-				printf("all_eat => %d ||| eat_count  %d\n", all->all_eat, all->eat_count);
-				UNLOCK(all->mutex_eat_counter);
-				return ;
-			}
+				return (UNLOCK(all->mutex_eat_counter), (void) 0);
 			UNLOCK(all->mutex_eat_counter);
 			size_t val = current_time_in_milliseconds(); 	
 			size_t l_eat = all->philos[i].last_eat; 
@@ -159,7 +155,7 @@ void ft_parse(t_all *all, int ac, char **argv)
 // 0 - if eat_count is zero, quit program [x]
 // 1 - assign eat counter to each philo [x]
 // 2- if one die, process should stop []
-// 3 - check if all woks
+// 3 - check if all woks []
 // 4 - free memory  and pthread_mutex_destroy before exit [] 
 
 int	main(int ac, char **argv)
