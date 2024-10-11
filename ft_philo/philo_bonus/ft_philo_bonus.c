@@ -6,27 +6,43 @@ void ft_monitor(t_all *all)
 {
     size_t i;
     int status;
+    int exit_status;
 
     i = 0;
     status = 0;
     while (i < all->nbr_philos)
     { 
+        printf("monitoring process id %zu\n", i);
         waitpid(-1, &status, 0);
         // either died or something is off (segv)
-        if (WEXITSTATUS(status) != 0)
+        if (WIFEXITED(status))
         {
-            i = 0;
-            while (i < all->nbr_philos)
-                kill(all->processes[i++], SIGTERM);
-            return ;
+            exit_status = WEXITSTATUS(status); 
+            if (exit_status > 1)
+            {
+                i = 0;
+                while (i < all->nbr_philos)
+                    kill(all->processes[i++], SIGTERM);
+            }
+            else
+            {
+                i = 0;
+                while (i < all->nbr_philos)
+                    kill(all->processes[i++], SIGTERM);
+            }
+            break;
         }
+        i = 0;
     }
 }
 
 void routine(t_philo *philo)
 {
+    printf("Philo ==> %d created\n", philo->index);
     while (1)
     {
+        printf("inside routine %d\n", philo->index);
+
         ft_eat(philo);
         ft_sleep(philo);
         ft_think(philo);
@@ -54,7 +70,6 @@ void *ft_agent(void *parms)
     return (NULL);
 }
 
-
 sem_t **init_meal_sem(t_all *all)
 {
     size_t i;
@@ -71,22 +86,12 @@ sem_t **init_meal_sem(t_all *all)
     return (meal_sem);
 }
 
-int ft_init_all(t_all *all)
-{
-    size_t i;
-
-
-    i = 1;
-
-    return (i);   
-}
-
 int malloc_data(t_all * all)
 {
-
     all->forks = sem_open("forks", O_CREAT, 0666, all->nbr_philos);
     all->output_sem = sem_open("output", O_CREAT, 0666, 1);
     all->meal_sem = init_meal_sem(all);
+    all->philos = malloc(sizeof(t_philo) * all->nbr_philos);
     all->agents = malloc(sizeof(pthread_t) * all->nbr_philos); 
     all->processes = malloc(sizeof(pid_t) * all->nbr_philos);
     //to check if malloc fails 
@@ -107,9 +112,10 @@ void ft_parse(t_all *all, int ac, char **argv)
 	all->simulation_running = 1;
 }
 
-// 1 - fix first errors [] 
-// 2- format the file  []
-// 3- handle parsing []
+// 1 - fix int first errors [x] 
+// 2- format the file  [x]
+// 3- handle parsing [x]
+// 4- debugg []
 
 int main(int ac, char **av)
 {
@@ -133,24 +139,23 @@ int main(int ac, char **av)
         }
         if (all.processes[i] == 0)
         {
+            
             all.philos[i].index = i;
             all.philos[i].all = &all;
             all.philos[i].forks = all.forks;
             all.philos[i].last_eat = current_time_in_milliseconds();
+            printf("process[%zu] => calling routine\n", i);
             routine(&all.philos[i]); 
             if (pthread_create(&all.agents[i], NULL, ft_agent, &all.philos[i]))
 			    return (0);
             // when to add pthread_join ?
             // maybe here >  > ?  ans => each thread must be tighted up with their own process
+            //2 - where to add   => pthread_detach(pthread_t thread) 
+            // 3- when to use mutex attributes object
             pthread_join(all.agents[i],NULL);
-        }
-        else
-        {
-
-        }
+        } 
         i++;
     }
-    i = 0;
     ft_monitor(&all); 
     return (0);
 }
