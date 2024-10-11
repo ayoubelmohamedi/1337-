@@ -20,12 +20,18 @@ void ft_think(t_philo *philo)
 bool ft_eat(t_philo *philo)
 {
 	LOCK(philo->my_fork);
+	///check 1
+	if (!ft_check_simulation(philo))
+		return (UNLOCK(philo->my_fork) , 1);
 	LOCK(philo->all->output_mtx);	
 	printf(AC_YELLOW "%zu %d has taken a fork\n" RESET, current_time_in_milliseconds() - philo->all->start_time, philo->index);
 	UNLOCK(philo->all->output_mtx);	
 	if (philo->all->nbr_philos == 1)
 		return (UNLOCK(philo->my_fork), 0);
 	LOCK(philo->r_fork);
+	// check 2
+	if (!ft_check_simulation(philo))
+		return (UNLOCK(philo->r_fork) , 1);
 	LOCK(philo->all->output_mtx);	
 	printf(AC_YELLOW "%zu %d has taken a fork\n" RESET, current_time_in_milliseconds() - philo->all->start_time, philo->index);
 	UNLOCK(philo->all->output_mtx);
@@ -33,6 +39,7 @@ bool ft_eat(t_philo *philo)
 	LOCK(philo->all->output_mtx);
 	printf(AC_RED "%zu %d is eating\n" RESET, current_time_in_milliseconds() - philo->all->start_time, philo->index);
 	UNLOCK(philo->all->output_mtx);	
+	
 	LOCK(philo->all->meal_mtx);
 	philo->last_eat = current_time_in_milliseconds();
 	UNLOCK(philo->all->meal_mtx);
