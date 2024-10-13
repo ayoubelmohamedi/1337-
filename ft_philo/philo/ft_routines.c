@@ -45,6 +45,7 @@ bool ft_eat(t_philo *philo)
 	UNLOCK(philo->all->meal_mtx);
 	if (philo->meal >= 0)
 		philo->meal++;
+
 	ft_usleep(philo->all->t_eat);
 	UNLOCK(philo->my_fork);
 	UNLOCK(philo->r_fork);

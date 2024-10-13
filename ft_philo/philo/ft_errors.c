@@ -7,6 +7,7 @@ void f_mtx(void *ptr)
 		free(ptr);
 }
 
+
 void ft_free_all(t_all *all)
 {
     free(all->forks);

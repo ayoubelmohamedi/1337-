@@ -17,10 +17,11 @@ void* routine(void *args)
 			return (NULL);
 		if (!ft_eat(philo))
 			return (NULL);
-		if (philo->all->eat_count > 0 && philo->meal  == philo->all->eat_count)
+		if (philo->all->eat_count > 0 && philo->meal == philo->all->eat_count)
 		{
 			LOCK(philo->all->mutex_eat_counter);
 			philo->all->all_eat++;
+			philo->is_done = 1;
 			UNLOCK(philo->all->mutex_eat_counter);
 			return (NULL);
 		}
@@ -43,6 +44,7 @@ int	ft_init_threads(t_all *all)
 	while (i < all->nbr_philos)
 	{
 		all->philos[i].last_eat = current_time_in_milliseconds();
+		all->philos[i].is_done = 0;
 		if (all->eat_count > 0)
 			all->philos[i].meal = 0;
 		else
@@ -61,6 +63,8 @@ int init_all(t_all *all, int ac, char **av)
 	pthread_mutex_init(all->output_mtx, NULL);
 	pthread_mutex_init(all->meal_mtx, NULL);
 	pthread_mutex_init(all->dead_lock, NULL);
+	if (all->eat_count > 0)
+		pthread_mutex_init(all->mutex_eat_counter, NULL);
 	i = 0;
 	while (i < all->nbr_philos)
 	{
@@ -93,14 +97,20 @@ void ft_monitor(t_all * all)
 		i = 0;
 		while (i < all->nbr_philos)
 		{
-			LOCK(all->mutex_eat_counter);
-			// to delete 
-			if (all->all_eat == all->eat_count)
-				return (UNLOCK(all->mutex_eat_counter), (void) 0);
-			UNLOCK(all->mutex_eat_counter);
+			if (all->eat_count > 0)
+			{
+				// printf("Before mutex_eat_counter lock\n");
+				LOCK(all->mutex_eat_counter);
+				// printf("After mutex_eat_counter lock\n");
+				// printf("all->all->eat => %d, all->eat_count => %d\n", all->all_eat, all->nbr_philos);
+				// to delete 
+				if (all->all_eat == all->nbr_philos)
+					return (UNLOCK(all->mutex_eat_counter), (void) 0);
+				UNLOCK(all->mutex_eat_counter);
+			}
 			size_t val = current_time_in_milliseconds(); 	
 			size_t l_eat = all->philos[i].last_eat; 
-			if ((size_t)(val  - l_eat) > all->t_die)
+			if ((size_t)(val  - l_eat) > all->t_die && (!all->philos[i].is_done))
 			{
 				declare_death(&all->philos[i]);
 				return ;
@@ -154,7 +164,7 @@ void ft_parse(t_all *all, int ac, char **argv)
 
 // 0 - if eat_count is zero, quit program [x]
 // 1 - assign eat counter to each philo [x]
-// 2- if one die, process should stop []
+// 2- if one die, process should stop [x]
 // 3 - check if all woks []
 // 4 - free memory  and pthread_mutex_destroy before exit [] 
 
