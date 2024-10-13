@@ -42,11 +42,8 @@ int ft_check_simulation(t_philo *philo)
 
 void declare_death(t_philo *philo) {
     LOCK(philo->all->dead_lock);
-    LOCK(philo->all->output_mtx);
-    printf("%zu %d died\n", current_time_in_milliseconds() - philo->all->start_time, philo->index);
-    UNLOCK(philo->all->output_mtx);
+    ft_p_action('d', philo);
 	UNLOCK(philo->all->meal_mtx);
-
     philo->all->simulation_running = 0;
     UNLOCK(philo->all->dead_lock);
 }

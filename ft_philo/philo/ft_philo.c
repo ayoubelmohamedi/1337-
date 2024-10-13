@@ -25,11 +25,8 @@ void* routine(void *args)
 			UNLOCK(philo->all->mutex_eat_counter);
 			return (NULL);
 		}
-		if (!ft_check_simulation(philo))
-			return (NULL);
 		ft_sleeping(philo);
-		if (!ft_check_simulation(philo))
-			return (NULL);
+	
 		ft_think(philo);
 	}
 	return (NULL);
@@ -85,6 +82,7 @@ int init_all(t_all *all, int ac, char **av)
 	}
 	return (0);
 }
+
 // todo: shorten function 
 void ft_monitor(t_all * all)
 {
@@ -99,11 +97,7 @@ void ft_monitor(t_all * all)
 		{
 			if (all->eat_count > 0)
 			{
-				// printf("Before mutex_eat_counter lock\n");
 				LOCK(all->mutex_eat_counter);
-				// printf("After mutex_eat_counter lock\n");
-				// printf("all->all->eat => %d, all->eat_count => %d\n", all->all_eat, all->nbr_philos);
-				// to delete 
 				if (all->all_eat == all->nbr_philos)
 					return (UNLOCK(all->mutex_eat_counter), (void) 0);
 				UNLOCK(all->mutex_eat_counter);

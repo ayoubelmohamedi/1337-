@@ -78,6 +78,10 @@ int		ft_atoi(const char *nbr);
 int		is_valid(int ac, char **args);
 int		ft_is_nbr(char *nbr);
 
+// utils2
+void ft_p_action(char m, t_philo *philo);
+
+
 //parsing
 void	ft_parse(t_all *all, int ac, char **argv);
 
