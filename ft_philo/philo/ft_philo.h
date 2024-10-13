@@ -17,12 +17,8 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-// #include <libft.h>
-
 #include <unistd.h>
 #include <sys/time.h>
-
-
 
 # define LOCK pthread_mutex_lock
 # define UNLOCK pthread_mutex_unlock
@@ -72,18 +68,11 @@ typedef struct s_all
 
 // utils
 size_t 	current_time_in_milliseconds();
-
-int		ft_isdigit(int c);
-int		ft_atoi(const char *nbr);
 int		is_valid(int ac, char **args);
-int		ft_is_nbr(char *nbr);
 
 // utils2
-void ft_p_action(char m, t_philo *philo);
-
-
-//parsing
-void	ft_parse(t_all *all, int ac, char **argv);
+void	ft_p_action(char m, t_philo *philo);
+int		ft_atoi(const char *nbr);
 
 //routines
 void	ft_usleep(size_t time_to_sleep);
@@ -95,7 +84,6 @@ void	ft_sleeping(t_philo *philo);
 void	f_mtx(void *ptr);
 void	ft_free_all(t_all *all);
 void	ft_perror(char c);
-void 	ft_err_exit(t_philo * philos);
 void	declare_death(t_philo *philo);
 int		ft_check_simulation(t_philo *philo);
 
