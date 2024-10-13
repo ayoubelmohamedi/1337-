@@ -29,7 +29,7 @@ int	ft_is_nbr(char *nbr)
 	return (1);
 }
 
-int ft_check_max_zero(int ac, char **args)
+static int ft_check_max_zero(int ac, char **args)
 {
 	if (ac != 5 && ac != 6)
     {
