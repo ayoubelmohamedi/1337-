@@ -3,7 +3,9 @@
 
 void ft_usleep(size_t time_to_sleep)
 {
-	size_t current = current_time_in_milliseconds();
+	size_t current;
+
+	current = current_time_in_milliseconds();
 	while (current_time_in_milliseconds() - current < time_to_sleep)
 		usleep(500);
 }
@@ -11,8 +13,7 @@ void ft_usleep(size_t time_to_sleep)
 void ft_think(t_philo *philo) 
 {
 	if (!ft_check_simulation(philo))
-			return ;
-		
+			return ;	
 	ft_usleep((philo->all->t_die - (current_time_in_milliseconds() - philo->last_eat)) / 2);
 }
 

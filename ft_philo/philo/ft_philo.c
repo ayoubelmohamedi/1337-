@@ -87,6 +87,8 @@ int init_all(t_all *all, int ac, char **av)
 void ft_monitor(t_all * all)
 {
 	int i;
+	size_t val;
+	size_t l_eat;
 	
 	if (all->eat_count == 0)
 		return ;
@@ -102,13 +104,10 @@ void ft_monitor(t_all * all)
 					return (UNLOCK(all->mutex_eat_counter), (void) 0);
 				UNLOCK(all->mutex_eat_counter);
 			}
-			size_t val = current_time_in_milliseconds(); 	
-			size_t l_eat = all->philos[i].last_eat; 
+			val = current_time_in_milliseconds(); 	
+			l_eat = all->philos[i].last_eat; 
 			if ((size_t)(val  - l_eat) > all->t_die && (!all->philos[i].is_done))
-			{
-				declare_death(&all->philos[i]);
-				return ;
-			}
+				return (declare_death(&all->philos[i]), (void) 0);
 			i++;
 		}
 	}
