@@ -15,7 +15,7 @@ CC = cc
 # CFLAGS   =	-Wall -Wextra -Werror 
 # CFLAGS = -g  -fsanitize=address #-fsanitize=thread 
 CFLAGS = -g   #-fsanitize=thread 
-SRCS = ft_philo.c ft_utils.c ft_errors.c ft_routines.c 
+SRCS = ft_philo.c ft_utils.c ft_errors.c ft_routines.c ft_utils2.c
 OBJS = $(SRCS:.c=.o)
 
 RM = rm -f
