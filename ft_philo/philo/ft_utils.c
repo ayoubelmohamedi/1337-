@@ -1,7 +1,7 @@
 
 #include "ft_philo.h"
 
-int	ft_isdigit(int c)
+static int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
 		return (1);
@@ -16,7 +16,7 @@ size_t current_time_in_milliseconds()
     return (((tv.tv_sec) * 1000) + ((tv.tv_usec) / 1000));
 }
 
-int	ft_is_nbr(char *nbr)
+static int	ft_is_nbr(char *nbr)
 {
 	size_t	i;
 
