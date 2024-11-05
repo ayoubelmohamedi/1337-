@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_utils2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/05 21:12:55 by ael-moha          #+#    #+#             */
+/*   Updated: 2024/11/05 21:16:03 by ael-moha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_philo.h"
 
@@ -10,7 +21,6 @@ int	ft_atoi(const char *nbr)
 	sign = 1;
 	res = 0;
 	i = 0;
-
 	if (nbr == NULL)
 		return (0);
 	while (nbr[i] == '\t' || nbr[i] == '\n' || nbr[i] == '\v' || nbr[i] == '\f'
@@ -27,16 +37,22 @@ int	ft_atoi(const char *nbr)
 	return (res * sign);
 }
 
-void ft_p_action(char m, t_philo *philo)
+void	ft_p_action(char m, t_philo *philo)
 {
 	LOCK(philo->all->output_mtx);
-    if (m == 'e')
-	    printf(AC_RED "%zu %d is eating\n" RESET, current_time_in_milliseconds() - philo->all->start_time, philo->index);
-    else if (m == 's')
-	    printf(AC_GREEN "%zu %d is sleeping\n" RESET, current_time_in_milliseconds() - philo->all->start_time, philo->index);
-    else if (m == 't')
-	    printf(AC_BLUE "%zu %d is thinking\n" RESET , current_time_in_milliseconds() - philo->all->start_time, philo->index);
-    else if (m == 'd')
-        printf("%zu %d died\n", current_time_in_milliseconds() - philo->all->start_time, philo->index);
-    UNLOCK(philo->all->output_mtx);
+	if (m == 'e')
+		printf(AC_RED "%zu %d is eating\n" RESET, current_time_in_milliseconds()
+			- philo->all->start_time, philo->index);
+	else if (m == 's')
+		printf(AC_GREEN "%zu %d is sleeping\n" RESET,
+			current_time_in_milliseconds() - philo->all->start_time,
+			philo->index);
+	else if (m == 't')
+		printf(AC_BLUE "%zu %d is thinking\n" RESET,
+			current_time_in_milliseconds() - philo->all->start_time,
+			philo->index);
+	else if (m == 'd')
+		printf("%zu %d died\n", current_time_in_milliseconds()
+			- philo->all->start_time, philo->index);
+	UNLOCK(philo->all->output_mtx);
 }
