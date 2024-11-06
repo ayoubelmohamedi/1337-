@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 21:13:06 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/05 21:13:07 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/06 14:27:24 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ bool	ft_eat(t_philo *philo)
 	if (philo->meal >= 0)
 		philo->meal++;
 	ft_usleep(philo->all->t_eat);
-	UNLOCK(philo->my_fork);
-	UNLOCK(philo->r_fork);
+	(UNLOCK(philo->r_fork), UNLOCK(philo->my_fork));
 	return (1);
 }
 

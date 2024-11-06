@@ -6,7 +6,7 @@
 #    By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/27 17:11:24 by ael-moha          #+#    #+#              #
-#    Updated: 2024/11/05 20:52:21 by ael-moha         ###   ########.fr        #
+#    Updated: 2024/11/06 14:38:53 by ael-moha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC = cc -g
 # CFLAGS   =	-Wall -Wextra -Werror 
 # CFLAGS = -g  -fsanitize=address #-fsanitize=thread 
 CFLAGS = -g   #-fsanitize=thread 
-SRCS = ft_philo.c ft_utils.c ft_errors.c ft_routines.c ft_utils2.c
+SRCS = ft_philo.c ft_utils.c ft_errors.c ft_routines.c ft_utils2.c ft_parsing_utils.c
 OBJS = $(SRCS:.c=.o)
 
 RM = rm -f

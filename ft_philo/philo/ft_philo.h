@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:55:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/05 21:14:14 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/06 14:39:43 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,13 @@ typedef struct s_all
 	pthread_mutex_t		*dead_lock;
 	pthread_mutex_t		*output_mtx;
 }						t_all;
+
+// paring_utils
+
+void					*routine(void *args);
+int						ft_init_threads(t_all *all);
+int						init_all(t_all *all, int ac, char **av);
+int						init_all(t_all *all, int ac, char **av);
 
 // utils
 size_t					current_time_in_milliseconds(void);
