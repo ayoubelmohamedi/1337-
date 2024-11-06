@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:55:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/06 14:39:43 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/06 17:32:00 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int						init_all(t_all *all, int ac, char **av);
 // utils
 size_t					current_time_in_milliseconds(void);
 int						is_valid(int ac, char **args);
+void					ft_join_threads(t_all *all);
 
 // utils2
 void					ft_p_action(char m, t_philo *philo);

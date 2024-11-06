@@ -6,18 +6,19 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:33:11 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/06 14:34:38 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/06 17:41:01 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_philo.h"
-
 
 int	ft_init_threads(t_all *all)
 {
 	size_t	i;
 
 	i = 0;
+	if (all->eat_count > 0)
+		all->all_eat = 0;
 	all->start_time = current_time_in_milliseconds();
 	while (i < all->nbr_philos)
 	{
@@ -55,10 +56,19 @@ int	init_all(t_all *all, int ac, char **av)
 		}
 		else
 		{
-			all->philos[i].my_fork = &all->forks[i];
 			all->philos[i].r_fork = &all->forks[((i + 1) % all->nbr_philos)];
+			all->philos[i].my_fork = &all->forks[i];
 		}
 		all->philos[i++].all = all;
 	}
 	return (0);
+}
+
+void	ft_join_threads(t_all *all)
+{
+	int	j;
+
+	j = 0;
+	while (j < all->nbr_philos)
+		pthread_join(all->threads[j++], NULL);
 }

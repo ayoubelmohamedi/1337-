@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 21:13:08 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/06 14:40:58 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/06 20:26:23 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	*routine(void *args)
 		ft_usleep((philo->all->t_eat / 2));
 	while (1)
 	{
+		printf("routine working \n");
 		if (!ft_check_simulation(philo))
 			return (NULL);
 		if (!ft_eat(philo))
@@ -59,7 +60,6 @@ void	ft_monitor(t_all *all)
 				LOCK(all->mutex_eat_counter);
 				if (all->all_eat == all->nbr_philos)
 					return (UNLOCK(all->mutex_eat_counter), (void)0);
-				UNLOCK(all->mutex_eat_counter);
 			}
 			val = current_time_in_milliseconds();
 			l_eat = all->philos[i].last_eat;
@@ -112,9 +112,11 @@ void	ft_parse(t_all *all, int ac, char **argv)
 	all->simulation_running = 1;
 }
 
+
+//TODO : add mutex_destroy 
+
 int	main(int ac, char **argv)
 {
-	int		i;
 	t_all	all;
 
 	if (!(is_valid(ac, argv)))
@@ -125,9 +127,7 @@ int	main(int ac, char **argv)
 	init_all(&all, ac, argv);
 	ft_init_threads(&all);
 	ft_monitor(&all);
-	i = 0;
-	while (i < all.nbr_philos)
-		pthread_join(all.threads[i++], NULL);
+	ft_join_threads(&all);
 	ft_free_all(&all);
 	return (0);
 }

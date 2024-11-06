@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 21:13:10 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/05 21:19:00 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/06 19:46:28 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ft_free_all(t_all *all)
 	free(all->threads);
 	free(all->philos);
 	free(all->mutexes);
+	f_mtx(all->mutex_eat_counter);
 }
 
 void	ft_perror(char c)
