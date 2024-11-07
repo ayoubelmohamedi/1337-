@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 21:13:08 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/06 20:26:23 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/07 18:42:44 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ void	*routine(void *args)
 		ft_usleep((philo->all->t_eat / 2));
 	while (1)
 	{
-		printf("routine working \n");
-		if (!ft_check_simulation(philo))
-			return (NULL);
 		if (!ft_eat(philo))
+			return (NULL);
+		if (!ft_check_simulation(philo))
 			return (NULL);
 		if (philo->all->eat_count > 0 && philo->meal == philo->all->eat_count)
 		{
@@ -59,12 +58,13 @@ void	ft_monitor(t_all *all)
 			{
 				LOCK(all->mutex_eat_counter);
 				if (all->all_eat == all->nbr_philos)
-					return (UNLOCK(all->mutex_eat_counter), (void)0);
+					return (UNLOCK(all->mutex_eat_counter), (void)0);	
+				UNLOCK(all->mutex_eat_counter);
 			}
 			val = current_time_in_milliseconds();
 			l_eat = all->philos[i].last_eat;
 			if ((size_t)(val - l_eat) > all->t_die && (!all->philos[i].is_done))
-				return (declare_death(&all->philos[i]), (void)0);
+				return (declare_death(&all->philos[i]), (void)0);	
 			i++;
 		}
 	}
