@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 21:13:10 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/07 17:10:09 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/07 18:30:08 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	f_mtx(void *ptr)
 
 void	ft_free_all(t_all *all)
 {
+	ft_destroy_mutexes(all);
 	free(all->forks);
 	free(all->threads);
 	free(all->philos);
@@ -56,7 +57,6 @@ void	declare_death(t_philo *philo)
 {
 	LOCK(philo->all->dead_lock);
 	ft_p_action('d', philo);
-	UNLOCK(philo->all->meal_mtx);
 	philo->all->simulation_running = 0;
 	UNLOCK(philo->all->dead_lock);
 }
