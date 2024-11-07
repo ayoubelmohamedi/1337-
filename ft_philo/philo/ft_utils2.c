@@ -6,11 +6,20 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 21:12:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/05 21:16:03 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/07 18:35:13 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_philo.h"
+
+void ft_destroy_mutexes(t_all *all)
+{
+	int i = 0;
+	while (i < 3)
+		pthread_mutex_destroy(&all->mutexes[i++]);
+	if (all->eat_count > 0)
+		pthread_mutex_destroy(all->mutex_eat_counter);	
+}
 
 int	ft_atoi(const char *nbr)
 {

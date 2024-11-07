@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:55:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/06 17:32:00 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/07 18:29:35 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void					ft_join_threads(t_all *all);
 // utils2
 void					ft_p_action(char m, t_philo *philo);
 int						ft_atoi(const char *nbr);
+void					ft_destroy_mutexes(t_all *all);
 
 // routines
 void					ft_usleep(size_t time_to_sleep);
