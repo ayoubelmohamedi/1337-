@@ -12,13 +12,15 @@
 
 #include "ft_philo.h"
 
-void ft_destroy_mutexes(t_all *all)
+void	ft_destroy_mutexes(t_all *all)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (i < 3)
 		pthread_mutex_destroy(&all->mutexes[i++]);
 	if (all->eat_count > 0)
-		pthread_mutex_destroy(all->mutex_eat_counter);	
+		pthread_mutex_destroy(all->mutex_eat_counter);
 }
 
 int	ft_atoi(const char *nbr)

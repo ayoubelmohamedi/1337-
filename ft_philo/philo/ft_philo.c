@@ -58,13 +58,13 @@ void	ft_monitor(t_all *all)
 			{
 				LOCK(all->mutex_eat_counter);
 				if (all->all_eat == all->nbr_philos)
-					return (UNLOCK(all->mutex_eat_counter), (void)0);	
+					return (UNLOCK(all->mutex_eat_counter), (void)0);
 				UNLOCK(all->mutex_eat_counter);
 			}
 			val = current_time_in_milliseconds();
 			l_eat = all->philos[i].last_eat;
 			if ((size_t)(val - l_eat) > all->t_die && (!all->philos[i].is_done))
-				return (declare_death(&all->philos[i]), (void)0);	
+				return (declare_death(&all->philos[i]), (void)0);
 			i++;
 		}
 	}
@@ -112,8 +112,7 @@ void	ft_parse(t_all *all, int ac, char **argv)
 	all->simulation_running = 1;
 }
 
-
-//TODO : add mutex_destroy 
+// TODO : add mutex_destroy
 
 int	main(int ac, char **argv)
 {
