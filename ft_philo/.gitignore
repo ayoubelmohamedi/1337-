@@ -1,3 +1,5 @@
 test*.c
 **/*.o
 **/*.out
+**/.vscode/
+philo/philo

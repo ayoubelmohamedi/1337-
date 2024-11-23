@@ -3,19 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+         #
+#    By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/27 17:11:24 by ael-moha          #+#    #+#              #
-#    Updated: 2024/11/22 22:30:42 by ael-moha         ###   ########.fr        #
+#    Updated: 2024/11/23 16:46:47 by ysbai-jo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo 
 CC = cc 
-# CFLAGS   =	-Wall -Wextra -Werror 
-#CFLAGS = -g  -fsanitize=address #-fsanitize=thread 
-CFLAGS = -g  -fsanitize=thread
-SRCS = ft_philo.c ft_utils.c ft_errors.c ft_routines.c ft_utils2.c ft_parsing_utils.c
+CFLAGS  =	-Wall -Wextra #-Werror 
+CFLAGS += -g  -fsanitize=thread
+# CFLAGS += -g -fsanitize=address
+SRCS = ft_philo.c ft_errors.c ft_routine.c ft_parsing_utils.c ft_utils.c ft_utils2.c
 OBJS = $(SRCS:.c=.o)
 
 RM = rm -f
@@ -34,3 +34,6 @@ fclean : clean
 	$(RM) $(NAME)
 
 re : fclean all
+
+
+clear: re  clean

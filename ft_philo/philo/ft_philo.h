@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_philo.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:55:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 00:48:08 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 14:45:02 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ typedef struct s_all
 
 void					*routine(void *args);
 int						ft_init_threads(t_all *all);
-int						init_all(t_all *all, int ac, char **av);
-int						init_all(t_all *all, int ac, char **av);
+int						init_all(t_all *all);
 
 // utils
 size_t					current_time_in_milliseconds(void);
@@ -76,12 +75,12 @@ int						is_valid(int ac, char **args);
 void					ft_join_threads(t_all *all);
 
 // utils2
-void					ft_p_action(char m, t_philo *philo);
+bool					ft_p_action(char m, t_philo *philo);
 int						ft_atoi(const char *nbr);
 void					ft_destroy_mutexes(t_all *all);
 
 // routines
-void					ft_usleep(size_t time_to_sleep);
+void					ft_usleep(size_t time_to_sleep, t_philo *philo);
 int						ft_think(t_philo *philo);
 bool					ft_eat(t_philo *philo);
 void					ft_sleeping(t_philo *philo);
