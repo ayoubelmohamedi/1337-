@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_philo.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 21:13:08 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 03:00:09 by ael-moha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "ft_philo.h"
 
@@ -20,15 +9,11 @@ void	*routine(void *args)
 	if (philo->all->eat_count == 0)
 		return (NULL);
 	if (philo->index % 2)
-		ft_usleep((philo->all->t_eat / 2));
+		ft_usleep(1, philo);
 	while (1)
 	{
-		// if (!ft_check_simulation(philo))
-		// 	return (NULL);
 		if (!ft_eat(philo))
 			return (NULL);
-		// if (!ft_check_simulation(philo))
-		// 	return (NULL);
 		if (philo->all->eat_count > 0 && philo->meal == philo->all->eat_count)
 		{
 			LOCK(philo->all->mutex_eat_counter);
@@ -93,20 +78,20 @@ bool times_eat(t_all *all)
 
 bool is_death(t_all *all, size_t i)
 {
-	LOCK(all->meal_mtx);
+	LOCK(&all->meal_mtx[i]);
 	if ((size_t)(current_time_in_milliseconds() - all->philos[i].last_eat) >= (size_t)all->t_die)
 	{
 		declare_death(&all->philos[i]);
-		UNLOCK(all->meal_mtx);
-		return (true);	
+		UNLOCK(&all->meal_mtx[i]);
+		return (true);
 	}
-	UNLOCK(all->meal_mtx);
+	UNLOCK(&all->meal_mtx[i]);
 	return (false);
 }
 
 void ft_monitor(t_all *all)
 {
-	size_t i;
+	int i;
 
 	i = 0;
 	while (true)
@@ -127,24 +112,28 @@ int	malloc_data(t_all *all)
 	pthread_mutex_t	*forks;
 	pthread_t		*threads;
 	t_philo			*philos;
-	pthread_mutex_t	*mutexes;
+	pthread_mutex_t	*meal_mtx;
+	pthread_mutex_t	*dead_lock;
+	pthread_mutex_t	*output_mtx;
 
 	forks = malloc(sizeof(pthread_mutex_t) * all->nbr_philos);
 	threads = malloc(sizeof(pthread_t) * all->nbr_philos);
 	philos = malloc(sizeof(t_philo) * all->nbr_philos);
-	mutexes = malloc(sizeof(pthread_mutex_t) * 3);
-	if (!forks || !threads || !philos || !mutexes)
+	meal_mtx = malloc(sizeof(pthread_mutex_t) * all->nbr_philos);
+	output_mtx = malloc(sizeof(pthread_mutex_t));
+	dead_lock = malloc(sizeof(pthread_mutex_t));
+	if (!forks || !threads || !philos || !output_mtx || !dead_lock)
 	{
-		(f_mtx(forks), f_mtx(threads), f_mtx(philos), f_mtx(mutexes));
+		(f_mtx(forks), f_mtx(threads), f_mtx(philos), f_mtx(output_mtx), f_mtx(dead_lock));
 		return (0);
 	}
 	all->forks = forks;
 	all->threads = threads;
 	all->philos = philos;
-	all->mutexes = mutexes;
-	all->output_mtx = &mutexes[0];
-	all->meal_mtx = &mutexes[1];
-	all->dead_lock = &mutexes[2];
+	all->output_mtx = output_mtx;
+	all->dead_lock = dead_lock;
+	all->meal_mtx = meal_mtx;
+
 	return (1);
 }
 
@@ -174,7 +163,7 @@ int	main(int ac, char **argv)
 	ft_parse(&all, ac, argv);
 	if (!malloc_data(&all))
 		return (1);
-	init_all(&all, ac, argv);
+	init_all(&all);
 	ft_init_threads(&all);
 	ft_monitor(&all);
 	ft_join_threads(&all);

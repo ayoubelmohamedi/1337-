@@ -1,20 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_parsing_utils.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 14:33:11 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 00:13:32 by ael-moha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ft_philo.h"
 
 int	ft_init_threads(t_all *all)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	if (all->eat_count > 0)
@@ -34,12 +22,11 @@ int	ft_init_threads(t_all *all)
 	return (1);
 }
 
-int	init_all(t_all *all, int ac, char **av)
+int	init_all(t_all *all)
 {
-	size_t	i;
+	int	i;
 
 	pthread_mutex_init(all->output_mtx, NULL);
-	pthread_mutex_init(all->meal_mtx, NULL);
 	pthread_mutex_init(all->dead_lock, NULL);
 	if (all->eat_count > 0)
 		pthread_mutex_init(all->mutex_eat_counter, NULL);
@@ -48,10 +35,12 @@ int	init_all(t_all *all, int ac, char **av)
 	{
 		all->philos[i].index = i + 1;
 		pthread_mutex_init(&all->forks[i], NULL);
+		pthread_mutex_init(&all->meal_mtx[i], NULL);
+
 		if (i == all->nbr_philos - 1)
 		{
 			all->philos[i].r_fork = &all->forks[i];
-			all->philos[i].my_fork = &all->forks[((i + 1) % all->nbr_philos)];
+			all->philos[i].my_fork = &all->forks[0];
 		}
 		else
 		{

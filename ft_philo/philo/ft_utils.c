@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysbai-jo <ysbai-jo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 21:13:03 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/06 17:40:47 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 14:06:16 by ysbai-jo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ size_t	current_time_in_milliseconds(void)
 
 static int	ft_is_nbr(char *nbr)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (nbr[i])
@@ -57,7 +57,7 @@ static int	ft_check_max_zero(int ac, char **args)
 
 int	is_valid(int ac, char **args)
 {
-	size_t	i;
+	int	i;
 
 	i = 1;
 	if (!ft_check_max_zero(ac, args))
