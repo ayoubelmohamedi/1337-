@@ -6,15 +6,15 @@
 #    By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/27 17:11:24 by ael-moha          #+#    #+#              #
-#    Updated: 2024/11/06 14:38:53 by ael-moha         ###   ########.fr        #
+#    Updated: 2024/11/22 22:30:42 by ael-moha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo 
-CC = cc -g
+CC = cc 
 # CFLAGS   =	-Wall -Wextra -Werror 
-# CFLAGS = -g  -fsanitize=address #-fsanitize=thread 
-CFLAGS = -g   #-fsanitize=thread 
+#CFLAGS = -g  -fsanitize=address #-fsanitize=thread 
+CFLAGS = -g  -fsanitize=thread
 SRCS = ft_philo.c ft_utils.c ft_errors.c ft_routines.c ft_utils2.c ft_parsing_utils.c
 OBJS = $(SRCS:.c=.o)
 

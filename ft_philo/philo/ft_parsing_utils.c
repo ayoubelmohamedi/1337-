@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:33:11 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/06 17:41:01 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 00:13:32 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	ft_init_threads(t_all *all)
 	while (i < all->nbr_philos)
 	{
 		all->philos[i].last_eat = current_time_in_milliseconds();
-		all->philos[i].is_done = 0;
 		if (all->eat_count > 0)
 			all->philos[i].meal = 0;
 		else

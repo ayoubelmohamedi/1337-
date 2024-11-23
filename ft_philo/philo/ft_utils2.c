@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 21:12:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/07 18:35:13 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 02:46:46 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	ft_atoi(const char *nbr)
 
 void	ft_p_action(char m, t_philo *philo)
 {
+	// if (!ft_check_simulation(philo))
+	// 	return ;
 	LOCK(philo->all->output_mtx);
 	if (m == 'e')
 		printf(AC_RED "%zu %d is eating\n" RESET, current_time_in_milliseconds()
