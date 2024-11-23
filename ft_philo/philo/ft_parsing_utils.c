@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 19:43:37 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 19:44:05 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 19:58:12 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	init_all(t_all *all)
 		all->philos[i].index = i + 1;
 		pthread_mutex_init(&all->forks[i], NULL);
 		pthread_mutex_init(&all->meal_mtx[i], NULL);
-
 		if (i == all->nbr_philos - 1)
 		{
 			all->philos[i].r_fork = &all->forks[i];

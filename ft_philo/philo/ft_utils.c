@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 21:13:03 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 19:43:58 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:25:19 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,19 @@ static int	ft_check_max_zero(int ac, char **args)
 		ft_perror('c');
 		return (0);
 	}
-	if (ft_is_nbr(args[1]) && ft_atoi(args[1]) == 0)
-	{
-		ft_perror('z');
-		return (0);
-	}
-	return (1);
+	return (ft_is_nbr(args[1]) && ft_atoi(args[1]) > 0);
 }
 
 int	is_valid(int ac, char **args)
 {
 	int	i;
 
-	i = 1;
 	if (!ft_check_max_zero(ac, args))
 		return (0);
+	i = 1;
 	while (i < ac)
 	{
-		if (!ft_is_nbr(args[i]))
+		if (!ft_is_nbr(args[i]) || ft_atoi(args[i]) <= 0)
 		{
 			ft_perror('p');
 			return (0);

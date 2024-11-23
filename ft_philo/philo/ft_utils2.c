@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 21:12:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 19:44:01 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:03:03 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ int	ft_atoi(const char *nbr)
 		i++;
 	}
 	while (nbr[i] >= '0' && nbr[i] <= '9')
+	{
 		res = (res * 10) + (nbr[i++] - '0');
+		if (res > INT_MAX || res < INT_MIN)	
+			return (-1);
+	}
 	return (res * sign);
 }
 

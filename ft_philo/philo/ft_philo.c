@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 19:43:44 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 19:44:03 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:00:03 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,37 +39,6 @@ void	*routine(void *args)
 	}
 	return (NULL);
 }
-
-// void	ft_monitor(t_all *all)
-// {
-// 	int		i;
-// 	size_t	val;
-// 	size_t	l_eat;
-
-// 	if (all->eat_count == 0)
-// 		return ;
-// 	while (true)
-// 	{
-// 		i = 0;
-// 		while (i < all->nbr_philos)
-// 		{
-// 			if (all->eat_count > 0)
-// 			{
-// 				LOCK(all->mutex_eat_counter);
-// 				if (all->all_eat == all->nbr_philos)
-// 					return (UNLOCK(all->mutex_eat_counter), (void)0);
-// 				UNLOCK(all->mutex_eat_counter);
-// 			}
-// 			val = current_time_in_milliseconds();
-// 			LOCK(all->meal_mtx);
-// 			l_eat = all->philos[i].last_eat;
-// 			UNLOCK(all->meal_mtx);
-// 			if ((size_t)(val - l_eat) > all->t_die && (!all->philos[i].is_done))
-// 				return (declare_death(&all->philos[i]), (void)0);
-// 			i++;
-// 		}
-// 	}
-// }
 
 bool times_eat(t_all *all)
 {
@@ -145,7 +114,6 @@ int	malloc_data(t_all *all)
 	all->output_mtx = output_mtx;
 	all->dead_lock = dead_lock;
 	all->meal_mtx = meal_mtx;
-
 	return (1);
 }
 
@@ -154,7 +122,11 @@ void	ft_parse(t_all *all, int ac, char **argv)
 	all->nbr_philos = ft_atoi(argv[1]);
 	all->t_die = ft_atoi(argv[2]);
 	all->t_eat = ft_atoi(argv[3]);
+	if (all->t_eat > all->t_die)
+		all->t_eat = all->t_die;
 	all->t_sleep = ft_atoi(argv[4]);
+	if (all->t_sleep > all->t_die)
+		all->t_sleep = all->t_die;
 	if (ac == 6)
 	{
 		all->eat_count = ft_atoi(argv[5]);
