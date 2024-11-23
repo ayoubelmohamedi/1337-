@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_errors.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/23 19:43:31 by ael-moha          #+#    #+#             */
+/*   Updated: 2024/11/23 19:44:14 by ael-moha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_philo.h"
 
 void	f_mtx(void *ptr)
@@ -8,15 +20,14 @@ void	f_mtx(void *ptr)
 
 void	ft_free_all(t_all *all)
 {
-	// ft_destroy_mutexes(all);
-	// free(all->forks);
-	// free(all->threads);
-	// free(all->philos);
-	// free(all->output_mtx);
-	// free(all->meal_mtx);
-	// if (all->eat_count > 0)
-	// 	free(all->mutex_eat_counter);
-	                   // FIX THE SGV HERE ITS NOT A BFD
+	ft_destroy_mutexes(all);
+	free(all->forks);
+	free(all->threads);
+	free(all->philos);
+	free(all->output_mtx);
+	free(all->meal_mtx);
+	if (all->eat_count > 0)
+		free(all->mutex_eat_counter);
 }
 
 void	ft_perror(char c)
