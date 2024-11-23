@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:55:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 19:50:40 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 22:06:51 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ typedef struct s_all
 	pthread_t			*threads;
 	pthread_mutex_t		*mutex_eat_counter;
 	pthread_mutex_t		*forks;
-	pthread_mutex_t		*mutexes;
 	pthread_mutex_t		*meal_mtx;
 	pthread_mutex_t		*dead_lock;
 	pthread_mutex_t		*output_mtx;

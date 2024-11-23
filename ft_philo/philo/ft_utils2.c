@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 21:12:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 20:03:03 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 22:00:51 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,16 @@ void	ft_destroy_mutexes(t_all *all)
 {
 	int	i;
 
-	i = 0;
-	while (i < 3)
-		pthread_mutex_destroy(&all->mutexes[i++]);
+	i = -1;
+	while (i++ < all->nbr_philos)
+	{	
+		pthread_mutex_destroy(&all->forks[i]);
+		pthread_mutex_destroy(&all->meal_mtx[i]);	
+	}
 	if (all->eat_count > 0)
 		pthread_mutex_destroy(all->mutex_eat_counter);
+	pthread_mutex_destroy(all->dead_lock);
+	pthread_mutex_destroy(all->output_mtx);
 }
 
 int	ft_atoi(const char *nbr)

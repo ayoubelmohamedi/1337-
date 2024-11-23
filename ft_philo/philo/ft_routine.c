@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 19:43:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 19:43:56 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:18:11 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,22 @@ int	ft_think(t_philo *philo)
 		return(true);
 }
 
+bool ft_handle_one(t_philo *philo)
+{
+    LOCK(philo->my_fork);
+    LOCK(philo->all->output_mtx);
+    printf(AC_YELLOW "%zu %d has taken a fork\n" RESET,
+        current_time_in_milliseconds() - philo->all->start_time, philo->index);
+    UNLOCK(philo->all->output_mtx);
+    ft_usleep(philo->all->t_die, philo);
+    UNLOCK(philo->my_fork);
+	return (0);
+}
+
 bool  ft_take_forks(t_philo *philo)
 {
+	if (philo->all->nbr_philos == 1)
+		return (ft_handle_one(philo));
 	if (!ft_check_simulation(philo))
 		return (false);
 	LOCK(philo->my_fork);
@@ -52,7 +66,7 @@ bool  ft_take_forks(t_philo *philo)
 }
 
 bool	ft_eat(t_philo *philo)
-{	
+{		
 	if (!ft_take_forks(philo))
 		return (false);
 	if (!ft_p_action('e', philo))

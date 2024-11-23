@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 19:43:44 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 20:00:03 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:55:46 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ bool times_eat(t_all *all)
 bool is_death(t_all *all, size_t i)
 {
 	LOCK(&all->meal_mtx[i]);
-	if ((size_t)(current_time_in_milliseconds() - all->philos[i].last_eat) >= (size_t)all->t_die)
+	if ((size_t)(current_time_in_milliseconds() - all->philos[i].last_eat) > (size_t)all->t_die)
 	{
 		declare_death(&all->philos[i]);
 		UNLOCK(&all->meal_mtx[i]);
@@ -105,7 +105,7 @@ int	malloc_data(t_all *all)
 	dead_lock = malloc(sizeof(pthread_mutex_t));
 	if (!forks || !threads || !philos || !output_mtx || !dead_lock)
 	{
-		(f_mtx(forks), f_mtx(threads), f_mtx(philos), f_mtx(output_mtx), f_mtx(dead_lock));
+		(f_mtx(forks), f_mtx(threads), f_mtx(philos), f_mtx(output_mtx), f_mtx(dead_lock), f_mtx(meal_mtx));
 		return (0);
 	}
 	all->forks = forks;
