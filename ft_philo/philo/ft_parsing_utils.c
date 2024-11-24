@@ -6,11 +6,47 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 19:43:37 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 19:58:12 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/24 00:01:10 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_philo.h"
+
+int	malloc_data2(t_all *all)
+{
+	pthread_mutex_t	*meal_mtx;
+	pthread_mutex_t	*dead_lock;
+	pthread_mutex_t	*output_mtx;
+
+	meal_mtx = malloc(sizeof(pthread_mutex_t) * all->nbr_philos);
+	output_mtx = malloc(sizeof(pthread_mutex_t));
+	dead_lock = malloc(sizeof(pthread_mutex_t));
+	if (!meal_mtx || !output_mtx || !dead_lock)
+		return (f_mtx(output_mtx), f_mtx(dead_lock), f_mtx(meal_mtx), 0);
+	all->output_mtx = output_mtx;
+	all->dead_lock = dead_lock;
+	all->meal_mtx = meal_mtx;
+	return (1);
+}
+
+int	malloc_data(t_all *all)
+{
+	pthread_mutex_t	*forks;
+	pthread_t		*threads;
+	t_philo			*philos;
+
+	if (!malloc_data2(all))
+		return (0);
+	forks = malloc(sizeof(pthread_mutex_t) * all->nbr_philos);
+	threads = malloc(sizeof(pthread_t) * all->nbr_philos);
+	philos = malloc(sizeof(t_philo) * all->nbr_philos);
+	if (!forks || !threads || !philos)
+		return (f_mtx(forks), f_mtx(threads), f_mtx(philos), 0);
+	all->forks = forks;
+	all->threads = threads;
+	all->philos = philos;
+	return (1);
+}
 
 int	ft_init_threads(t_all *all)
 {

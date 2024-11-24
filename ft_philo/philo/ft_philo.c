@@ -6,10 +6,9 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 19:43:44 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 21:55:46 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 23:59:22 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "ft_philo.h"
 
@@ -34,33 +33,17 @@ void	*routine(void *args)
 			return (NULL);
 		}
 		ft_sleeping(philo);
-		if(!ft_think(philo))
+		if (!ft_think(philo))
 			return (NULL);
 	}
 	return (NULL);
 }
 
-bool times_eat(t_all *all)
-{
-	if (all->eat_count > 0)
-	{
-		LOCK(all->mutex_eat_counter);
-		if (all->all_eat >= all->nbr_philos)
-		{
-			LOCK(all->dead_lock);
-			all->simulation_running = 0;
-			UNLOCK(all->dead_lock);
- 			return (UNLOCK(all->mutex_eat_counter), true);	
-		}
-		UNLOCK(all->mutex_eat_counter);	
-	}
-	return (false);	
-}
-
-bool is_death(t_all *all, size_t i)
+bool	is_death(t_all *all, size_t i)
 {
 	LOCK(&all->meal_mtx[i]);
-	if ((size_t)(current_time_in_milliseconds() - all->philos[i].last_eat) > (size_t)all->t_die)
+	if ((size_t)(current_time_in_milliseconds()
+		- all->philos[i].last_eat) > (size_t)all->t_die)
 	{
 		declare_death(&all->philos[i]);
 		UNLOCK(&all->meal_mtx[i]);
@@ -70,51 +53,22 @@ bool is_death(t_all *all, size_t i)
 	return (false);
 }
 
-void ft_monitor(t_all *all)
+void	ft_monitor(t_all *all)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (true)
 	{
 		if (times_eat(all))
-			break;
+			break ;
 		if (is_death(all, i))
-			break;
+			break ;
 		i++;
 		if (i >= (all->nbr_philos))
 			i = 0;
 		usleep(100);
 	}
-}
-
-int	malloc_data(t_all *all)
-{
-	pthread_mutex_t	*forks;
-	pthread_t		*threads;
-	t_philo			*philos;
-	pthread_mutex_t	*meal_mtx;
-	pthread_mutex_t	*dead_lock;
-	pthread_mutex_t	*output_mtx;
-
-	forks = malloc(sizeof(pthread_mutex_t) * all->nbr_philos);
-	threads = malloc(sizeof(pthread_t) * all->nbr_philos);
-	philos = malloc(sizeof(t_philo) * all->nbr_philos);
-	meal_mtx = malloc(sizeof(pthread_mutex_t) * all->nbr_philos);
-	output_mtx = malloc(sizeof(pthread_mutex_t));
-	dead_lock = malloc(sizeof(pthread_mutex_t));
-	if (!forks || !threads || !philos || !output_mtx || !dead_lock)
-	{
-		(f_mtx(forks), f_mtx(threads), f_mtx(philos), f_mtx(output_mtx), f_mtx(dead_lock), f_mtx(meal_mtx));
-		return (0);
-	}
-	all->forks = forks;
-	all->threads = threads;
-	all->philos = philos;
-	all->output_mtx = output_mtx;
-	all->dead_lock = dead_lock;
-	all->meal_mtx = meal_mtx;
-	return (1);
 }
 
 void	ft_parse(t_all *all, int ac, char **argv)
@@ -136,7 +90,6 @@ void	ft_parse(t_all *all, int ac, char **argv)
 		all->eat_count = -1;
 	all->simulation_running = 1;
 }
-
 
 int	main(int ac, char **argv)
 {

@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 21:12:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 22:00:51 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 23:35:50 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	ft_destroy_mutexes(t_all *all)
 	int	i;
 
 	i = -1;
-	while (i++ < all->nbr_philos)
-	{	
+	while (++i < all->nbr_philos)
+	{
 		pthread_mutex_destroy(&all->forks[i]);
-		pthread_mutex_destroy(&all->meal_mtx[i]);	
+		pthread_mutex_destroy(&all->meal_mtx[i]);
 	}
 	if (all->eat_count > 0)
 		pthread_mutex_destroy(all->mutex_eat_counter);
@@ -51,7 +51,7 @@ int	ft_atoi(const char *nbr)
 	while (nbr[i] >= '0' && nbr[i] <= '9')
 	{
 		res = (res * 10) + (nbr[i++] - '0');
-		if (res > INT_MAX || res < INT_MIN)	
+		if (res > INT_MAX || res < INT_MIN)
 			return (-1);
 	}
 	return (res * sign);
@@ -75,4 +75,34 @@ bool	ft_p_action(char m, t_philo *philo)
 			philo->index);
 	UNLOCK(philo->all->output_mtx);
 	return (true);
+}
+
+void	ft_usleep(size_t time_to_sleep, t_philo *philo)
+{
+	size_t	current;
+
+	current = current_time_in_milliseconds();
+	while (current_time_in_milliseconds() - current < time_to_sleep)
+	{
+		if (!ft_check_simulation(philo))
+			return ;
+		usleep(500);
+	}
+}
+
+bool	times_eat(t_all *all)
+{
+	if (all->eat_count > 0)
+	{
+		LOCK(all->mutex_eat_counter);
+		if (all->all_eat >= all->nbr_philos)
+		{
+			LOCK(all->dead_lock);
+			all->simulation_running = 0;
+			UNLOCK(all->dead_lock);
+			return (UNLOCK(all->mutex_eat_counter), true);
+		}
+		UNLOCK(all->mutex_eat_counter);
+	}
+	return (false);
 }

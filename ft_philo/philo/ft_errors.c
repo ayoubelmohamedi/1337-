@@ -6,7 +6,7 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 19:43:31 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 21:58:22 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/24 00:00:26 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_free_all(t_all *all)
 	f_mtx(all->philos);
 	f_mtx(all->output_mtx);
 	f_mtx(all->dead_lock);
-	free(all->meal_mtx);	
+	f_mtx(all->meal_mtx);
 	if (all->eat_count > 0)
 		f_mtx(all->mutex_eat_counter);
 }
@@ -55,9 +55,8 @@ int	ft_check_simulation(t_philo *philo)
 void	declare_death(t_philo *philo)
 {
 	LOCK(philo->all->dead_lock);
-		philo->all->simulation_running = 0;
+	philo->all->simulation_running = 0;
 	UNLOCK(philo->all->dead_lock);
-
 	LOCK(philo->all->output_mtx);
 	printf("%zu %d died\n", current_time_in_milliseconds()
 		- philo->all->start_time, philo->index);

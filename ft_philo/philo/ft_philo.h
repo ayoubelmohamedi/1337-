@@ -6,20 +6,20 @@
 /*   By: ael-moha <ael-moha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:55:55 by ael-moha          #+#    #+#             */
-/*   Updated: 2024/11/23 22:06:51 by ael-moha         ###   ########.fr       */
+/*   Updated: 2024/11/23 23:57:03 by ael-moha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PHILO_H
 # define FT_PHILO_H
 
+# include <limits.h>
 # include <pthread.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <limits.h>
 
 # define LOCK pthread_mutex_lock
 # define UNLOCK pthread_mutex_unlock
@@ -68,11 +68,16 @@ typedef struct s_all
 void					*routine(void *args);
 int						ft_init_threads(t_all *all);
 int						init_all(t_all *all);
+bool					ft_take_forks(t_philo *philo);
+int						malloc_data2(t_all *all);
+int						malloc_data(t_all *all);
 
 // utils
 size_t					current_time_in_milliseconds(void);
 int						is_valid(int ac, char **args);
 void					ft_join_threads(t_all *all);
+
+bool					times_eat(t_all *all);
 
 // utils2
 bool					ft_p_action(char m, t_philo *philo);
